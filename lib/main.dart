@@ -10,6 +10,9 @@ import 'pages/spinner_demo_page.dart';
 import 'pages/progress_bar_demo_page.dart';
 import 'pages/tooltip_demo_page.dart';
 import 'pages/callout_demo_page.dart';
+import 'pages/breadcrumbs_demo_page.dart';
+import 'pages/menu_demo_page.dart';
+import 'pages/navbar_demo_page.dart';
 
 void main() {
   runApp(const BlueprintDemoApp());
@@ -112,11 +115,25 @@ class _DemoHomePageState extends State<DemoHomePage> {
       page: const CalloutDemoPage(),
     ),
     DemoItem(
-      title: 'Navigation',
-      subtitle: 'Breadcrumbs and menus (Coming Soon)',
+      title: 'Breadcrumbs',
+      subtitle: 'Navigation breadcrumb trails',
       icon: Icons.navigation,
-      color: BlueprintColors.gray3,
-      page: null,
+      color: BlueprintColors.blue4,
+      page: const BreadcrumbsDemoPage(),
+    ),
+    DemoItem(
+      title: 'Menu',
+      subtitle: 'Interactive menu components',
+      icon: Icons.menu,
+      color: BlueprintColors.green4,
+      page: const MenuDemoPage(),
+    ),
+    DemoItem(
+      title: 'Navbar',
+      subtitle: 'Navigation bars and headers',
+      icon: Icons.web_asset,
+      color: BlueprintColors.orange4,
+      page: const NavbarDemoPage(),
     ),
   ];
 

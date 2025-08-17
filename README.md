@@ -15,6 +15,9 @@ A comprehensive Flutter implementation of the [Blueprint.js](https://blueprintjs
 - **📊 Progress Bars** - Linear progress indicators with animations and stripes
 - **💬 Tooltips** - Contextual hover information with positioning options
 - **📢 Callouts** - Highlighted content blocks with intent colors and rich content
+- **🧭 Breadcrumbs** - Navigation breadcrumb trails showing hierarchical paths
+- **📋 Menu** - Interactive menu components with items, dividers, and intents
+- **🎯 Navbar** - Navigation bars and headers with groups and alignments
 
 ### 🎯 Key Features
 
@@ -41,9 +44,12 @@ blueprint_flutter_demo/
 │   │
 │   ├── 📂 components/                      # Blueprint component library
 │   │   ├── 📄 blueprint_alert.dart         # Alert dialogs and confirmations
+│   │   ├── 📄 blueprint_breadcrumbs.dart   # Navigation breadcrumb trails
 │   │   ├── 📄 blueprint_button.dart        # Button variants and states
 │   │   ├── 📄 blueprint_callout.dart       # Callout notification blocks
 │   │   ├── 📄 blueprint_card.dart          # Card containers and layouts
+│   │   ├── 📄 blueprint_menu.dart          # Interactive menu components
+│   │   ├── 📄 blueprint_navbar.dart        # Navigation bars and headers
 │   │   ├── 📄 blueprint_progress_bar.dart  # Linear progress indicators
 │   │   ├── 📄 blueprint_spinner.dart       # Loading spinners and progress
 │   │   ├── 📄 blueprint_tabs.dart          # Tab navigation components
@@ -51,10 +57,13 @@ blueprint_flutter_demo/
 │   │
 │   ├── 📂 pages/                           # Demo and example pages
 │   │   ├── 📄 alert_demo_page.dart         # Alert component examples
+│   │   ├── 📄 breadcrumbs_demo_page.dart   # Breadcrumb navigation examples
 │   │   ├── 📄 button_demo_page.dart        # Button component examples
 │   │   ├── 📄 callout_demo_page.dart       # Callout component examples
 │   │   ├── 📄 card_demo_page.dart          # Card component examples
 │   │   ├── 📄 colors_demo_page.dart        # Color palette showcase
+│   │   ├── 📄 menu_demo_page.dart          # Menu component examples
+│   │   ├── 📄 navbar_demo_page.dart        # Navbar component examples
 │   │   ├── 📄 progress_bar_demo_page.dart  # Progress bar examples
 │   │   ├── 📄 spinner_demo_page.dart       # Spinner component examples
 │   │   ├── 📄 tabs_demo_page.dart          # Tab component examples
@@ -94,34 +103,40 @@ blueprint_flutter_demo/
 
 | Directory | Dart Files | Purpose |
 |-----------|------------|---------|
-| `lib/components/` | 8 files | Core Blueprint component implementations |
-| `lib/pages/` | 9 files | Interactive demo pages and examples |
+| `lib/components/` | 11 files | Core Blueprint component implementations |
+| `lib/pages/` | 12 files | Interactive demo pages and examples |
 | `lib/theme/` | 2 files | Design system and color palette |
 | `lib/` (root) | 1 file | Main application entry point |
-| **Total** | **20 files** | **Complete Flutter application** |
+| **Total** | **26 files** | **Complete Flutter application** |
 
 ### Component Files Details
 
 #### Core Components (`lib/components/`)
 1. **blueprint_alert.dart** - Dialog-based alerts with customizable actions
-2. **blueprint_button.dart** - Complete button system with all variants
-3. **blueprint_callout.dart** - Highlighted information blocks
-4. **blueprint_card.dart** - Container components with interactions
-5. **blueprint_progress_bar.dart** - Linear progress with animations
-6. **blueprint_spinner.dart** - Circular loading indicators
-7. **blueprint_tabs.dart** - Tab navigation system
-8. **blueprint_tooltip.dart** - Contextual hover information
+2. **blueprint_breadcrumbs.dart** - Navigation breadcrumb trails
+3. **blueprint_button.dart** - Complete button system with all variants
+4. **blueprint_callout.dart** - Highlighted information blocks
+5. **blueprint_card.dart** - Container components with interactions
+6. **blueprint_menu.dart** - Interactive menu components with dividers
+7. **blueprint_navbar.dart** - Navigation bars and headers
+8. **blueprint_progress_bar.dart** - Linear progress with animations
+9. **blueprint_spinner.dart** - Circular loading indicators
+10. **blueprint_tabs.dart** - Tab navigation system
+11. **blueprint_tooltip.dart** - Contextual hover information
 
 #### Demo Pages (`lib/pages/`)
 1. **alert_demo_page.dart** - Alert dialog examples and interactions
-2. **button_demo_page.dart** - Button variants, sizes, and states
-3. **callout_demo_page.dart** - Callout styles and use cases
-4. **card_demo_page.dart** - Card layouts and interactions
-5. **colors_demo_page.dart** - Complete color palette showcase
-6. **progress_bar_demo_page.dart** - Progress indicator examples
-7. **spinner_demo_page.dart** - Loading spinner variations
-8. **tabs_demo_page.dart** - Tab navigation examples
-9. **tooltip_demo_page.dart** - Tooltip positioning and styles
+2. **breadcrumbs_demo_page.dart** - Breadcrumb navigation examples
+3. **button_demo_page.dart** - Button variants, sizes, and states
+4. **callout_demo_page.dart** - Callout styles and use cases
+5. **card_demo_page.dart** - Card layouts and interactions
+6. **colors_demo_page.dart** - Complete color palette showcase
+7. **menu_demo_page.dart** - Menu component examples and interactions
+8. **navbar_demo_page.dart** - Navbar component examples
+9. **progress_bar_demo_page.dart** - Progress indicator examples
+10. **spinner_demo_page.dart** - Loading spinner variations
+11. **tabs_demo_page.dart** - Tab navigation examples
+12. **tooltip_demo_page.dart** - Tooltip positioning and styles
 
 #### Theme System (`lib/theme/`)
 1. **blueprint_colors.dart** - Complete Blueprint.js color palette
@@ -302,6 +317,69 @@ BlueprintCallouts.warning(
 )
 ```
 
+### Breadcrumbs Usage
+```dart
+// Interactive breadcrumbs
+BlueprintBreadcrumbsFactory.simple(
+  items: [
+    BlueprintBreadcrumbItem(
+      text: 'Home',
+      icon: Icons.home,
+      onTap: () => navigateToHome(),
+    ),
+    BlueprintBreadcrumbItem(
+      text: 'Projects',
+      onTap: () => navigateToProjects(),
+    ),
+    BlueprintBreadcrumbItem(
+      text: 'Current Project',
+      isCurrent: true,
+    ),
+  ],
+)
+```
+
+### Menu Usage
+```dart
+// Basic menu
+BlueprintMenus.simple(
+  items: [
+    BlueprintMenuItem(
+      text: 'New File',
+      icon: Icons.add,
+      onTap: () => createNewFile(),
+    ),
+    BlueprintMenuItem(
+      text: 'Save',
+      icon: Icons.save,
+      intent: BlueprintIntent.primary,
+      onTap: () => saveFile(),
+    ),
+  ],
+)
+```
+
+### Navbar Usage
+```dart
+// Navbar with groups
+BlueprintNavbars.withGroups(
+  start: Row(
+    children: [
+      BlueprintNavbarHeading(text: 'MyApp'),
+      BlueprintNavbarDivider(),
+      TextButton(
+        onPressed: () => navigateHome(),
+        child: Text('Home'),
+      ),
+    ],
+  ),
+  end: IconButton(
+    icon: Icon(Icons.account_circle),
+    onPressed: () => showProfile(),
+  ),
+)
+```
+
 ## 🏗️ Architecture Overview
 
 ### Design Patterns Used
@@ -381,4 +459,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 **Note**: This is a community implementation and is not officially affiliated with Blueprint.js or Palantir Technologies.
 
-**Project Statistics**: ~3,500+ lines of code | 9 components | 9 demo pages | 20 Dart files
+**Project Statistics**: ~4,500+ lines of code | 12 components | 12 demo pages | 26 Dart files
