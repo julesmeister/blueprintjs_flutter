@@ -4,6 +4,7 @@ import '../theme/blueprint_colors.dart';
 import '../components/blueprint_spinner.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_card.dart';
+import '../components/demo_page_scaffold.dart';
 
 class SpinnerDemoPage extends StatefulWidget {
   const SpinnerDemoPage({Key? key}) : super(key: key);
@@ -55,17 +56,11 @@ class _SpinnerDemoPageState extends State<SpinnerDemoPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blueprint Spinners'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'Blueprint Spinners',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             _buildSection('Spinner Sizes', _buildSpinnerSizes()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Intent Colors', _buildIntentSpinners()),
@@ -75,8 +70,7 @@ class _SpinnerDemoPageState extends State<SpinnerDemoPage>
             _buildSection('Inline Usage', _buildInlineSpinners()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Loading States', _buildLoadingStates()),
-          ],
-        ),
+        ],
       ),
     );
   }

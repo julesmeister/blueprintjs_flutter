@@ -2,34 +2,28 @@ import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import '../components/blueprint_button.dart';
+import '../components/demo_page_scaffold.dart';
 
 class ButtonDemoPage extends StatelessWidget {
   const ButtonDemoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blueprint Buttons'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSection('Intent Colors', _buildIntentButtons(context)),
-            const SizedBox(height: BlueprintTheme.gridSize * 3),
-            _buildSection('Button Variants', _buildVariantButtons(context)),
-            const SizedBox(height: BlueprintTheme.gridSize * 3),
-            _buildSection('Button Sizes', _buildSizeButtons(context)),
-            const SizedBox(height: BlueprintTheme.gridSize * 3),
-            _buildSection('With Icons', _buildIconButtons(context)),
-            const SizedBox(height: BlueprintTheme.gridSize * 3),
-            _buildSection('Button States', _buildStateButtons(context)),
-          ],
-        ),
+    return DemoPageScaffold(
+      title: 'Blueprint Buttons',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSection('Intent Colors', _buildIntentButtons(context)),
+          const SizedBox(height: BlueprintTheme.gridSize * 3),
+          _buildSection('Button Variants', _buildVariantButtons(context)),
+          const SizedBox(height: BlueprintTheme.gridSize * 3),
+          _buildSection('Button Sizes', _buildSizeButtons(context)),
+          const SizedBox(height: BlueprintTheme.gridSize * 3),
+          _buildSection('With Icons', _buildIconButtons(context)),
+          const SizedBox(height: BlueprintTheme.gridSize * 3),
+          _buildSection('Button States', _buildStateButtons(context)),
+        ],
       ),
     );
   }

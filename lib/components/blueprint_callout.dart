@@ -32,10 +32,10 @@ class BlueprintCallout extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.symmetric(
-        vertical: compact ? BlueprintTheme.gridSize * 0.5 : BlueprintTheme.gridSize,
+        vertical: compact ? BlueprintTheme.gridSize * 0.25 : BlueprintTheme.gridSize * 0.5,
       ),
       padding: EdgeInsets.all(
-        compact ? BlueprintTheme.gridSize : BlueprintTheme.gridSize * 1.5,
+        compact ? BlueprintTheme.gridSize * 0.5 : BlueprintTheme.gridSize,
       ),
       decoration: BoxDecoration(
         color: minimal ? Colors.transparent : _getBackgroundColor(),
@@ -51,7 +51,7 @@ class BlueprintCallout extends StatelessWidget {
               color: _getIconColor(),
               size: compact ? 16 : 20,
             ),
-            SizedBox(width: compact ? BlueprintTheme.gridSize * 0.5 : BlueprintTheme.gridSize),
+            SizedBox(width: compact ? BlueprintTheme.gridSize * 0.4 : BlueprintTheme.gridSize * 0.6),
           ],
           Expanded(
             child: Column(
@@ -68,15 +68,15 @@ class BlueprintCallout extends StatelessWidget {
                     ),
                   ),
                   if (hasBodyContent) 
-                    SizedBox(height: compact ? BlueprintTheme.gridSize * 0.5 : BlueprintTheme.gridSize),
+                    SizedBox(height: compact ? BlueprintTheme.gridSize * 0.25 : BlueprintTheme.gridSize * 0.5),
                 ],
                 if (content != null)
                   Text(
                     content!,
                     style: TextStyle(
-                      fontSize: BlueprintTheme.fontSize,
+                      fontSize: compact ? BlueprintTheme.fontSizeSmall : BlueprintTheme.fontSize,
                       color: _getContentColor(),
-                      height: 1.4,
+                      height: compact ? 1.3 : 1.4,
                     ),
                   ),
                 if (child != null)
@@ -93,7 +93,7 @@ class BlueprintCallout extends StatelessWidget {
                 child: Icon(
                   Icons.close,
                   size: 16,
-                  color: _getIconColor().withOpacity(0.7),
+                  color: _getIconColor().withValues(alpha: 0.7),
                 ),
               ),
             ),
@@ -125,13 +125,13 @@ class BlueprintCallout extends StatelessWidget {
 
     switch (intent) {
       case BlueprintIntent.primary:
-        return BlueprintColors.intentPrimary.withOpacity(0.1);
+        return BlueprintColors.intentPrimary.withValues(alpha: 0.1);
       case BlueprintIntent.success:
-        return BlueprintColors.intentSuccess.withOpacity(0.1);
+        return BlueprintColors.intentSuccess.withValues(alpha: 0.1);
       case BlueprintIntent.warning:
-        return BlueprintColors.intentWarning.withOpacity(0.1);
+        return BlueprintColors.intentWarning.withValues(alpha: 0.1);
       case BlueprintIntent.danger:
-        return BlueprintColors.intentDanger.withOpacity(0.1);
+        return BlueprintColors.intentDanger.withValues(alpha: 0.1);
       case BlueprintIntent.none:
         return BlueprintColors.lightGray4;
     }
@@ -140,13 +140,13 @@ class BlueprintCallout extends StatelessWidget {
   Color _getBorderColor() {
     switch (intent) {
       case BlueprintIntent.primary:
-        return BlueprintColors.intentPrimary.withOpacity(0.3);
+        return BlueprintColors.intentPrimary.withValues(alpha: 0.3);
       case BlueprintIntent.success:
-        return BlueprintColors.intentSuccess.withOpacity(0.3);
+        return BlueprintColors.intentSuccess.withValues(alpha: 0.3);
       case BlueprintIntent.warning:
-        return BlueprintColors.intentWarning.withOpacity(0.3);
+        return BlueprintColors.intentWarning.withValues(alpha: 0.3);
       case BlueprintIntent.danger:
-        return BlueprintColors.intentDanger.withOpacity(0.3);
+        return BlueprintColors.intentDanger.withValues(alpha: 0.3);
       case BlueprintIntent.none:
         return BlueprintColors.lightGray2;
     }
@@ -189,6 +189,101 @@ class BlueprintCallout extends StatelessWidget {
 
 // Convenience factory methods
 class BlueprintCallouts {
+  // Extra compact variants for Blueprint.js-like appearance
+  static Widget compactInfo({
+    String? title,
+    String? content,
+    Widget? child,
+    IconData? icon,
+    VoidCallback? onDismiss,
+  }) {
+    return BlueprintCallout(
+      title: title,
+      content: content,
+      child: child,
+      icon: icon,
+      intent: BlueprintIntent.primary,
+      compact: true,
+      minimal: false,
+      onDismiss: onDismiss,
+    );
+  }
+
+  static Widget compactSuccess({
+    String? title,
+    String? content,
+    Widget? child,
+    IconData? icon,
+    VoidCallback? onDismiss,
+  }) {
+    return BlueprintCallout(
+      title: title,
+      content: content,
+      child: child,
+      icon: icon,
+      intent: BlueprintIntent.success,
+      compact: true,
+      minimal: false,
+      onDismiss: onDismiss,
+    );
+  }
+
+  static Widget compactWarning({
+    String? title,
+    String? content,
+    Widget? child,
+    IconData? icon,
+    VoidCallback? onDismiss,
+  }) {
+    return BlueprintCallout(
+      title: title,
+      content: content,
+      child: child,
+      icon: icon,
+      intent: BlueprintIntent.warning,
+      compact: true,
+      minimal: false,
+      onDismiss: onDismiss,
+    );
+  }
+
+  static Widget compactDanger({
+    String? title,
+    String? content,
+    Widget? child,
+    IconData? icon,
+    VoidCallback? onDismiss,
+  }) {
+    return BlueprintCallout(
+      title: title,
+      content: content,
+      child: child,
+      icon: icon,
+      intent: BlueprintIntent.danger,
+      compact: true,
+      minimal: false,
+      onDismiss: onDismiss,
+    );
+  }
+
+  static Widget compactBasic({
+    String? title,
+    String? content,
+    Widget? child,
+    IconData? icon,
+    VoidCallback? onDismiss,
+  }) {
+    return BlueprintCallout(
+      title: title,
+      content: content,
+      child: child,
+      icon: icon,
+      intent: BlueprintIntent.none,
+      compact: true,
+      minimal: false,
+      onDismiss: onDismiss,
+    );
+  }
   static Widget info({
     String? title,
     String? content,

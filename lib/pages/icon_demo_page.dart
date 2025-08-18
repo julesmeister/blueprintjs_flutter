@@ -5,6 +5,8 @@ import '../components/blueprint_icon.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_switch.dart';
 import '../components/blueprint_section.dart';
+import '../components/blueprint_select.dart';
+import '../components/demo_page_scaffold.dart';
 
 class IconDemoPage extends StatefulWidget {
   const IconDemoPage({Key? key}) : super(key: key);
@@ -20,17 +22,11 @@ class _IconDemoPageState extends State<IconDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Icon Components'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'Icon Components',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             _buildControls(),
             const SizedBox(height: BlueprintTheme.gridSize * 2),
             _buildSection('Standard Icons', _buildStandardIcons()),
@@ -44,8 +40,7 @@ class _IconDemoPageState extends State<IconDemoPage> {
             _buildSection('Action Icons', _buildActionIcons()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Icon Usage Examples', _buildUsageExamples()),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -74,15 +69,19 @@ class _IconDemoPageState extends State<IconDemoPage> {
               // Size Selection
               const Text('Size:', style: TextStyle(fontWeight: FontWeight.w500)),
               const SizedBox(width: BlueprintTheme.gridSize),
-              DropdownButton<BlueprintIconSize>(
-                value: _selectedSize,
-                onChanged: (size) => setState(() => _selectedSize = size!),
-                items: BlueprintIconSize.values.map((size) {
-                  return DropdownMenuItem(
-                    value: size,
-                    child: Text(_sizeToString(size)),
-                  );
-                }).toList(),
+              SizedBox(
+                width: 120,
+                child: BlueprintSelect<BlueprintIconSize>(
+                  options: BlueprintIconSize.values.map((size) {
+                    return BlueprintSelectOption(
+                      value: size,
+                      label: _sizeToString(size),
+                    );
+                  }).toList(),
+                  value: _selectedSize,
+                  onChanged: (size) => setState(() => _selectedSize = size!),
+                  placeholder: 'Select size',
+                ),
               ),
               
               const SizedBox(width: BlueprintTheme.gridSize * 2),
@@ -90,15 +89,19 @@ class _IconDemoPageState extends State<IconDemoPage> {
               // Intent Selection
               const Text('Intent:', style: TextStyle(fontWeight: FontWeight.w500)),
               const SizedBox(width: BlueprintTheme.gridSize),
-              DropdownButton<BlueprintIntent>(
-                value: _selectedIntent,
-                onChanged: (intent) => setState(() => _selectedIntent = intent!),
-                items: BlueprintIntent.values.map((intent) {
-                  return DropdownMenuItem(
-                    value: intent,
-                    child: Text(_intentToString(intent)),
-                  );
-                }).toList(),
+              SizedBox(
+                width: 140,
+                child: BlueprintSelect<BlueprintIntent>(
+                  options: BlueprintIntent.values.map((intent) {
+                    return BlueprintSelectOption(
+                      value: intent,
+                      label: _intentToString(intent),
+                    );
+                  }).toList(),
+                  value: _selectedIntent,
+                  onChanged: (intent) => setState(() => _selectedIntent = intent!),
+                  placeholder: 'Select intent',
+                ),
               ),
               
               const SizedBox(width: BlueprintTheme.gridSize * 2),

@@ -5,6 +5,7 @@ import '../components/blueprint_callout.dart';
 import '../components/blueprint_switch.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_card.dart';
+import '../components/demo_page_scaffold.dart';
 
 class CalloutDemoPage extends StatefulWidget {
   const CalloutDemoPage({Key? key}) : super(key: key);
@@ -20,17 +21,13 @@ class _CalloutDemoPageState extends State<CalloutDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blueprint Callouts'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'Blueprint Callouts',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+            _buildSection('Blueprint.js Style (Compact)', _buildCompactCallouts()),
+            const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Intent Colors', _buildIntentCallouts()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('With Icons', _buildIconCallouts()),
@@ -44,8 +41,7 @@ class _CalloutDemoPageState extends State<CalloutDemoPage> {
             _buildSection('Rich Content', _buildRichContentCallouts()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Controls', _buildControls()),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -64,6 +60,33 @@ class _CalloutDemoPageState extends State<CalloutDemoPage> {
         ),
         const SizedBox(height: BlueprintTheme.gridSize),
         content,
+      ],
+    );
+  }
+
+  Widget _buildCompactCallouts() {
+    return Column(
+      children: [
+        BlueprintCallouts.compactBasic(
+          title: 'Compact Default',
+          content: 'This is the new compact callout style that matches Blueprint.js design more closely.',
+        ),
+        BlueprintCallouts.compactInfo(
+          title: 'Compact Information',
+          content: 'Reduced padding and margins for a cleaner, more Blueprint.js-like appearance.',
+        ),
+        BlueprintCallouts.compactSuccess(
+          title: 'Compact Success',
+          content: 'Smaller font sizes and tighter spacing make these callouts less intrusive.',
+        ),
+        BlueprintCallouts.compactWarning(
+          title: 'Compact Warning',
+          content: 'Perfect for inline notifications and status messages.',
+        ),
+        BlueprintCallouts.compactDanger(
+          title: 'Compact Error',
+          content: 'Maintains visual hierarchy while taking up less vertical space.',
+        ),
       ],
     );
   }
@@ -142,15 +165,19 @@ class _CalloutDemoPageState extends State<CalloutDemoPage> {
                   style: TextStyle(color: BlueprintColors.textColorMuted),
                 ),
                 const SizedBox(height: BlueprintTheme.gridSize),
-                BlueprintButton(
-                  text: 'Show Again',
-                  intent: BlueprintIntent.primary,
-                  size: BlueprintButtonSize.small,
-                  onPressed: () {
-                    setState(() {
-                      _showDismissibleCallout = true;
-                    });
-                  },
+                Row(
+                  children: [
+                    BlueprintButton(
+                      text: 'Show Again',
+                      intent: BlueprintIntent.primary,
+                      size: BlueprintButtonSize.small,
+                      onPressed: () {
+                        setState(() {
+                          _showDismissibleCallout = true;
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -266,11 +293,15 @@ class _CalloutDemoPageState extends State<CalloutDemoPage> {
               const Text('• Improved performance'),
               const Text('• New keyboard shortcuts'),
               const SizedBox(height: BlueprintTheme.gridSize),
-              BlueprintButton(
-                text: 'Learn More',
-                intent: BlueprintIntent.success,
-                size: BlueprintButtonSize.small,
-                onPressed: () => _showSnackBar('Learn more clicked'),
+              Row(
+                children: [
+                  BlueprintButton(
+                    text: 'Learn More',
+                    intent: BlueprintIntent.success,
+                    size: BlueprintButtonSize.small,
+                    onPressed: () => _showSnackBar('Learn more clicked'),
+                  ),
+                ],
               ),
             ],
           ),
@@ -284,8 +315,8 @@ class _CalloutDemoPageState extends State<CalloutDemoPage> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  BlueprintColors.blue5.withOpacity(0.3),
-                  BlueprintColors.blue3.withOpacity(0.3),
+                  BlueprintColors.blue5.withValues(alpha: 0.3),
+                  BlueprintColors.blue3.withValues(alpha: 0.3),
                 ],
               ),
               borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),

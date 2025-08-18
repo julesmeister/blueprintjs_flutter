@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
+import '../components/demo_page_scaffold.dart';
 import 'tabs_demo/tab_section.dart';
 import 'tabs_demo/basic_tabs_demo.dart';
 import 'tabs_demo/icon_tabs_demo.dart';
@@ -21,17 +22,11 @@ class _TabsDemoPageState extends State<TabsDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blueprint Tabs'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'Blueprint Tabs',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             TabSection(
               title: 'Basic Tabs', 
               child: BasicTabsDemo(),
@@ -64,8 +59,7 @@ class _TabsDemoPageState extends State<TabsDemoPage> {
                 onTabChanged: (tabId) => setState(() => _selectedTab = tabId),
               ),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }

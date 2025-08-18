@@ -6,6 +6,7 @@ import '../components/blueprint_button.dart';
 import '../components/blueprint_card.dart';
 import '../components/blueprint_switch.dart';
 import '../components/blueprint_input.dart';
+import '../components/demo_page_scaffold.dart';
 
 class TooltipDemoPage extends StatefulWidget {
   const TooltipDemoPage({Key? key}) : super(key: key);
@@ -19,17 +20,11 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blueprint Tooltips'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'Blueprint Tooltips',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             _buildSection('Basic Tooltips', _buildBasicTooltips()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Tooltip Positions', _buildPositionTooltips()),
@@ -41,8 +36,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
             _buildSection('Interactive Examples', _buildInteractiveExamples()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Controls', _buildControls()),
-          ],
-        ),
+        ],
       ),
     );
   }

@@ -3,34 +3,34 @@ import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import '../components/blueprint_card.dart';
 import '../components/blueprint_button.dart';
+import '../components/demo_page_scaffold.dart';
+import '../components/control_card/blueprint_control_card_base.dart';
+import '../components/control_card/blueprint_switch_card.dart';
+import '../components/control_card/blueprint_checkbox_card.dart';
+import '../components/control_card/blueprint_radio_card.dart';
 
 class CardDemoPage extends StatelessWidget {
   const CardDemoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blueprint Cards'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSection('Basic Cards', _buildBasicCards()),
-            const SizedBox(height: BlueprintTheme.gridSize * 3),
-            _buildSection('Interactive Cards', _buildInteractiveCards(context)),
-            const SizedBox(height: BlueprintTheme.gridSize * 3),
-            _buildSection('Card Elevations', _buildElevationCards()),
-            const SizedBox(height: BlueprintTheme.gridSize * 3),
-            _buildSection('Card List', _buildCardList(context)),
-            const SizedBox(height: BlueprintTheme.gridSize * 3),
-            _buildSection('Complex Cards', _buildComplexCards(context)),
-          ],
-        ),
+    return DemoPageScaffold(
+      title: 'Blueprint Cards',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSection('Basic Cards', _buildBasicCards()),
+          const SizedBox(height: BlueprintTheme.gridSize * 3),
+          _buildSection('Interactive Cards', _buildInteractiveCards(context)),
+          const SizedBox(height: BlueprintTheme.gridSize * 3),
+          _buildSection('Card Elevations', _buildElevationCards()),
+          const SizedBox(height: BlueprintTheme.gridSize * 3),
+          _buildSection('Card List', _buildCardList(context)),
+          const SizedBox(height: BlueprintTheme.gridSize * 3),
+          _buildSection('Control Cards', _buildControlCards()),
+          const SizedBox(height: BlueprintTheme.gridSize * 3),
+          _buildSection('Complex Cards', _buildComplexCards(context)),
+        ],
       ),
     );
   }
@@ -357,6 +357,77 @@ class CardDemoPage extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildControlCards() {
+    return StatefulBuilder(
+      builder: (context, setState) {
+        bool switchValue = false;
+        bool checkboxValue = false;
+        String radioValue = 'option1';
+
+        return Column(
+          children: [
+            BlueprintSwitchCard(
+              label: 'Enable notifications',
+              description: 'Receive push notifications for important updates',
+              value: switchValue,
+              onChanged: (value) => setState(() => switchValue = value),
+            ),
+            const SizedBox(height: BlueprintTheme.gridSize),
+            BlueprintCheckboxCard(
+              label: 'Accept terms and conditions',
+              description: 'I agree to the terms of service and privacy policy',
+              value: checkboxValue,
+              onChanged: (value) => setState(() => checkboxValue = value),
+            ),
+            const SizedBox(height: BlueprintTheme.gridSize),
+            BlueprintRadioCard(
+              label: 'Basic Plan',
+              description: 'Up to 5 projects, 10GB storage',
+              value: radioValue == 'basic',
+              groupValue: radioValue == 'basic',
+              onChanged: (value) => setState(() => radioValue = 'basic'),
+            ),
+            const SizedBox(height: BlueprintTheme.gridSize),
+            BlueprintRadioCard(
+              label: 'Pro Plan',
+              description: 'Unlimited projects, 100GB storage',
+              value: radioValue == 'pro',
+              groupValue: radioValue == 'pro',
+              onChanged: (value) => setState(() => radioValue = 'pro'),
+            ),
+            const SizedBox(height: BlueprintTheme.gridSize),
+            BlueprintControlCard(
+              type: ControlCardType.switch_,
+              value: false,
+              onChanged: null, // disabled
+              disabled: true,
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Disabled Option',
+                    style: TextStyle(
+                      fontSize: BlueprintTheme.fontSize,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  Text(
+                    'This control is disabled',
+                    style: TextStyle(
+                      fontSize: BlueprintTheme.fontSizeSmall,
+                      color: BlueprintColors.textColorMuted,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

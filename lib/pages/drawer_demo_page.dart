@@ -3,6 +3,7 @@ import '../components/blueprint_drawer.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_section.dart';
 import '../components/blueprint_divider.dart';
+import '../components/demo_page_scaffold.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 
@@ -19,16 +20,11 @@ class _DrawerDemoPageState extends State<DrawerDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Drawer Demo'),
-        backgroundColor: BlueprintColors.lightGray5,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'Drawer Demo',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             BlueprintSection(
               title: 'Basic Drawer',
               children: [
@@ -155,8 +151,7 @@ class _DrawerDemoPageState extends State<DrawerDemoPage> {
                 ),
               ],
             ),
-          ],
-        ),
+        ],
       ),
     );
   }

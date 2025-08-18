@@ -135,7 +135,7 @@ class BlueprintTableBuilders {
                       fontWeight: FontWeight.w600,
                       fontSize: _getHeaderFontSize(),
                       color: BlueprintColors.textColor,
-                      height: 1.28581, // Blueprint: $pt-line-height
+                      height: 1.33333, // Blueprint: $pt-line-height (19/14)
                     ),
                     textAlign: _getTextAlign(column.align),
                   ),
@@ -163,7 +163,7 @@ class BlueprintTableBuilders {
                 fontWeight: FontWeight.w600,
                 fontSize: _getHeaderFontSize(),
                 color: BlueprintColors.textColor,
-                height: 1.28581, // Blueprint: $pt-line-height
+                height: 1.33333, // Blueprint: $pt-line-height (19/14)
               ),
               textAlign: _getTextAlign(column.align),
             ),
@@ -212,7 +212,7 @@ class BlueprintTableBuilders {
       return TableRow(
         decoration: BoxDecoration(
           color: isSelected
-              ? BlueprintColors.intentPrimary.withOpacity(0.1) // Blueprint: selected state
+              ? BlueprintColors.intentPrimary.withValues(alpha: 0.1) // Blueprint: selected state
               : (striped && !isEven)
                   ? BlueprintColors.lightGray5 // Blueprint: $table-background-color
                   : Colors.white, // Blueprint: $cell-background-color
@@ -237,7 +237,7 @@ class BlueprintTableBuilders {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: _getCellPadding(),
-        vertical: 2.0, // Add small vertical padding for better text positioning
+        vertical: 0, // Remove vertical padding - use height and alignment for centering
       ),
       height: _getCellHeight(size),
       alignment: Alignment.center,
@@ -268,7 +268,7 @@ class BlueprintTableBuilders {
         style: TextStyle(
           fontSize: _getFontSize(size),
           color: BlueprintColors.textColor,
-          height: 1.28581, // Blueprint: $pt-line-height for proper vertical centering
+          height: 1.33333, // Blueprint: $pt-line-height (19/14) for proper vertical centering
         ),
         textAlign: _getTextAlign(column.align),
       );
@@ -281,7 +281,7 @@ class BlueprintTableBuilders {
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: _getCellPadding(),
-          vertical: 2.0, // Add small vertical padding for better text positioning
+          vertical: 0, // Remove vertical padding - use height and alignment for centering
         ),
         height: _getCellHeight(size),
         alignment: _getAlignment(column.align),
@@ -299,11 +299,11 @@ class BlueprintTableBuilders {
   static double _getCellHeight(BlueprintTableSize size) {
     switch (size) {
       case BlueprintTableSize.compact:
-        return BlueprintTheme.gridSize * 2.0; // Blueprint: $cell-height: $pt-grid-size * 2 (20px)
+        return BlueprintTheme.gridSize * 2.4; // Blueprint: compact cells are slightly smaller (~24px)
       case BlueprintTableSize.standard:
-        return BlueprintTheme.gridSize * 2.0; // Blueprint: $cell-height: $pt-grid-size * 2 (20px)
+        return BlueprintTheme.gridSize * 3.0; // Blueprint: standard $cell-height: $pt-grid-size * 3 (30px)
       case BlueprintTableSize.large:
-        return BlueprintTheme.gridSize * 3.0; // Blueprint: $large-cell-height: $pt-grid-size * 3 (30px)
+        return BlueprintTheme.gridSize * 4.0; // Blueprint: $large-cell-height: $pt-grid-size * 4 (40px)
     }
   }
 

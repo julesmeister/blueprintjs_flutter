@@ -4,6 +4,7 @@ import '../theme/blueprint_colors.dart';
 import '../components/blueprint_tree.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_switch.dart';
+import '../components/demo_page_scaffold.dart';
 
 class TreeDemoPage extends StatefulWidget {
   const TreeDemoPage({Key? key}) : super(key: key);
@@ -197,17 +198,11 @@ class _TreeDemoPageState extends State<TreeDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tree Components'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'Tree Components',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             _buildControls(),
             const SizedBox(height: BlueprintTheme.gridSize * 2),
             _buildSection('Basic Tree', _buildBasicTree()),
@@ -215,8 +210,7 @@ class _TreeDemoPageState extends State<TreeDemoPage> {
             _buildSection('File System Tree', _buildFileSystemTree()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Interactive Features', _buildInteractiveDemo()),
-          ],
-        ),
+        ],
       ),
     );
   }

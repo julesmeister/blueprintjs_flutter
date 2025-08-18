@@ -5,6 +5,7 @@ import '../components/blueprint_table.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_icon.dart';
 import '../components/blueprint_tag.dart';
+import '../components/demo_page_scaffold.dart';
 
 class TableDemoPage extends StatefulWidget {
   const TableDemoPage({Key? key}) : super(key: key);
@@ -71,17 +72,11 @@ class _TableDemoPageState extends State<TableDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blueprint Tables'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'Blueprint Tables',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             _buildSection('Basic Table', _buildBasicTable()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Sortable Table', _buildSortableTable()),
@@ -95,8 +90,7 @@ class _TableDemoPageState extends State<TableDemoPage> {
             _buildSection('Loading State', _buildLoadingDemo()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Empty State', _buildEmptyStateDemo()),
-          ],
-        ),
+        ],
       ),
     );
   }

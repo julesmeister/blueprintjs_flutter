@@ -21,19 +21,19 @@ class CollapseBasicTab extends StatelessWidget {
           ),
           const SizedBox(height: BlueprintTheme.gridSize),
           
-          BlueprintCollapses.panel(
-            title: 'Basic Information',
+          BlueprintCollapseExample(
+            buttonText: 'Basic Information',
             initiallyOpen: true,
             child: const Padding(
               padding: EdgeInsets.all(BlueprintTheme.gridSize),
-              child: Text('This is a basic collapsible panel. Click the header to toggle visibility.'),
+              child: Text('This is a basic collapsible panel. Click the button to toggle visibility.'),
             ),
           ),
           
           const SizedBox(height: BlueprintTheme.gridSize),
           
-          BlueprintCollapses.panel(
-            title: 'Initially Collapsed',
+          BlueprintCollapseExample(
+            buttonText: 'Initially Collapsed',
             initiallyOpen: false,
             child: const Padding(
               padding: EdgeInsets.all(BlueprintTheme.gridSize),

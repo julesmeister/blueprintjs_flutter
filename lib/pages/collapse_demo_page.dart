@@ -3,6 +3,7 @@ import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import '../components/blueprint_switch.dart';
 import '../components/blueprint_tabs.dart';
+import '../components/demo_page_scaffold.dart';
 import 'tabs_demo/collapse_basic_tab.dart';
 import 'tabs_demo/collapse_styles_tab.dart';
 import 'tabs_demo/collapse_interactive_tab.dart';
@@ -21,16 +22,15 @@ class _CollapseDemoPageState extends State<CollapseDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Collapse Components'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: Column(
+    return DemoPageScaffold(
+      title: 'Collapse Components',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildControls(),
-          Expanded(
+          const SizedBox(height: BlueprintTheme.gridSize),
+          SizedBox(
+            height: 500, // Fixed height for the tabs
             child: BlueprintTabs(
               tabs: [
                 BlueprintTab(

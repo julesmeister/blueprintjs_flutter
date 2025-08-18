@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import '../components/blueprint_breadcrumbs.dart';
+import '../components/demo_page_scaffold.dart';
 
 class BreadcrumbsDemoPage extends StatefulWidget {
   const BreadcrumbsDemoPage({Key? key}) : super(key: key);
@@ -15,17 +16,11 @@ class _BreadcrumbsDemoPageState extends State<BreadcrumbsDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blueprint Breadcrumbs'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'Blueprint Breadcrumbs',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             _buildSection('Basic Breadcrumbs', _buildBasicBreadcrumbs()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('With Icons', _buildIconBreadcrumbs()),
@@ -37,8 +32,7 @@ class _BreadcrumbsDemoPageState extends State<BreadcrumbsDemoPage> {
             _buildSection('Minimal Style', _buildMinimalBreadcrumbs()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Current Path', _buildCurrentPathDisplay()),
-          ],
-        ),
+        ],
       ),
     );
   }

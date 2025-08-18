@@ -33,7 +33,7 @@ class BlueprintNavbar extends StatelessWidget {
     
     final defaultBackgroundColor = isDark 
         ? BlueprintColors.dark3 
-        : BlueprintColors.light5;
+        : Colors.white;
 
     final navbar = Container(
       height: effectiveHeight,
@@ -56,6 +56,7 @@ class BlueprintNavbar extends StatelessWidget {
         ] : null,
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: children,
       ),
     );

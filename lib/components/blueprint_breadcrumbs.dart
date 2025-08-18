@@ -37,7 +37,6 @@ class BlueprintBreadcrumbs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final theme = Theme.of(context);
     
     final defaultTextStyle = TextStyle(
       fontSize: BlueprintTheme.fontSize,

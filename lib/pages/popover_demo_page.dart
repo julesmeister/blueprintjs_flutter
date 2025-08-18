@@ -6,6 +6,7 @@ import '../components/blueprint_icon.dart';
 import '../components/blueprint_popover.dart';
 import '../components/popover_models.dart';
 import '../components/blueprint_tag.dart';
+import '../components/demo_page_scaffold.dart';
 
 class PopoverDemoPage extends StatefulWidget {
   const PopoverDemoPage({Key? key}) : super(key: key);
@@ -19,17 +20,11 @@ class _PopoverDemoPageState extends State<PopoverDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blueprint Popovers'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'Blueprint Popovers',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             _buildSection('Basic Popovers', _buildBasicPopovers()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Hover Popovers', _buildHoverPopovers()),
@@ -41,8 +36,7 @@ class _PopoverDemoPageState extends State<PopoverDemoPage> {
             _buildSection('Confirmation Popovers', _buildConfirmationPopovers()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Complex Content', _buildComplexContentDemo()),
-          ],
-        ),
+        ],
       ),
     );
   }

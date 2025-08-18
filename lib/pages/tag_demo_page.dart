@@ -3,9 +3,10 @@ import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_tag.dart';
+import '../components/demo_page_scaffold.dart';
 
 class TagDemoPage extends StatefulWidget {
-  const TagDemoPage({Key? key}) : super(key: key);
+  const TagDemoPage({super.key});
 
   @override
   State<TagDemoPage> createState() => _TagDemoPageState();
@@ -16,19 +17,20 @@ class _TagDemoPageState extends State<TagDemoPage> {
     'React', 'TypeScript', 'Flutter', 'Dart', 'JavaScript', 'Python'
   ];
 
+  List<Map<String, String>> _compoundTags = [
+    {'key': 'User', 'value': 'john.doe@example.com'},
+    {'key': 'Region', 'value': 'US-East'},
+    {'key': 'Status', 'value': 'Active'},
+    {'key': 'Role', 'value': 'Administrator'},
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blueprint Tags'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'Blueprint Tags',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             _buildSection('Basic Tags', _buildBasicTags()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Intent Tags', _buildIntentTags()),
@@ -42,8 +44,9 @@ class _TagDemoPageState extends State<TagDemoPage> {
             _buildSection('Removable Tags', _buildRemovableTags()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Tags with Icons', _buildIconTags()),
-          ],
-        ),
+            const SizedBox(height: BlueprintTheme.gridSize * 3),
+            _buildSection('Compound Tags', _buildCompoundTags()),
+        ],
       ),
     );
   }
@@ -268,6 +271,185 @@ class _TagDemoPageState extends State<TagDemoPage> {
     );
   }
 
+  Widget _buildCompoundTags() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('Basic Compound Tags:', style: TextStyle(fontWeight: FontWeight.w500)),
+        const SizedBox(height: BlueprintTheme.gridSize * 0.5),
+        Wrap(
+          spacing: BlueprintTheme.gridSize,
+          runSpacing: BlueprintTheme.gridSize,
+          children: [
+            BlueprintTags.compoundKeyValue(
+              key: 'City',
+              value: 'New York',
+              icon: Icons.location_on,
+            ),
+            BlueprintTags.compoundKeyValue(
+              key: 'Country',
+              value: 'United States',
+              icon: Icons.flag,
+              rightIcon: Icons.public,
+            ),
+            BlueprintTags.compound(
+              leftContent: Text('Server'),
+              rightContent: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.circle, color: Colors.green, size: 8),
+                  SizedBox(width: 4),
+                  Text('Online'),
+                ],
+              ),
+              intent: BlueprintIntent.success,
+            ),
+          ],
+        ),
+        
+        const SizedBox(height: BlueprintTheme.gridSize * 1.5),
+        const Text('Compound Tags with Intent:', style: TextStyle(fontWeight: FontWeight.w500)),
+        const SizedBox(height: BlueprintTheme.gridSize * 0.5),
+        Wrap(
+          spacing: BlueprintTheme.gridSize,
+          runSpacing: BlueprintTheme.gridSize,
+          children: [
+            BlueprintTags.compoundKeyValue(
+              key: 'Priority',
+              value: 'High',
+              intent: BlueprintIntent.danger,
+              icon: Icons.priority_high,
+            ),
+            BlueprintTags.compoundKeyValue(
+              key: 'Status',
+              value: 'Complete',
+              intent: BlueprintIntent.success,
+              icon: Icons.check_circle,
+            ),
+            BlueprintTags.compoundKeyValue(
+              key: 'Warning',
+              value: 'Attention',
+              intent: BlueprintIntent.warning,
+              icon: Icons.warning,
+            ),
+            BlueprintTags.compoundKeyValue(
+              key: 'Info',
+              value: 'Details',
+              intent: BlueprintIntent.primary,
+              icon: Icons.info,
+            ),
+          ],
+        ),
+
+        const SizedBox(height: BlueprintTheme.gridSize * 1.5),
+        const Text('Minimal Compound Tags:', style: TextStyle(fontWeight: FontWeight.w500)),
+        const SizedBox(height: BlueprintTheme.gridSize * 0.5),
+        Wrap(
+          spacing: BlueprintTheme.gridSize,
+          runSpacing: BlueprintTheme.gridSize,
+          children: [
+            BlueprintTags.compoundKeyValue(
+              key: 'Type',
+              value: 'Document',
+              intent: BlueprintIntent.primary,
+              minimal: true,
+              icon: Icons.description,
+            ),
+            BlueprintTags.compoundKeyValue(
+              key: 'Size',
+              value: '2.4 MB',
+              intent: BlueprintIntent.success,
+              minimal: true,
+              icon: Icons.folder,
+            ),
+          ],
+        ),
+
+        const SizedBox(height: BlueprintTheme.gridSize * 1.5),
+        const Text('Interactive Compound Tags:', style: TextStyle(fontWeight: FontWeight.w500)),
+        const SizedBox(height: BlueprintTheme.gridSize * 0.5),
+        Wrap(
+          spacing: BlueprintTheme.gridSize,
+          runSpacing: BlueprintTheme.gridSize,
+          children: [
+            BlueprintTags.compoundKeyValue(
+              key: 'Download',
+              value: 'report.pdf',
+              icon: Icons.download,
+              rightIcon: Icons.arrow_downward,
+              intent: BlueprintIntent.primary,
+              onTap: () => _showSnackBar('Downloading: report.pdf'),
+            ),
+            BlueprintCompoundTag(
+              leftContent: Text('Edit'),
+              rightContent: Text('Profile'),
+              icon: Icons.edit,
+              rightIcon: Icons.person,
+              intent: BlueprintIntent.warning,
+              interactive: true,
+              onTap: () => _showSnackBar('Opening profile editor'),
+            ),
+          ],
+        ),
+
+        const SizedBox(height: BlueprintTheme.gridSize * 1.5),
+        const Text('Removable Compound Tags:', style: TextStyle(fontWeight: FontWeight.w500)),
+        const SizedBox(height: BlueprintTheme.gridSize * 0.5),
+        Wrap(
+          spacing: BlueprintTheme.gridSize,
+          runSpacing: BlueprintTheme.gridSize,
+          children: _compoundTags
+              .map((tag) => BlueprintTags.compoundKeyValue(
+                    key: tag['key']!,
+                    value: tag['value']!,
+                    icon: _getCompoundTagIcon(tag['key']!),
+                    intent: _getCompoundTagIntent(tag['key']!),
+                    removable: true,
+                    onRemove: () => _removeCompoundTag(tag),
+                    onTap: () => _showSnackBar('Clicked: ${tag['key']}: ${tag['value']}'),
+                  ))
+              .toList(),
+        ),
+        const SizedBox(height: BlueprintTheme.gridSize),
+        BlueprintButton(
+          text: 'Reset Compound Tags',
+          variant: BlueprintButtonVariant.minimal,
+          icon: Icons.refresh,
+          onPressed: _resetCompoundTags,
+        ),
+
+        const SizedBox(height: BlueprintTheme.gridSize * 1.5),
+        const Text('Size Variations:', style: TextStyle(fontWeight: FontWeight.w500)),
+        const SizedBox(height: BlueprintTheme.gridSize * 0.5),
+        Wrap(
+          spacing: BlueprintTheme.gridSize,
+          runSpacing: BlueprintTheme.gridSize,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            BlueprintTags.compoundKeyValue(
+              key: 'Small',
+              value: 'Tag',
+              size: BlueprintTagSize.small,
+              intent: BlueprintIntent.primary,
+            ),
+            BlueprintTags.compoundKeyValue(
+              key: 'Medium',
+              value: 'Tag',
+              size: BlueprintTagSize.medium,
+              intent: BlueprintIntent.success,
+            ),
+            BlueprintTags.compoundKeyValue(
+              key: 'Large',
+              value: 'Tag',
+              size: BlueprintTagSize.large,
+              intent: BlueprintIntent.warning,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   BlueprintIntent _getTagIntent(String tag) {
     switch (tag.toLowerCase()) {
       case 'react':
@@ -299,6 +481,55 @@ class _TagDemoPageState extends State<TagDemoPage> {
       ];
     });
     _showSnackBar('Tags reset');
+  }
+
+  IconData _getCompoundTagIcon(String key) {
+    switch (key.toLowerCase()) {
+      case 'user':
+        return Icons.person;
+      case 'region':
+        return Icons.public;
+      case 'status':
+        return Icons.info;
+      case 'role':
+        return Icons.admin_panel_settings;
+      default:
+        return Icons.label;
+    }
+  }
+
+  BlueprintIntent _getCompoundTagIntent(String key) {
+    switch (key.toLowerCase()) {
+      case 'user':
+        return BlueprintIntent.primary;
+      case 'region':
+        return BlueprintIntent.success;
+      case 'status':
+        return BlueprintIntent.warning;
+      case 'role':
+        return BlueprintIntent.danger;
+      default:
+        return BlueprintIntent.none;
+    }
+  }
+
+  void _removeCompoundTag(Map<String, String> tag) {
+    setState(() {
+      _compoundTags.remove(tag);
+    });
+    _showSnackBar('Removed: ${tag['key']}: ${tag['value']}');
+  }
+
+  void _resetCompoundTags() {
+    setState(() {
+      _compoundTags = [
+        {'key': 'User', 'value': 'john.doe@example.com'},
+        {'key': 'Region', 'value': 'US-East'},
+        {'key': 'Status', 'value': 'Active'},
+        {'key': 'Role', 'value': 'Administrator'},
+      ];
+    });
+    _showSnackBar('Compound tags reset');
   }
 
   void _showSnackBar(String message) {

@@ -1,29 +1,5 @@
 import 'package:flutter/material.dart';
-import 'blueprint_table_enums.dart';
-import 'blueprint_table_models.dart';
-
-// Forward declaration
-abstract class BlueprintTable extends StatefulWidget {
-  const BlueprintTable({
-    Key? key,
-    required List<BlueprintTableColumn> columns,
-    required List<Map<String, dynamic>> data,
-    BlueprintTableSize size = BlueprintTableSize.standard,
-    bool striped = true,
-    bool bordered = false,
-    bool interactive = false,
-    bool condensed = false,
-    bool enableColumnReordering = false,
-    BlueprintTableSort? defaultSort,
-    Function(int rowIndex)? onRowTap,
-    Function(List<int> selectedRows)? onSelectionChanged,
-    bool selectable = false,
-    List<int>? selectedRows,
-    Widget? emptyState,
-    bool loading = false,
-    int? numLoadingRows = 5,
-  }) : super(key: key);
-}
+import '../blueprint_table.dart';
 
 // Factory methods for common table patterns
 class BlueprintTables {

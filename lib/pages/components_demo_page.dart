@@ -8,6 +8,7 @@ import '../components/blueprint_collapse.dart';
 import '../components/blueprint_card.dart';
 import '../components/blueprint_tooltip.dart';
 import '../components/blueprint_switch.dart';
+import '../components/demo_page_scaffold.dart';
 
 class ComponentsDemoPage extends StatefulWidget {
   const ComponentsDemoPage({Key? key}) : super(key: key);
@@ -22,17 +23,11 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('New Components'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'New Components',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             _buildSection('Icons', _buildIconsDemo()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Tags', _buildTagsDemo()),
@@ -42,8 +37,7 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
             _buildSection('Tooltips', _buildTooltipsDemo()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Combined Examples', _buildCombinedDemo()),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -153,9 +147,8 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
   Widget _buildCollapseDemo() {
     return Column(
       children: [
-        BlueprintCollapses.panel(
-          title: 'Basic Information',
-          icon: Icons.info,
+        BlueprintCollapseExample(
+          buttonText: 'Basic Information',
           initiallyOpen: true,
           child: Padding(
             padding: const EdgeInsets.all(BlueprintTheme.gridSize),
@@ -177,8 +170,8 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
         
         const SizedBox(height: BlueprintTheme.gridSize),
         
-        BlueprintCollapses.folder(
-          title: 'Project Files',
+        BlueprintCollapseExample(
+          buttonText: 'Project Files',
           initiallyOpen: false,
           child: Padding(
             padding: const EdgeInsets.all(BlueprintTheme.gridSize),
@@ -195,19 +188,8 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
         
         const SizedBox(height: BlueprintTheme.gridSize),
         
-        BlueprintCollapses.withCustomHeader(
-          titleWidget: Row(
-            children: [
-              BlueprintIcons.settings(),
-              const SizedBox(width: BlueprintTheme.gridSize),
-              const Text('Advanced Settings'),
-              const Spacer(),
-              BlueprintSwitches.simple(
-                value: _isAdvancedOpen,
-                onChanged: (value) => setState(() => _isAdvancedOpen = value),
-              ),
-            ],
-          ),
+        BlueprintCollapseExample(
+          buttonText: 'Advanced Settings',
           initiallyOpen: _isAdvancedOpen,
           child: Padding(
             padding: const EdgeInsets.all(BlueprintTheme.gridSize),
@@ -228,7 +210,7 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
 
   Widget _buildCombinedDemo() {
     return BlueprintCard(
-      elevation: BlueprintElevation.one,
+      elevation: BlueprintElevation.zero,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -261,9 +243,8 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
           const SizedBox(height: BlueprintTheme.gridSize),
           
           // Content with collapse
-          BlueprintCollapses.panel(
-            title: 'Project Details',
-            icon: Icons.folder_open,
+          BlueprintCollapseExample(
+            buttonText: 'Project Details',
             initiallyOpen: true,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: BlueprintTheme.gridSize),

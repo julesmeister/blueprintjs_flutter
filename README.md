@@ -23,7 +23,7 @@ A comprehensive Flutter implementation of the [Blueprint.js](https://blueprintjs
 - **💬 Dialogs** - Modal dialogs, alerts, confirmations, and custom overlays
 - **🏷️ Tags** - Labels, removable tags, intent colors, and interactive variants
 - **🎨 Icons** - Consistent iconography with sizes, intents, and semantic meanings
-- **📂 Collapse** - Expandable content areas with smooth animations and custom headers
+- **📂 Collapse** - Expandable content areas with Blueprint.js-style button triggers and smooth animations
 - **💬 Popovers** - Rich contextual overlays with positioning and interactive content
 - **📊 Tables** - Complex data display with sorting, selection, and Blueprint styling
 - **🌳 Trees** - Hierarchical data display with expand/collapse and selection
@@ -151,7 +151,7 @@ blueprint_flutter_demo/
 18. **blueprint_dialog.dart** - Modal dialogs and overlays
 19. **blueprint_tag.dart** - Labels and removable tags
 20. **blueprint_icon.dart** - Consistent iconography system
-21. **blueprint_collapse.dart** - Expandable content areas
+21. **blueprint_collapse.dart** - Expandable content areas with Blueprint.js-faithful button triggers
 22. **blueprint_popover.dart** - Rich contextual overlays with positioning
 23. **blueprint_table.dart** - Complex data display with sorting and selection
 24. **blueprint_tree.dart** - Hierarchical data display with interactions
@@ -195,7 +195,7 @@ blueprint_flutter_demo/
 - **Sizes**: Small, Medium, Large
 - **Intents**: Primary, Success, Warning, Danger
 - **States**: Loading, Disabled, Active
-- **Features**: Icons, text, factory methods
+- **Features**: Icons, text, factory methods, proper content-sizing (buttons wrap to content width, not full width)
 
 ### Cards
 - **Types**: Basic, Interactive, Elevated
@@ -499,6 +499,64 @@ BlueprintSections.withCards(
         title: Text('Profile'),
         trailing: Icon(Icons.arrow_forward),
       ),
+    ),
+  ],
+)
+```
+
+### Collapse Usage
+```dart
+// BlueprintCollapse - Core animation wrapper (matches Blueprint.js)
+BlueprintCollapse(
+  isOpen: _isOpen,
+  child: YourContent(),
+)
+
+// BlueprintCollapseExample - Button + Collapse pattern with proper button sizing
+BlueprintCollapseExample(
+  buttonText: 'Toggle Content',
+  initiallyOpen: false,
+  child: YourContent(),
+)
+
+// Manual button + collapse (for custom layouts)
+Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Row(
+      children: [
+        BlueprintButton(
+          text: 'Custom Trigger',
+          intent: BlueprintIntent.primary,
+          onPressed: () => setState(() => _isOpen = !_isOpen),
+        ),
+      ],
+    ),
+    BlueprintCollapse(
+      isOpen: _isOpen,
+      child: YourContent(),
+    ),
+  ],
+)
+```
+
+### Important: Button Width Behavior
+When using Blueprint buttons in Columns, wrap them in a Row to prevent them from taking full width:
+```dart
+// ❌ Wrong - Button takes full width
+Column(
+  children: [
+    BlueprintButton(text: 'Button'), // Takes full width!
+  ],
+)
+
+// ✅ Correct - Button sizes to content
+Column(
+  children: [
+    Row(
+      children: [
+        BlueprintButton(text: 'Button'), // Sizes to content
+      ],
     ),
   ],
 )

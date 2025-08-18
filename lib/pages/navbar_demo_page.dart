@@ -4,6 +4,7 @@ import '../theme/blueprint_colors.dart';
 import '../components/blueprint_navbar.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_switch.dart';
+import '../components/demo_page_scaffold.dart';
 
 class NavbarDemoPage extends StatefulWidget {
   const NavbarDemoPage({Key? key}) : super(key: key);
@@ -18,17 +19,11 @@ class _NavbarDemoPageState extends State<NavbarDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blueprint Navbar'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'Blueprint Navbar',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             _buildSection('Basic Navbar', _buildBasicNavbar()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Navbar with Groups', _buildGroupedNavbar()),
@@ -39,9 +34,8 @@ class _NavbarDemoPageState extends State<NavbarDemoPage> {
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Minimal Navbar', _buildMinimalNavbar()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
-            _buildSection('Interactive Example', _buildInteractiveExample()),
-          ],
-        ),
+          _buildSection('Interactive Example', _buildInteractiveExample()),
+        ],
       ),
     );
   }
@@ -69,17 +63,20 @@ class _NavbarDemoPageState extends State<NavbarDemoPage> {
       children: [
         const BlueprintNavbarHeading(text: 'Blueprint'),
         const SizedBox(width: 16),
-        TextButton(
+        BlueprintButton(
+          text: 'Home',
+          variant: BlueprintButtonVariant.minimal,
           onPressed: () => _navigateTo('Home'),
-          child: const Text('Home'),
         ),
-        TextButton(
+        BlueprintButton(
+          text: 'About',
+          variant: BlueprintButtonVariant.minimal,
           onPressed: () => _navigateTo('About'),
-          child: const Text('About'),
         ),
-        TextButton(
+        BlueprintButton(
+          text: 'Contact',
+          variant: BlueprintButtonVariant.minimal,
           onPressed: () => _navigateTo('Contact'),
-          child: const Text('Contact'),
         ),
       ],
     );
@@ -93,13 +90,15 @@ class _NavbarDemoPageState extends State<NavbarDemoPage> {
           const SizedBox(width: 16),
           const BlueprintNavbarDivider(),
           const SizedBox(width: 16),
-          TextButton(
+          BlueprintButton(
+            text: 'Dashboard',
+            variant: BlueprintButtonVariant.minimal,
             onPressed: () => _navigateTo('Dashboard'),
-            child: const Text('Dashboard'),
           ),
-          TextButton(
+          BlueprintButton(
+            text: 'Projects',
+            variant: BlueprintButtonVariant.minimal,
             onPressed: () => _navigateTo('Projects'),
-            child: const Text('Projects'),
           ),
         ],
       ),
@@ -207,13 +206,15 @@ class _NavbarDemoPageState extends State<NavbarDemoPage> {
       children: [
         const Text('Minimal', style: TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(width: 16),
-        TextButton(
+        BlueprintButton(
+          text: 'Link 1',
+          variant: BlueprintButtonVariant.minimal,
           onPressed: () => _navigateTo('Link 1'),
-          child: const Text('Link 1'),
         ),
-        TextButton(
+        BlueprintButton(
+          text: 'Link 2',
+          variant: BlueprintButtonVariant.minimal,
           onPressed: () => _navigateTo('Link 2'),
-          child: const Text('Link 2'),
         ),
         const Spacer(),
         BlueprintSwitch(
@@ -382,13 +383,14 @@ class _NavbarTabState extends State<_NavbarTab> {
               ),
               padding: const EdgeInsets.symmetric(
                 horizontal: 10, // Blueprint button padding: 1 * 10px
-                vertical: 5,    // Blueprint button padding: 0.5 * 10px
+                vertical: 0,    // Remove vertical padding for proper centering
               ),
               decoration: BoxDecoration(
                 color: getBackgroundColor(),
                 borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
               ),
-              child: Center(
+              child: Align(
+                alignment: Alignment.center,
                 child: Text(
                   widget.text,
                   style: TextStyle(

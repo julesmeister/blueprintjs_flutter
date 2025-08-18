@@ -3,6 +3,7 @@ import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import '../components/blueprint_toast.dart';
 import '../components/blueprint_button.dart';
+import '../components/demo_page_scaffold.dart';
 import '../components/blueprint_switch.dart';
 import '../components/blueprint_section.dart';
 
@@ -15,7 +16,7 @@ class ToastDemoPage extends StatefulWidget {
 
 class _ToastDemoPageState extends State<ToastDemoPage> {
   final GlobalKey<BlueprintToasterState> _toasterKey = GlobalKey<BlueprintToasterState>();
-  BlueprintToastPosition _position = BlueprintToastPosition.top;
+  BlueprintToastPosition _position = BlueprintToastPosition.topRight;
   bool _includeAction = false;
   Duration _timeout = const Duration(seconds: 5);
 
@@ -33,15 +34,10 @@ class _ToastDemoPageState extends State<ToastDemoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Toast Components'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
       body: Stack(
         children: [
-          SingleChildScrollView(
-            padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
+          DemoPageScaffold(
+            title: 'Toast Components',
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

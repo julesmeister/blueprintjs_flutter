@@ -3,30 +3,24 @@ import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import '../components/blueprint_dialog.dart';
 import '../components/blueprint_button.dart';
+import '../components/demo_page_scaffold.dart';
 
 class DialogDemoPage extends StatelessWidget {
   const DialogDemoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blueprint Dialogs'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'Blueprint Dialogs',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             _buildSection('Basic Dialogs', _buildBasicDialogs(context)),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Factory Method Dialogs', _buildFactoryDialogs(context)),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
-            _buildSection('Custom Dialogs', _buildCustomDialogs(context)),
-          ],
-        ),
+          _buildSection('Custom Dialogs', _buildCustomDialogs(context)),
+        ],
       ),
     );
   }

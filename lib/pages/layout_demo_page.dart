@@ -5,6 +5,7 @@ import '../components/blueprint_divider.dart';
 import '../components/blueprint_section.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_input.dart';
+import '../components/demo_page_scaffold.dart';
 
 class LayoutDemoPage extends StatefulWidget {
   const LayoutDemoPage({Key? key}) : super(key: key);
@@ -19,24 +20,17 @@ class _LayoutDemoPageState extends State<LayoutDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blueprint Layout'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'Blueprint Layout',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             _buildSection('Dividers', _buildDividerSection()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Sections', _buildSectionComponents()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Layout Examples', _buildLayoutExamples()),
-          ],
-        ),
+        ],
       ),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
+import 'blueprint_button.dart';
+import 'blueprint_input.dart';
 
 class BlueprintDialog extends StatelessWidget {
   final Widget? title;
@@ -140,15 +142,10 @@ class BlueprintDialog extends StatelessWidget {
                 ),
               ),
             if (isCloseButtonShown)
-              IconButton(
-                icon: const Icon(Icons.close),
-                iconSize: 16,
-                color: BlueprintColors.textColorMuted,
-                padding: EdgeInsets.all(BlueprintTheme.gridSize * 0.5),
-                constraints: BoxConstraints(
-                  minWidth: BlueprintTheme.buttonHeight,
-                  minHeight: BlueprintTheme.buttonHeight,
-                ),
+              BlueprintButton(
+                icon: Icons.close,
+                variant: BlueprintButtonVariant.minimal,
+                size: BlueprintButtonSize.small,
                 onPressed: () => _handleClose(context),
               ),
           ],
@@ -241,12 +238,13 @@ class BlueprintDialogs {
       icon: icon,
       body: Text(message),
       actions: [
-        ElevatedButton(
+        BlueprintButton(
+          text: confirmText,
+          intent: BlueprintIntent.primary,
           onPressed: () {
             Navigator.of(context).pop();
             if (onConfirm != null) onConfirm();
           },
-          child: Text(confirmText),
         ),
       ],
     );
@@ -268,19 +266,21 @@ class BlueprintDialogs {
       icon: icon,
       body: Text(message),
       actions: [
-        TextButton(
+        BlueprintButton(
+          text: cancelText,
+          variant: BlueprintButtonVariant.minimal,
           onPressed: () {
             Navigator.of(context).pop(false);
             if (onCancel != null) onCancel();
           },
-          child: Text(cancelText),
         ),
-        ElevatedButton(
+        BlueprintButton(
+          text: confirmText,
+          intent: BlueprintIntent.primary,
           onPressed: () {
             Navigator.of(context).pop(true);
             if (onConfirm != null) onConfirm();
           },
-          child: Text(confirmText),
         ),
       ],
     );
@@ -310,24 +310,23 @@ class BlueprintDialogs {
             Text(message),
             SizedBox(height: BlueprintTheme.gridSize),
           ],
-          TextField(
-            controller: controller,
-            autofocus: true,
-            decoration: InputDecoration(
-              hintText: placeholder,
-              border: const OutlineInputBorder(),
-            ),
+          BlueprintInputGroup(
+            placeholder: placeholder,
+            value: controller.text,
+            onChanged: (value) => controller.text = value,
           ),
         ],
       ),
       actions: [
-        TextButton(
+        BlueprintButton(
+          text: cancelText,
+          variant: BlueprintButtonVariant.minimal,
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(cancelText),
         ),
-        ElevatedButton(
+        BlueprintButton(
+          text: confirmText,
+          intent: BlueprintIntent.primary,
           onPressed: () => Navigator.of(context).pop(controller.text),
-          child: Text(confirmText),
         ),
       ],
     );

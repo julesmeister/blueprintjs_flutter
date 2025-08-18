@@ -4,6 +4,7 @@ import '../theme/blueprint_colors.dart';
 import '../components/blueprint_progress_bar.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_card.dart';
+import '../components/demo_page_scaffold.dart';
 
 class ProgressBarDemoPage extends StatefulWidget {
   const ProgressBarDemoPage({Key? key}) : super(key: key);
@@ -70,17 +71,11 @@ class _ProgressBarDemoPageState extends State<ProgressBarDemoPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blueprint Progress Bars'),
-        backgroundColor: BlueprintColors.intentPrimary,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return DemoPageScaffold(
+      title: 'Blueprint Progress Bars',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             _buildSection('Basic Progress Bars', _buildBasicProgressBars()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Intent Colors', _buildIntentProgressBars()),
@@ -92,8 +87,7 @@ class _ProgressBarDemoPageState extends State<ProgressBarDemoPage>
             _buildSection('Interactive Progress', _buildInteractiveProgress()),
             const SizedBox(height: BlueprintTheme.gridSize * 3),
             _buildSection('Use Cases', _buildUseCases()),
-          ],
-        ),
+        ],
       ),
     );
   }

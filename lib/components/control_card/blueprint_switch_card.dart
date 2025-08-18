@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+import '../../theme/blueprint_theme.dart';
+import '../blueprint_card.dart';
+import 'blueprint_control_card_base.dart';
+
+class BlueprintSwitchCard extends StatelessWidget {
+  final String? label;
+  final String? description;
+  final Widget? child;
+  final bool value;
+  final ValueChanged<bool>? onChanged;
+  final bool disabled;
+  final bool showAsSelectedWhenChecked;
+  final BlueprintElevation elevation;
+  final bool compact;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
+
+  const BlueprintSwitchCard({
+    Key? key,
+    this.label,
+    this.description,
+    this.child,
+    required this.value,
+    required this.onChanged,
+    this.disabled = false,
+    this.showAsSelectedWhenChecked = true,
+    this.elevation = BlueprintElevation.zero,
+    this.compact = false,
+    this.padding,
+    this.margin,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlueprintControlCard(
+      type: ControlCardType.switch_,
+      label: label,
+      description: description,
+      child: child,
+      value: value,
+      onChanged: onChanged,
+      disabled: disabled,
+      showAsSelectedWhenChecked: showAsSelectedWhenChecked,
+      elevation: elevation,
+      compact: compact,
+      padding: padding,
+      margin: margin,
+    );
+  }
+}

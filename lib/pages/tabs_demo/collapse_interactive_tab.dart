@@ -23,9 +23,8 @@ class CollapseInteractiveTab extends StatelessWidget {
           ),
           const SizedBox(height: BlueprintTheme.gridSize),
           
-          BlueprintCollapses.panel(
-            title: 'Interactive Content',
-            icon: Icons.widgets,
+          BlueprintCollapseExample(
+            buttonText: 'Interactive Content',
             initiallyOpen: true,
             child: Padding(
               padding: const EdgeInsets.all(BlueprintTheme.gridSize),

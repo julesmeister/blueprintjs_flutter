@@ -180,12 +180,12 @@ class _BlueprintButtonState extends State<BlueprintButton> {
       case BlueprintButtonSize.medium:
         return EdgeInsets.symmetric(
           horizontal: BlueprintTheme.gridSize,
-          vertical: BlueprintTheme.gridSize * 0.5,
+          vertical: 0,
         );
       case BlueprintButtonSize.large:
         return EdgeInsets.symmetric(
           horizontal: BlueprintTheme.gridSize * 1.5,
-          vertical: BlueprintTheme.gridSize * 0.5,
+          vertical: 0,
         );
     }
   }
@@ -287,6 +287,8 @@ class _BlueprintButtonState extends State<BlueprintButton> {
 
     return Row(
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: children,
     );
   }
@@ -310,7 +312,8 @@ class _BlueprintButtonState extends State<BlueprintButton> {
             border: _border,
             boxShadow: _boxShadow,
           ),
-          child: Center(
+          child: Align(
+            alignment: Alignment.center,
             child: _buildContent(),
           ),
         ),

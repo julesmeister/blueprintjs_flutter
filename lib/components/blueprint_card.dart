@@ -56,11 +56,11 @@ class _BlueprintCardState extends State<BlueprintCard> {
       case BlueprintElevation.one:
         return BlueprintTheme.elevation1;
       case BlueprintElevation.two:
-        return BlueprintTheme.elevation2;
+        return BlueprintTheme.elevation1; // Use subtle shadow like elevation1
       case BlueprintElevation.three:
-        return BlueprintTheme.elevation3;
+        return BlueprintTheme.elevation2; // Use subtle shadow like elevation2
       case BlueprintElevation.four:
-        return BlueprintTheme.elevation4;
+        return BlueprintTheme.elevation2; // Use subtle shadow like elevation2
     }
   }
 
@@ -90,7 +90,7 @@ class _BlueprintCardState extends State<BlueprintCard> {
     if (widget.backgroundColor != null) return widget.backgroundColor!;
     
     if (widget.selected) {
-      return BlueprintColors.intentPrimary.withOpacity(0.1);
+      return BlueprintColors.intentPrimary.withValues(alpha: 0.1);
     }
     
     return BlueprintColors.appSecondaryBackgroundColor;
@@ -109,8 +109,8 @@ class _BlueprintCardState extends State<BlueprintCard> {
         borderRadius: _borderRadius,
         boxShadow: _shadows,
         border: widget.selected 
-            ? Border.all(color: BlueprintColors.intentPrimary, width: 2)
-            : null,
+            ? Border.all(color: BlueprintColors.intentPrimary, width: 1)
+            : Border.all(color: BlueprintColors.lightGray2, width: 1), // Default Blueprint.js card border
       ),
       child: widget.child,
     );
@@ -146,11 +146,7 @@ class BlueprintCardList extends StatelessWidget {
   final bool compact;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
-  final MainAxisAlignment mainAxisAlignment;
-  final CrossAxisAlignment crossAxisAlignment;
-  final MainAxisSize mainAxisSize;
-  final Axis direction;
-  final double? spacing;
+  final String? role;
 
   const BlueprintCardList({
     Key? key,
@@ -159,42 +155,19 @@ class BlueprintCardList extends StatelessWidget {
     this.compact = false,
     this.padding,
     this.margin,
-    this.mainAxisAlignment = MainAxisAlignment.start,
-    this.crossAxisAlignment = CrossAxisAlignment.start,
-    this.mainAxisSize = MainAxisSize.max,
-    this.direction = Axis.vertical,
-    this.spacing,
+    this.role,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final defaultSpacing = spacing ?? (compact ? BlueprintTheme.gridSize * 0.5 : BlueprintTheme.gridSize);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     
-    List<Widget> spacedChildren = [];
-    for (int i = 0; i < children.length; i++) {
-      spacedChildren.add(children[i]);
-      if (i < children.length - 1) {
-        spacedChildren.add(
-          direction == Axis.vertical 
-              ? SizedBox(height: defaultSpacing)
-              : SizedBox(width: defaultSpacing),
-        );
-      }
-    }
-
-    Widget content = direction == Axis.vertical
-        ? Column(
-            mainAxisAlignment: mainAxisAlignment,
-            crossAxisAlignment: crossAxisAlignment,
-            mainAxisSize: mainAxisSize,
-            children: spacedChildren,
-          )
-        : Row(
-            mainAxisAlignment: mainAxisAlignment,
-            crossAxisAlignment: crossAxisAlignment,
-            mainAxisSize: mainAxisSize,
-            children: spacedChildren,
-          );
+    // Blueprint.js CardList creates a container that has zero elevation
+    // and acts as a wrapper for multiple cards
+    Widget content = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: children,
+    );
 
     if (padding != null) {
       content = Padding(
@@ -204,9 +177,14 @@ class BlueprintCardList extends StatelessWidget {
     }
 
     if (bordered) {
-      content = BlueprintCard(
-        elevation: BlueprintElevation.zero,
-        compact: compact,
+      content = Container(
+        margin: isDark ? const EdgeInsets.all(1) : null, // Dark theme margin
+        decoration: BoxDecoration(
+          color: BlueprintColors.appSecondaryBackgroundColor,
+          borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
+          boxShadow: BlueprintTheme.elevation0,
+          border: Border.all(color: BlueprintColors.lightGray2, width: 1), // Default Blueprint.js border
+        ),
         child: content,
       );
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
+import 'blueprint_button.dart';
 
 class BlueprintCollapse extends StatefulWidget {
   final Widget child;
@@ -71,35 +72,27 @@ class _BlueprintCollapseState extends State<BlueprintCollapse>
   }
 }
 
-class BlueprintCollapsePanel extends StatefulWidget {
-  final String? title;
-  final Widget? titleWidget;
+// Blueprint.js Collapse is just the animation wrapper - no built-in trigger
+// Use separate Button components to control collapse state
+
+// Helper widget that combines Button + Collapse for common use case
+class BlueprintCollapseExample extends StatefulWidget {
+  final String buttonText;
   final Widget child;
   final bool initiallyOpen;
-  final bool disabled;
-  final IconData? icon;
-  final IconData? openIcon;
-  final IconData? closedIcon;
-  final VoidCallback? onToggle;
 
-  const BlueprintCollapsePanel({
+  const BlueprintCollapseExample({
     Key? key,
-    this.title,
-    this.titleWidget,
+    required this.buttonText,
     required this.child,
     this.initiallyOpen = false,
-    this.disabled = false,
-    this.icon,
-    this.openIcon,
-    this.closedIcon,
-    this.onToggle,
   }) : super(key: key);
 
   @override
-  State<BlueprintCollapsePanel> createState() => _BlueprintCollapsePanelState();
+  State<BlueprintCollapseExample> createState() => _BlueprintCollapseExampleState();
 }
 
-class _BlueprintCollapsePanelState extends State<BlueprintCollapsePanel> {
+class _BlueprintCollapseExampleState extends State<BlueprintCollapseExample> {
   late bool _isOpen;
 
   @override
@@ -109,159 +102,30 @@ class _BlueprintCollapsePanelState extends State<BlueprintCollapsePanel> {
   }
 
   void _toggle() {
-    if (widget.disabled) return;
-    
     setState(() {
       _isOpen = !_isOpen;
     });
-    
-    if (widget.onToggle != null) {
-      widget.onToggle!();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildHeader(),
+        Row(
+          children: [
+            BlueprintButton(
+              text: widget.buttonText,
+              onPressed: _toggle,
+              intent: BlueprintIntent.primary,
+            ),
+          ],
+        ),
         BlueprintCollapse(
           isOpen: _isOpen,
           child: widget.child,
         ),
       ],
-    );
-  }
-
-  Widget _buildHeader() {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: _toggle,
-        child: Container(
-          padding: EdgeInsets.all(BlueprintTheme.gridSize),
-          child: Row(
-            children: [
-              // Expand/Collapse icon
-              AnimatedRotation(
-                turns: _isOpen ? 0.25 : 0,
-                duration: const Duration(milliseconds: 200),
-                child: Icon(
-                  Icons.chevron_right,
-                  size: 16,
-                  color: widget.disabled 
-                      ? BlueprintColors.textColorDisabled
-                      : BlueprintColors.textColorMuted,
-                ),
-              ),
-              
-              const SizedBox(width: BlueprintTheme.gridSize * 0.5),
-              
-              // Optional leading icon
-              if (widget.icon != null || 
-                  widget.openIcon != null || 
-                  widget.closedIcon != null) ...[
-                Icon(
-                  _getLeadingIcon(),
-                  size: 16,
-                  color: widget.disabled 
-                      ? BlueprintColors.textColorDisabled
-                      : BlueprintColors.textColor,
-                ),
-                const SizedBox(width: BlueprintTheme.gridSize * 0.5),
-              ],
-              
-              // Title
-              Expanded(
-                child: widget.titleWidget ?? Text(
-                  widget.title ?? '',
-                  style: TextStyle(
-                    color: widget.disabled 
-                        ? BlueprintColors.textColorDisabled
-                        : BlueprintColors.textColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: BlueprintTheme.fontSize,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  IconData _getLeadingIcon() {
-    if (widget.openIcon != null && widget.closedIcon != null) {
-      return _isOpen ? widget.openIcon! : widget.closedIcon!;
-    }
-    return widget.icon ?? Icons.folder;
-  }
-}
-
-// Factory methods for common collapse patterns
-class BlueprintCollapses {
-  static Widget simple({
-    required Widget child,
-    bool isOpen = false,
-    VoidCallback? onToggle,
-  }) {
-    return BlueprintCollapse(
-      isOpen: isOpen,
-      onToggle: onToggle,
-      child: child,
-    );
-  }
-
-  static Widget panel({
-    required String title,
-    required Widget child,
-    bool initiallyOpen = false,
-    bool disabled = false,
-    IconData? icon,
-    VoidCallback? onToggle,
-  }) {
-    return BlueprintCollapsePanel(
-      title: title,
-      child: child,
-      initiallyOpen: initiallyOpen,
-      disabled: disabled,
-      icon: icon,
-      onToggle: onToggle,
-    );
-  }
-
-  static Widget withCustomHeader({
-    required Widget titleWidget,
-    required Widget child,
-    bool initiallyOpen = false,
-    bool disabled = false,
-    VoidCallback? onToggle,
-  }) {
-    return BlueprintCollapsePanel(
-      titleWidget: titleWidget,
-      child: child,
-      initiallyOpen: initiallyOpen,
-      disabled: disabled,
-      onToggle: onToggle,
-    );
-  }
-
-  static Widget folder({
-    required String title,
-    required Widget child,
-    bool initiallyOpen = false,
-    bool disabled = false,
-    VoidCallback? onToggle,
-  }) {
-    return BlueprintCollapsePanel(
-      title: title,
-      child: child,
-      initiallyOpen: initiallyOpen,
-      disabled: disabled,
-      openIcon: Icons.folder_open,
-      closedIcon: Icons.folder,
-      onToggle: onToggle,
     );
   }
 }

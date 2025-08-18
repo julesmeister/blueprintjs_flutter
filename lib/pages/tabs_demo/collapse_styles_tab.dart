@@ -21,9 +21,8 @@ class CollapseStylesTab extends StatelessWidget {
           ),
           const SizedBox(height: BlueprintTheme.gridSize),
           
-          BlueprintCollapses.panel(
-            title: 'Panel with Icon',
-            icon: Icons.info,
+          BlueprintCollapseExample(
+            buttonText: 'Panel with Icon',
             initiallyOpen: true,
             child: const Padding(
               padding: EdgeInsets.all(BlueprintTheme.gridSize),
@@ -33,8 +32,8 @@ class CollapseStylesTab extends StatelessWidget {
           
           const SizedBox(height: BlueprintTheme.gridSize),
           
-          BlueprintCollapses.folder(
-            title: 'Folder Style',
+          BlueprintCollapseExample(
+            buttonText: 'Folder Style',
             initiallyOpen: false,
             child: Padding(
               padding: const EdgeInsets.all(BlueprintTheme.gridSize),
@@ -58,9 +57,8 @@ class CollapseStylesTab extends StatelessWidget {
           ),
           const SizedBox(height: BlueprintTheme.gridSize),
           
-          BlueprintCollapses.panel(
-            title: 'Parent Panel',
-            icon: Icons.folder_open,
+          BlueprintCollapseExample(
+            buttonText: 'Parent Panel',
             initiallyOpen: true,
             child: Padding(
               padding: const EdgeInsets.all(BlueprintTheme.gridSize),
@@ -70,8 +68,8 @@ class CollapseStylesTab extends StatelessWidget {
                   const Text('This parent panel contains nested collapse panels:'),
                   const SizedBox(height: BlueprintTheme.gridSize),
                   
-                  BlueprintCollapsePanel(
-                    title: 'Nested Panel 1',
+                  BlueprintCollapseExample(
+                    buttonText: 'Nested Panel 1',
                     initiallyOpen: false,
                     child: const Padding(
                       padding: EdgeInsets.all(BlueprintTheme.gridSize),
@@ -81,8 +79,8 @@ class CollapseStylesTab extends StatelessWidget {
                   
                   const SizedBox(height: BlueprintTheme.gridSize * 0.5),
                   
-                  BlueprintCollapsePanel(
-                    title: 'Nested Panel 2',
+                  BlueprintCollapseExample(
+                    buttonText: 'Nested Panel 2',
                     initiallyOpen: false,
                     child: const Padding(
                       padding: EdgeInsets.all(BlueprintTheme.gridSize),

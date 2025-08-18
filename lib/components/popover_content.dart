@@ -80,34 +80,45 @@ class PopoverContent extends StatelessWidget {
   }
 
   Widget _buildPopoverContent() {
-    return Container(
-      constraints: BoxConstraints(
-        maxWidth: maxWidth ?? 300,
-        maxHeight: maxHeight ?? 400,
-      ),
-      padding: const EdgeInsets.all(BlueprintTheme.gridSize),
-      decoration: BoxDecoration(
-        color: minimal ? BlueprintColors.lightGray5 : Colors.white,
-        borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
-        border: minimal 
-            ? Border.all(color: BlueprintColors.gray5, width: 1)
-            : null,
-        boxShadow: minimal ? null : [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-            spreadRadius: 0,
+    return Material(
+      color: Colors.transparent,
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: maxWidth ?? 300,
+          maxHeight: maxHeight ?? 400,
+        ),
+        padding: const EdgeInsets.all(BlueprintTheme.gridSize),
+        decoration: BoxDecoration(
+          color: minimal ? BlueprintColors.lightGray5 : Colors.white,
+          borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
+          border: minimal 
+              ? Border.all(color: BlueprintColors.gray5, width: 1)
+              : null,
+          boxShadow: minimal ? null : [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+              spreadRadius: 0,
+            ),
+            BoxShadow(
+              color: Colors.black.withOpacity(0.15),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: DefaultTextStyle(
+          style: const TextStyle(
+            color: Colors.black87,
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            decoration: TextDecoration.none,
           ),
-          BoxShadow(
-            color: Colors.black.withOpacity(0.15),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-            spreadRadius: 0,
-          ),
-        ],
+          child: content,
+        ),
       ),
-      child: content,
     );
   }
 

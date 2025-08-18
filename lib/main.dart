@@ -281,14 +281,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-                  itemCount: _demoItems.length,
-                  itemBuilder: (context, index) {
-                    final item = _demoItems[index];
-                    return _buildDemoCard(context, item);
-                  },
-                ),
+                child: _buildResponsiveLayout(context),
               ),
             ],
           ),
@@ -297,78 +290,181 @@ class _DemoHomePageState extends State<DemoHomePage> {
     );
   }
 
-  Widget _buildDemoCard(BuildContext context, DemoItem item) {
+  Widget _buildResponsiveLayout(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    
+    // Define breakpoints
+    const mobileBreakpoint = 600;
+    const tabletBreakpoint = 1024;
+    
+    if (screenWidth < mobileBreakpoint) {
+      // Mobile: Use ListView
+      return ListView.builder(
+        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
+        itemCount: _demoItems.length,
+        itemBuilder: (context, index) {
+          final item = _demoItems[index];
+          return _buildDemoCard(context, item, isGrid: false);
+        },
+      );
+    } else {
+      // Tablet and Desktop: Use GridView with compact boxes
+      final crossAxisCount = screenWidth < tabletBreakpoint ? 2 : 3;
+      
+      return GridView.builder(
+        padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
+          childAspectRatio: 2.4, // Reduced height by 1/3 (from 1.8 to 2.4)
+          crossAxisSpacing: BlueprintTheme.gridSize,
+          mainAxisSpacing: BlueprintTheme.gridSize,
+        ),
+        itemCount: _demoItems.length,
+        itemBuilder: (context, index) {
+          final item = _demoItems[index];
+          return _buildDemoCard(context, item, isGrid: true);
+        },
+      );
+    }
+  }
+
+  Widget _buildDemoCard(BuildContext context, DemoItem item, {required bool isGrid}) {
     final isEnabled = item.page != null;
     
     return Container(
-      margin: const EdgeInsets.only(bottom: BlueprintTheme.gridSize),
+      margin: isGrid ? EdgeInsets.zero : const EdgeInsets.only(bottom: BlueprintTheme.gridSize),
       child: Material(
         color: _isDarkMode ? BlueprintColors.darkAppSecondaryBackgroundColor : BlueprintColors.appSecondaryBackgroundColor,
-        borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius * 2),
+        borderRadius: BorderRadius.circular(isGrid ? 4 : BlueprintTheme.borderRadius * 2), // Square corners for grid
         elevation: 1,
         child: InkWell(
-          borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius * 2),
+          borderRadius: BorderRadius.circular(isGrid ? 4 : BlueprintTheme.borderRadius * 2),
           onTap: isEnabled ? () {
             Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => item.page!),
             );
           } : null,
           child: Padding(
-            padding: const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-            child: Row(
-              children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: isEnabled ? item.color.withOpacity(0.1) : BlueprintColors.lightGray2,
-                    borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
-                  ),
-                  child: Icon(
-                    item.icon,
-                    color: isEnabled ? item.color : BlueprintColors.textColorDisabled,
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: BlueprintTheme.gridSize * 1.5),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        item.title,
-                        style: TextStyle(
-                          fontSize: BlueprintTheme.fontSize,
-                          fontWeight: FontWeight.w600,
-                          color: isEnabled 
-                              ? (_isDarkMode ? BlueprintColors.darkTextColor : BlueprintColors.textColor)
-                              : BlueprintColors.textColorDisabled,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        item.subtitle,
-                        style: TextStyle(
-                          fontSize: BlueprintTheme.fontSizeSmall,
-                          color: isEnabled
-                              ? (_isDarkMode ? BlueprintColors.darkTextColorMuted : BlueprintColors.textColorMuted)
-                              : BlueprintColors.textColorDisabled,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Icon(
-                  isEnabled ? Icons.chevron_right : Icons.lock_outline,
-                  color: isEnabled 
-                      ? (_isDarkMode ? BlueprintColors.darkTextColorMuted : BlueprintColors.textColorMuted)
-                      : BlueprintColors.textColorDisabled,
-                ),
-              ],
-            ),
+            padding: isGrid 
+                ? const EdgeInsets.all(BlueprintTheme.gridSize * 1.5) // Less compact padding
+                : const EdgeInsets.all(BlueprintTheme.gridSize * 2),
+            child: isGrid ? _buildGridLayout(item, isEnabled) : _buildListLayout(item, isEnabled),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildListLayout(DemoItem item, bool isEnabled) {
+    return Row(
+      children: [
+        Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: isEnabled ? item.color.withOpacity(0.1) : BlueprintColors.lightGray2,
+            borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
+          ),
+          child: Icon(
+            item.icon,
+            color: isEnabled ? item.color : BlueprintColors.textColorDisabled,
+            size: 24,
+          ),
+        ),
+        const SizedBox(width: BlueprintTheme.gridSize * 1.5),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                item.title,
+                style: TextStyle(
+                  fontSize: BlueprintTheme.fontSize,
+                  fontWeight: FontWeight.w600,
+                  color: isEnabled 
+                      ? (_isDarkMode ? BlueprintColors.darkTextColor : BlueprintColors.textColor)
+                      : BlueprintColors.textColorDisabled,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                item.subtitle,
+                style: TextStyle(
+                  fontSize: BlueprintTheme.fontSizeSmall,
+                  color: isEnabled
+                      ? (_isDarkMode ? BlueprintColors.darkTextColorMuted : BlueprintColors.textColorMuted)
+                      : BlueprintColors.textColorDisabled,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Icon(
+          isEnabled ? Icons.chevron_right : Icons.lock_outline,
+          color: isEnabled 
+              ? (_isDarkMode ? BlueprintColors.darkTextColorMuted : BlueprintColors.textColorMuted)
+              : BlueprintColors.textColorDisabled,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildGridLayout(DemoItem item, bool isEnabled) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color: isEnabled ? item.color.withOpacity(0.1) : BlueprintColors.lightGray2,
+                borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
+              ),
+              child: Icon(
+                item.icon,
+                color: isEnabled ? item.color : BlueprintColors.textColorDisabled,
+                size: 16,
+              ),
+            ),
+            const Spacer(),
+            Icon(
+              isEnabled ? Icons.arrow_forward : Icons.lock_outline,
+              color: isEnabled 
+                  ? (_isDarkMode ? BlueprintColors.darkTextColorMuted : BlueprintColors.textColorMuted)
+                  : BlueprintColors.textColorDisabled,
+              size: 16,
+            ),
+          ],
+        ),
+        const SizedBox(height: BlueprintTheme.gridSize * 0.75),
+        Text(
+          item.title,
+          style: TextStyle(
+            fontSize: BlueprintTheme.fontSize,
+            fontWeight: FontWeight.w600,
+            color: isEnabled 
+                ? (_isDarkMode ? BlueprintColors.darkTextColor : BlueprintColors.textColor)
+                : BlueprintColors.textColorDisabled,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(height: 2),
+        Text(
+          item.subtitle,
+          style: TextStyle(
+            fontSize: BlueprintTheme.fontSizeSmall,
+            color: isEnabled
+                ? (_isDarkMode ? BlueprintColors.darkTextColorMuted : BlueprintColors.textColorMuted)
+                : BlueprintColors.textColorDisabled,
+          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
     );
   }
 }
