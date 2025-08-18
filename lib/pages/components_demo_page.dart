@@ -6,7 +6,7 @@ import '../components/blueprint_tag.dart';
 import '../components/blueprint_icon.dart';
 import '../components/blueprint_collapse.dart';
 import '../components/blueprint_card.dart';
-import '../components/blueprint_tooltip.dart';
+import '../components/tooltip/blueprint_tooltip_with_arrow.dart';
 import '../components/blueprint_switch.dart';
 import '../components/demo_page_scaffold.dart';
 
@@ -368,32 +368,33 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
           spacing: BlueprintTheme.gridSize * 2,
           runSpacing: BlueprintTheme.gridSize,
           children: [
-            BlueprintTooltips.simple(
+            BlueprintTooltipsWithArrow.simple(
               content: 'This is a basic tooltip',
               child: BlueprintButton(
-                text: 'Hover me',
+                text: 'Tap me',
                 variant: BlueprintButtonVariant.minimal,
               ),
             ),
-            BlueprintTooltips.forButton(
+            BlueprintTooltipsWithArrow.compact(
               content: 'Save your work',
-              button: BlueprintButton(
+              child: BlueprintButton(
                 text: 'Save',
                 intent: BlueprintIntent.primary,
                 icon: Icons.save,
                 onPressed: () => _showSnackBar('Saved!'),
               ),
             ),
-            BlueprintTooltips.simple(
+            // TEST: Using el_tooltip wrapper instead
+            BlueprintTooltipsWithArrow.simple(
               content: 'Enable or disable the feature',
               child: BlueprintSwitches.simple(
                 value: _isAdvancedOpen,
                 onChanged: (value) => setState(() => _isAdvancedOpen = value),
               ),
             ),
-            BlueprintTooltips.forIcon(
+            BlueprintTooltipsWithArrow.compact(
               content: 'Settings',
-              icon: BlueprintIcons.settings(),
+              child: BlueprintIcons.settings(),
             ),
           ],
         ),
@@ -404,22 +405,22 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
           spacing: BlueprintTheme.gridSize * 2,
           runSpacing: BlueprintTheme.gridSize,
           children: [
-            BlueprintTooltips.intent(
+            BlueprintTooltipsWithArrow.intent(
               content: 'Primary action',
               intent: BlueprintIntent.primary,
               child: BlueprintIcons.primary(icon: Icons.star),
             ),
-            BlueprintTooltips.intent(
+            BlueprintTooltipsWithArrow.intent(
               content: 'Success state',
               intent: BlueprintIntent.success,
               child: BlueprintIcons.success_check(),
             ),
-            BlueprintTooltips.intent(
+            BlueprintTooltipsWithArrow.intent(
               content: 'Warning message',
               intent: BlueprintIntent.warning,
               child: BlueprintIcons.warning_triangle(),
             ),
-            BlueprintTooltips.intent(
+            BlueprintTooltipsWithArrow.intent(
               content: 'Danger zone',
               intent: BlueprintIntent.danger,
               child: BlueprintIcons.error(),
@@ -434,36 +435,32 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
             padding: const EdgeInsets.all(BlueprintTheme.gridSize * 4),
             child: Column(
               children: [
-                BlueprintTooltips.simple(
+                BlueprintTooltipsWithArrow.simple(
                   content: 'Top tooltip',
-                  position: BlueprintTooltipPosition.top,
                   child: BlueprintTags.simple(text: 'Top', intent: BlueprintIntent.primary),
                 ),
                 const SizedBox(height: BlueprintTheme.gridSize * 2),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    BlueprintTooltips.simple(
+                    BlueprintTooltipsWithArrow.simple(
                       content: 'Left tooltip',
-                      position: BlueprintTooltipPosition.left,
                       child: BlueprintTags.simple(text: 'Left', intent: BlueprintIntent.success),
                     ),
-                    BlueprintTooltips.compact(
+                    BlueprintTooltipsWithArrow.compact(
                       content: 'Compact tooltip',
                       child: BlueprintTags.simple(text: 'Compact', intent: BlueprintIntent.warning),
                     ),
-                    BlueprintTooltips.simple(
+                    BlueprintTooltipsWithArrow.simple(
                       content: 'Right tooltip',
-                      position: BlueprintTooltipPosition.right,
                       child: BlueprintTags.simple(text: 'Right', intent: BlueprintIntent.danger),
                     ),
                   ],
                 ),
                 const SizedBox(height: BlueprintTheme.gridSize * 2),
-                BlueprintTooltips.minimal(
-                  content: 'Minimal bottom tooltip',
-                  position: BlueprintTooltipPosition.bottom,
-                  child: BlueprintTags.minimal(text: 'Bottom & Minimal'),
+                BlueprintTooltipsWithArrow.compact(
+                  content: 'Compact bottom tooltip',
+                  child: BlueprintTags.minimal(text: 'Bottom & Compact'),
                 ),
               ],
             ),
@@ -474,6 +471,7 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
   }
 
   void _showSnackBar(String message) {
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),

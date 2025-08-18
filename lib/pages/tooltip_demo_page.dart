@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
-import '../components/blueprint_tooltip.dart';
+import '../components/tooltip/blueprint_tooltip_with_arrow.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_card.dart';
 import '../components/blueprint_switch.dart';
@@ -65,7 +65,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
         spacing: BlueprintTheme.gridSize * 2,
         runSpacing: BlueprintTheme.gridSize * 2,
         children: [
-          BlueprintTooltips.simple(
+          BlueprintTooltipsWithArrow.simple(
             content: 'This is a basic tooltip',
             disabled: !_tooltipsEnabled,
             child: const BlueprintButton(
@@ -73,7 +73,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
               intent: BlueprintIntent.primary,
             ),
           ),
-          BlueprintTooltips.simple(
+          BlueprintTooltipsWithArrow.simple(
             content: 'Tooltips can contain longer text that wraps to multiple lines when needed',
             disabled: !_tooltipsEnabled,
             child: const BlueprintButton(
@@ -81,7 +81,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
               intent: BlueprintIntent.success,
             ),
           ),
-          BlueprintTooltip(
+          BlueprintTooltipsWithArrow.simple(
             content: 'Icon buttons work great with tooltips',
             disabled: !_tooltipsEnabled,
             child: IconButton(
@@ -103,27 +103,24 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              BlueprintTooltips.simple(
+              BlueprintTooltipsWithArrow.simple(
                 content: 'Top Left',
-                position: BlueprintTooltipPosition.topLeft,
                 disabled: !_tooltipsEnabled,
                 child: const BlueprintButton(
                   text: 'Top Left',
                   size: BlueprintButtonSize.small,
                 ),
               ),
-              BlueprintTooltips.simple(
+              BlueprintTooltipsWithArrow.simple(
                 content: 'Top Center',
-                position: BlueprintTooltipPosition.top,
                 disabled: !_tooltipsEnabled,
                 child: const BlueprintButton(
                   text: 'Top',
                   size: BlueprintButtonSize.small,
                 ),
               ),
-              BlueprintTooltips.simple(
+              BlueprintTooltipsWithArrow.simple(
                 content: 'Top Right',
-                position: BlueprintTooltipPosition.topRight,
                 disabled: !_tooltipsEnabled,
                 child: const BlueprintButton(
                   text: 'Top Right',
@@ -137,18 +134,16 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              BlueprintTooltips.simple(
+              BlueprintTooltipsWithArrow.simple(
                 content: 'Left Side',
-                position: BlueprintTooltipPosition.left,
                 disabled: !_tooltipsEnabled,
                 child: const BlueprintButton(
                   text: 'Left',
                   size: BlueprintButtonSize.small,
                 ),
               ),
-              BlueprintTooltips.simple(
+              BlueprintTooltipsWithArrow.simple(
                 content: 'Right Side',
-                position: BlueprintTooltipPosition.right,
                 disabled: !_tooltipsEnabled,
                 child: const BlueprintButton(
                   text: 'Right',
@@ -162,27 +157,24 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              BlueprintTooltips.simple(
+              BlueprintTooltipsWithArrow.simple(
                 content: 'Bottom Left',
-                position: BlueprintTooltipPosition.bottomLeft,
                 disabled: !_tooltipsEnabled,
                 child: const BlueprintButton(
                   text: 'Bottom Left',
                   size: BlueprintButtonSize.small,
                 ),
               ),
-              BlueprintTooltips.simple(
+              BlueprintTooltipsWithArrow.simple(
                 content: 'Bottom Center',
-                position: BlueprintTooltipPosition.bottom,
                 disabled: !_tooltipsEnabled,
                 child: const BlueprintButton(
                   text: 'Bottom',
                   size: BlueprintButtonSize.small,
                 ),
               ),
-              BlueprintTooltips.simple(
+              BlueprintTooltipsWithArrow.simple(
                 content: 'Bottom Right',
-                position: BlueprintTooltipPosition.bottomRight,
                 disabled: !_tooltipsEnabled,
                 child: const BlueprintButton(
                   text: 'Bottom Right',
@@ -202,7 +194,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
         spacing: BlueprintTheme.gridSize * 2,
         runSpacing: BlueprintTheme.gridSize * 2,
         children: [
-          BlueprintTooltips.intent(
+          BlueprintTooltipsWithArrow.intent(
             content: 'Primary intent tooltip',
             intent: BlueprintIntent.primary,
             disabled: !_tooltipsEnabled,
@@ -211,7 +203,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
               intent: BlueprintIntent.primary,
             ),
           ),
-          BlueprintTooltips.intent(
+          BlueprintTooltipsWithArrow.intent(
             content: 'Success intent tooltip',
             intent: BlueprintIntent.success,
             disabled: !_tooltipsEnabled,
@@ -220,7 +212,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
               intent: BlueprintIntent.success,
             ),
           ),
-          BlueprintTooltips.intent(
+          BlueprintTooltipsWithArrow.intent(
             content: 'Warning intent tooltip',
             intent: BlueprintIntent.warning,
             disabled: !_tooltipsEnabled,
@@ -229,7 +221,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
               intent: BlueprintIntent.warning,
             ),
           ),
-          BlueprintTooltips.intent(
+          BlueprintTooltipsWithArrow.intent(
             content: 'Danger intent tooltip',
             intent: BlueprintIntent.danger,
             disabled: !_tooltipsEnabled,
@@ -256,7 +248,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
           Wrap(
             spacing: BlueprintTheme.gridSize * 2,
             children: [
-              BlueprintTooltips.compact(
+              BlueprintTooltipsWithArrow.compact(
                 content: 'Compact tooltip with less padding',
                 disabled: !_tooltipsEnabled,
                 child: const BlueprintButton(
@@ -264,7 +256,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
                   size: BlueprintButtonSize.small,
                 ),
               ),
-              BlueprintTooltips.simple(
+              BlueprintTooltipsWithArrow.simple(
                 content: 'Normal tooltip with standard padding',
                 disabled: !_tooltipsEnabled,
                 child: const BlueprintButton(
@@ -280,7 +272,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
             style: TextStyle(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: BlueprintTheme.gridSize),
-          BlueprintTooltips.minimal(
+          BlueprintTooltipsWithArrow.compact(
             content: 'Minimal tooltip without arrow',
             disabled: !_tooltipsEnabled,
             child: const BlueprintButton(
@@ -320,7 +312,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
           const SizedBox(height: BlueprintTheme.gridSize),
           Row(
             children: [
-              BlueprintTooltips.simple(
+              BlueprintTooltipsWithArrow.simple(
                 content: 'Save document',
                 disabled: !_tooltipsEnabled,
                 child: IconButton(
@@ -328,7 +320,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
                   onPressed: () => _showSnackBar('Save clicked'),
                 ),
               ),
-              BlueprintTooltips.simple(
+              BlueprintTooltipsWithArrow.simple(
                 content: 'Open file',
                 disabled: !_tooltipsEnabled,
                 child: IconButton(
@@ -336,7 +328,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
                   onPressed: () => _showSnackBar('Open clicked'),
                 ),
               ),
-              BlueprintTooltips.simple(
+              BlueprintTooltipsWithArrow.simple(
                 content: 'Print document',
                 disabled: !_tooltipsEnabled,
                 child: IconButton(
@@ -345,7 +337,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
                 ),
               ),
               const VerticalDivider(),
-              BlueprintTooltips.simple(
+              BlueprintTooltipsWithArrow.simple(
                 content: 'Cut selection',
                 disabled: !_tooltipsEnabled,
                 child: IconButton(
@@ -353,7 +345,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
                   onPressed: () => _showSnackBar('Cut clicked'),
                 ),
               ),
-              BlueprintTooltips.simple(
+              BlueprintTooltipsWithArrow.simple(
                 content: 'Copy selection',
                 disabled: !_tooltipsEnabled,
                 child: IconButton(
@@ -361,7 +353,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
                   onPressed: () => _showSnackBar('Copy clicked'),
                 ),
               ),
-              BlueprintTooltips.simple(
+              BlueprintTooltipsWithArrow.simple(
                 content: 'Paste from clipboard',
                 disabled: !_tooltipsEnabled,
                 child: IconButton(
@@ -416,9 +408,8 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
           ),
         ),
         const SizedBox(width: BlueprintTheme.gridSize),
-        BlueprintTooltips.simple(
+        BlueprintTooltipsWithArrow.simple(
           content: helpText,
-          position: BlueprintTooltipPosition.left,
           disabled: !_tooltipsEnabled,
           child: Icon(
             helpIcon,
@@ -433,9 +424,8 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
     return Row(
       children: [
         Expanded(
-          child: BlueprintTooltips.simple(
+          child: BlueprintTooltipsWithArrow.simple(
             content: 'Click to expand this card and view more details',
-            position: BlueprintTooltipPosition.top,
             disabled: !_tooltipsEnabled,
             child: BlueprintCard(
               elevation: BlueprintElevation.one,
@@ -503,6 +493,7 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
   }
 
   void _showSnackBar(String message) {
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
