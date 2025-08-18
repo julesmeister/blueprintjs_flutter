@@ -59,16 +59,15 @@ class BlueprintMenu extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     
     return Container(
-      width: width ?? 200,
-      padding: padding ?? const EdgeInsets.symmetric(vertical: 4),
+      width: width ?? BlueprintTheme.menuMinWidth,
       decoration: BoxDecoration(
-        color: isDark ? BlueprintColors.dark3 : BlueprintColors.light5,
-        borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
+        color: isDark ? BlueprintColors.dark3 : BlueprintColors.white, // $menu-background-color: $white
+        borderRadius: BorderRadius.circular(2), // $menu-item-border-radius: 2px
         border: Border.all(
           color: isDark ? BlueprintColors.dark1 : BlueprintColors.gray5,
           width: 1,
         ),
-        boxShadow: BlueprintTheme.elevation2,
+        // No boxShadow - Blueprint menus use only borders, not shadows
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -81,13 +80,20 @@ class BlueprintMenu extends StatelessWidget {
   List<Widget> _buildMenuItems(BuildContext context, bool isDark) {
     final List<Widget> widgets = [];
     
-    for (final item in items) {
+    // Add top padding
+    widgets.add(const SizedBox(height: 5));
+    
+    for (int i = 0; i < items.length; i++) {
+      final item = items[i];
       if (item is BlueprintMenuItem) {
         widgets.add(_buildMenuItem(context, item, isDark));
       } else if (item is BlueprintMenuDivider) {
         widgets.add(_buildMenuDivider(context, item, isDark));
       }
     }
+    
+    // Add bottom padding
+    widgets.add(const SizedBox(height: 5));
     
     return widgets;
   }
@@ -128,11 +134,20 @@ class BlueprintMenu extends StatelessWidget {
       color: backgroundColor ?? Colors.transparent,
       child: InkWell(
         onTap: item.disabled ? null : item.onTap,
-        child: Container(
+        hoverColor: item.disabled 
+            ? Colors.transparent 
+            : (isDark 
+                ? Colors.transparent // Dark theme uses different hover logic
+                : const Color(0x26738694)), // rgba(115, 134, 148, 0.15)
+        child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: large ? 8 : 6,
+            horizontal: 5, // Menu-level padding
           ),
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: large ? BlueprintTheme.menuItemPaddingLarge : BlueprintTheme.menuItemPadding,
+              vertical: large ? 7 : 5, // Calculated from button height - line height
+            ),
           child: Row(
             children: [
               if (item.icon != null) ...[
@@ -141,24 +156,25 @@ class BlueprintMenu extends StatelessWidget {
                   size: large ? 18 : 16,
                   color: textColor,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 7),
               ],
               Expanded(
                 child: Text(
                   item.text,
                   style: TextStyle(
                     fontSize: large ? BlueprintTheme.fontSizeLarge : BlueprintTheme.fontSize,
+                    height: 1.4, // $menu-item-line-height-factor: 1.4
                     color: textColor,
                     fontWeight: item.selected ? FontWeight.w500 : FontWeight.w400,
                   ),
                 ),
               ),
               if (item.trailing != null) ...[
-                const SizedBox(width: 8),
+                const SizedBox(width: 7),
                 item.trailing!,
               ],
               if (effectiveEndIcon != null) ...[
-                const SizedBox(width: 8),
+                const SizedBox(width: 7),
                 Icon(
                   effectiveEndIcon,
                   size: large ? 18 : 16,
@@ -168,6 +184,7 @@ class BlueprintMenu extends StatelessWidget {
             ],
           ),
         ),
+        ),
       ),
     );
   }
@@ -175,23 +192,26 @@ class BlueprintMenu extends StatelessWidget {
   Widget _buildMenuDivider(BuildContext context, BlueprintMenuDivider divider, bool isDark) {
     if (divider.title != null) {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Text(
-          divider.title!,
-          style: TextStyle(
-            fontSize: BlueprintTheme.fontSizeSmall,
-            color: isDark ? BlueprintColors.gray1 : BlueprintColors.gray2,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 0.5,
+        padding: const EdgeInsets.fromLTRB(13, 10, 12, 0), // 5px(menu) + 2px(header) + 6px(heading) = 13px left
+          child: Text(
+            divider.title!.toUpperCase(),
+            style: TextStyle(
+              fontSize: BlueprintTheme.fontSizeSmall,
+              color: isDark ? BlueprintColors.gray1 : BlueprintColors.gray2,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 1.0, // Heading letter spacing
+              height: 1.1, // Tight line height for headers
+            ),
           ),
-        ),
-      );
+        );
     }
     
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
+      margin: const EdgeInsets.only(top: 5),
       height: 1,
-      color: isDark ? BlueprintColors.dark1 : BlueprintColors.gray5,
+      color: isDark 
+          ? const Color(0x30FFFFFF) // $pt-dark-divider-white
+          : const Color(0x15000000), // $pt-divider-black
     );
   }
 }

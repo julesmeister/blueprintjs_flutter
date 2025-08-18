@@ -4,6 +4,8 @@ import '../theme/blueprint_colors.dart';
 import '../components/blueprint_tooltip.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_card.dart';
+import '../components/blueprint_switch.dart';
+import '../components/blueprint_input.dart';
 
 class TooltipDemoPage extends StatefulWidget {
   const TooltipDemoPage({Key? key}) : super(key: key);
@@ -413,11 +415,10 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
     return Row(
       children: [
         Expanded(
-          child: TextField(
-            decoration: InputDecoration(
-              labelText: label,
-              border: const OutlineInputBorder(),
-            ),
+          child: BlueprintInputGroup(
+            placeholder: label,
+            leftIcon: label == 'Username' ? Icons.person : Icons.lock,
+            obscureText: label == 'Password',
           ),
         ),
         const SizedBox(width: BlueprintTheme.gridSize),
@@ -489,19 +490,10 @@ class _TooltipDemoPageState extends State<TooltipDemoPage> {
             ),
           ),
           const SizedBox(height: BlueprintTheme.gridSize),
-          Row(
-            children: [
-              Switch(
-                value: _tooltipsEnabled,
-                onChanged: (value) => setState(() => _tooltipsEnabled = value),
-                activeColor: BlueprintColors.intentPrimary,
-              ),
-              const SizedBox(width: BlueprintTheme.gridSize),
-              Text(
-                _tooltipsEnabled ? 'Tooltips Enabled' : 'Tooltips Disabled',
-                style: const TextStyle(fontSize: BlueprintTheme.fontSize),
-              ),
-            ],
+          BlueprintSwitches.withLabel(
+            value: _tooltipsEnabled,
+            label: _tooltipsEnabled ? 'Tooltips Enabled' : 'Tooltips Disabled',
+            onChanged: (value) => setState(() => _tooltipsEnabled = value),
           ),
           const SizedBox(height: BlueprintTheme.gridSize),
           const Text(

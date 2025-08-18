@@ -316,3 +316,62 @@ class BlueprintCardSection extends StatelessWidget {
     );
   }
 }
+
+class BlueprintCircleAvatar extends StatelessWidget {
+  final String text;
+  final Color backgroundColor;
+  final Color? textColor;
+  final double? size;
+  final double? fontSize;
+  final FontWeight? fontWeight;
+  final double verticalOffset;
+
+  const BlueprintCircleAvatar({
+    Key? key,
+    required this.text,
+    required this.backgroundColor,
+    this.textColor = Colors.white,
+    this.size = 40,
+    this.fontSize = 16,
+    this.fontWeight = FontWeight.w600,
+    this.verticalOffset = -1,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: Stack(
+        children: [
+          Container(
+            width: size,
+            height: size,
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              shape: BoxShape.circle,
+            ),
+          ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.center,
+              child: Transform.translate(
+                offset: Offset(0, verticalOffset),
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    color: textColor,
+                    fontWeight: fontWeight,
+                    fontSize: fontSize,
+                    height: 1.0,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -59,6 +59,7 @@ class _BlueprintTabsState extends State<BlueprintTabs>
     with TickerProviderStateMixin {
   late String _selectedTabId;
   late TabController _tabController;
+  bool _updatingFromParent = false;
 
   @override
   void initState() {
@@ -80,14 +81,6 @@ class _BlueprintTabsState extends State<BlueprintTabs>
   void didUpdateWidget(BlueprintTabs oldWidget) {
     super.didUpdateWidget(oldWidget);
     
-    if (widget.selectedTabId != null && widget.selectedTabId != _selectedTabId) {
-      _selectedTabId = widget.selectedTabId!;
-      final newIndex = _getTabIndex(_selectedTabId);
-      if (newIndex != _tabController.index) {
-        _tabController.animateTo(newIndex);
-      }
-    }
-    
     if (widget.tabs.length != oldWidget.tabs.length) {
       _tabController.dispose();
       _tabController = TabController(
@@ -96,6 +89,20 @@ class _BlueprintTabsState extends State<BlueprintTabs>
         initialIndex: _getTabIndex(_selectedTabId),
       );
       _tabController.addListener(_handleTabControllerChange);
+    }
+    
+    if (widget.selectedTabId != null && widget.selectedTabId != _selectedTabId) {
+      _updatingFromParent = true;
+      _selectedTabId = widget.selectedTabId!;
+      final newIndex = _getTabIndex(_selectedTabId);
+      if (newIndex != _tabController.index && _tabController.length > 0) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted && _tabController.length > newIndex) {
+            _tabController.animateTo(newIndex);
+          }
+        });
+      }
+      _updatingFromParent = false;
     }
   }
 
@@ -111,24 +118,44 @@ class _BlueprintTabsState extends State<BlueprintTabs>
   }
 
   void _handleTabControllerChange() {
-    if (!_tabController.indexIsChanging && _tabController.index >= 0 && _tabController.index < widget.tabs.length) {
+    if (!mounted) return;
+    
+    if (!_tabController.indexIsChanging && 
+        _tabController.index >= 0 && 
+        _tabController.index < widget.tabs.length &&
+        widget.tabs.isNotEmpty) {
       final newTabId = widget.tabs[_tabController.index].id;
       if (newTabId != _selectedTabId) {
         setState(() {
           _selectedTabId = newTabId;
         });
-        widget.onTabChanged?.call(newTabId);
+        // Only call onTabChanged if this change originated from user interaction,
+        // not from external selectedTabId changes
+        if (!_updatingFromParent) {
+          widget.onTabChanged?.call(newTabId);
+        }
       }
     }
   }
 
   double get _tabHeight {
+    double baseHeight;
     switch (widget.size) {
       case BlueprintTabSize.medium:
-        return BlueprintTheme.buttonHeight;
+        baseHeight = BlueprintTheme.buttonHeight;
+        break;
       case BlueprintTabSize.large:
-        return BlueprintTheme.buttonHeightLarge;
+        baseHeight = BlueprintTheme.buttonHeightLarge;
+        break;
     }
+    
+    // Add extra height if any tabs have badges to prevent cramping
+    bool hasBadges = widget.tabs.any((tab) => tab.badge != null);
+    if (hasBadges) {
+      return baseHeight + 4; // Add 4px extra height for badge accommodation
+    }
+    
+    return baseHeight;
   }
 
   double get _fontSize {
@@ -155,41 +182,53 @@ class _BlueprintTabsState extends State<BlueprintTabs>
                   : BlueprintColors.textColorMuted),
         ),
       );
-      children.add(const SizedBox(width: BlueprintTheme.gridSize * 0.6));
+      children.add(const SizedBox(width: 7)); // Blueprint.js uses exactly 7px
     }
 
     children.add(
-      Text(
-        tab.title,
-        style: TextStyle(
-          fontSize: _fontSize,
-          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-          color: tab.disabled
-              ? BlueprintColors.textColorDisabled
-              : (isSelected
-                  ? BlueprintColors.textColor
-                  : BlueprintColors.textColorMuted),
+      Transform.translate(
+        offset: const Offset(0, -1), // Move text up slightly to center with icon
+        child: Text(
+          tab.title,
+          style: TextStyle(
+            fontSize: _fontSize,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+            color: tab.disabled
+                ? BlueprintColors.textColorDisabled
+                : (isSelected
+                    ? BlueprintColors.textColor
+                    : BlueprintColors.textColorMuted),
+            height: 1.0, // Tight line height
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );
 
     if (tab.badge != null) {
-      children.add(const SizedBox(width: BlueprintTheme.gridSize * 0.6));
+      children.add(const SizedBox(width: 7)); // Blueprint.js uses exactly 7px
       children.add(
-        Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: BlueprintTheme.gridSize * 0.6,
-            vertical: BlueprintTheme.gridSize * 0.2,
-          ),
-          decoration: BoxDecoration(
-            color: BlueprintColors.gray3,
-            borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
-          ),
-          child: Text(
-            tab.badge!,
-            style: const TextStyle(
-              fontSize: BlueprintTheme.fontSizeSmall,
-              color: Colors.white,
+        SizedBox(
+          height: _fontSize, // Match the text height
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 6,
+                vertical: 2, // Reduced padding to fit in constrained height
+              ),
+              decoration: BoxDecoration(
+                color: BlueprintColors.gray3,
+                borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
+              ),
+              child: Text(
+                tab.badge!,
+                style: const TextStyle(
+                  fontSize: BlueprintTheme.fontSizeSmall,
+                  color: Colors.white,
+                  height: 1.0,
+                ),
+              ),
             ),
           ),
         ),
@@ -198,6 +237,7 @@ class _BlueprintTabsState extends State<BlueprintTabs>
 
     return Row(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: children,
     );
   }
@@ -232,25 +272,15 @@ class _BlueprintTabsState extends State<BlueprintTabs>
               ),
               indicatorSize: TabBarIndicatorSize.tab,
               dividerColor: Colors.transparent,
-              overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.hovered)) {
-                    return BlueprintColors.lightGray2;
-                  }
-                  if (states.contains(MaterialState.pressed)) {
-                    return BlueprintColors.lightGray1;
-                  }
-                  return null;
-                },
-              ),
+              overlayColor: MaterialStateProperty.all(Colors.transparent),
               tabs: widget.tabs.map((tab) {
                 final isSelected = tab.id == _selectedTabId;
                 return Container(
                   height: _tabHeight,
                   padding: EdgeInsets.symmetric(
                     horizontal: BlueprintTheme.gridSize,
-                    vertical: BlueprintTheme.gridSize * 0.6,
                   ),
+                  alignment: Alignment.center,
                   child: _buildTabContent(tab, isSelected),
                 );
               }).toList(),
@@ -267,19 +297,35 @@ class _BlueprintTabsState extends State<BlueprintTabs>
   }
 
   Widget _buildTabBarView() {
+    if (widget.tabs.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    
     if (widget.renderActiveTabPanelOnly) {
-      final selectedTab = widget.tabs.firstWhere((tab) => tab.id == _selectedTabId);
-      return selectedTab.content;
+      final selectedTab = widget.tabs.where((tab) => tab.id == _selectedTabId).firstOrNull;
+      return selectedTab?.content ?? const SizedBox.shrink();
     }
 
-    return TabBarView(
-      controller: _tabController,
-      children: widget.tabs.map((tab) => tab.content).toList(),
+    return SizedBox(
+      height: 250, // Fixed height to prevent layout issues
+      child: TabBarView(
+        controller: _tabController,
+        children: widget.tabs.map((tab) => 
+          SingleChildScrollView(
+            key: ValueKey(tab.id),
+            child: tab.content,
+          )
+        ).toList(),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.tabs.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    
     if (widget.vertical) {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -297,35 +343,34 @@ class _BlueprintTabsState extends State<BlueprintTabs>
             child: Column(
               children: widget.tabs.map((tab) {
                 final isSelected = tab.id == _selectedTabId;
-                return Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: tab.disabled
-                        ? null
-                        : () {
-                            final index = _getTabIndex(tab.id);
-                            _tabController.animateTo(index);
-                          },
-                    child: Container(
-                      width: double.infinity,
-                      height: _tabHeight,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: BlueprintTheme.gridSize,
-                        vertical: BlueprintTheme.gridSize * 0.6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? BlueprintColors.lightGray3
-                            : Colors.transparent,
-                        border: isSelected
-                            ? const Border(
-                                left: BorderSide(
-                                  color: BlueprintColors.intentPrimary,
-                                  width: 3,
-                                ),
-                              )
-                            : null,
-                      ),
+                return GestureDetector(
+                  onTap: tab.disabled
+                      ? null
+                      : () {
+                          final index = _getTabIndex(tab.id);
+                          _tabController.animateTo(index);
+                        },
+                  child: Container(
+                    width: double.infinity,
+                    height: _tabHeight,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: BlueprintTheme.gridSize,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? BlueprintColors.lightGray3
+                          : Colors.transparent,
+                      border: isSelected
+                          ? const Border(
+                              left: BorderSide(
+                                color: BlueprintColors.intentPrimary,
+                                width: 3,
+                              ),
+                            )
+                          : null,
+                    ),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
                       child: _buildTabContent(tab, isSelected),
                     ),
                   ),
@@ -341,12 +386,11 @@ class _BlueprintTabsState extends State<BlueprintTabs>
     }
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _buildTabBar(),
-        if (widget.fill)
-          Expanded(child: _buildTabBarView())
-        else
-          Flexible(child: _buildTabBarView()),
+        _buildTabBarView(),
       ],
     );
   }

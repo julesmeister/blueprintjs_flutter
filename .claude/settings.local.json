@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:blueprintjs.com)",
+      "Bash(git add:*)",
+      "Bash(flutter run:*)",
+      "Bash(cmd.exe /c \"cd /d C:\\Users\\User\\Documents\\blueprint_flutter_demo && flutter run -d windows\")",
+      "Bash(cmd.exe /c \"C:\\Users\\User\\Documents\\blueprint_flutter_demo\\run-windows.bat\")",
+      "Bash(\"C:\\flutter\\bin\\flutter\" build windows)",
+      "Bash(cmd.exe /c \"where flutter\")",
+      "Bash(cmd.exe:*)",
+      "Bash(setx:*)",
+      "Bash(set PATH=%PATH%)",
+      "Bash(C:flutterbin)",
+      "Bash(flutter analyze:*)",
+      "Bash(C:flutterbinflutter analyze)",
+      "Bash(find:*)",
+      "Bash(\"C:\\flutter\\bin\\flutter\" analyze)",
+      "Bash(\"C:\\flutter\\bin\\flutter\" run -d windows)",
+      "Bash(\"C:\\flutter\\bin\\flutter\" clean)",
+      "WebFetch(domain:unpkg.com)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(mv:*)",
+      "Bash(rm:*)",
+      "Bash(\"C:\\flutter\\bin\\flutter\" build windows --debug)"
+    ],
+    "deny": [],
+    "ask": [],
+    "additionalDirectories": [
+      "C:\\mnt\\c\\Users\\User\\Documents"
+    ]
+  }
+}

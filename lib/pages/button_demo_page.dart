@@ -187,10 +187,9 @@ class ButtonDemoPage extends StatelessWidget {
           onPressed: () {},
         ),
         BlueprintButton(
-          text: 'Full Width',
+          text: 'Primary Button',
           intent: BlueprintIntent.primary,
-          fill: true,
-          onPressed: () => _showSnackBar(context, 'Full width button pressed'),
+          onPressed: () => _showSnackBar(context, 'Primary button pressed'),
         ),
       ],
     );

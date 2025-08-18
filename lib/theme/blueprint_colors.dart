@@ -78,4 +78,17 @@ class BlueprintColors {
   // Divider colors
   static const Color dividerBlack = Color(0x26000000);
   static const Color dividerBlackMuted = Color(0x1A000000);
+  
+  // Additional colors for components
+  static const Color dark1 = darkGray1;
+  static const Color dark2 = darkGray2;
+  static const Color dark3 = darkGray3;
+  static const Color light1 = lightGray1;
+  static const Color light3 = lightGray3;
+  static const Color light4 = lightGray4;
+  static const Color light5 = lightGray5;
+  
+  // Extended purple and indigo colors
+  static const Color purple3 = Color(0xFF9179F2);
+  static const Color indigo3 = Color(0xFF5C7CFA);
 }

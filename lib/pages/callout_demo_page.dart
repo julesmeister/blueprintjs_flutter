@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import '../components/blueprint_callout.dart';
+import '../components/blueprint_switch.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_card.dart';
 
@@ -332,19 +333,10 @@ class _CalloutDemoPageState extends State<CalloutDemoPage> {
   Widget _buildControlRow(String label, bool value, Function(bool) onChanged) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: BlueprintTheme.gridSize * 0.5),
-      child: Row(
-        children: [
-          Switch(
-            value: value,
-            onChanged: onChanged,
-            activeColor: BlueprintColors.intentPrimary,
-          ),
-          const SizedBox(width: BlueprintTheme.gridSize),
-          Text(
-            label,
-            style: const TextStyle(fontSize: BlueprintTheme.fontSize),
-          ),
-        ],
+      child: BlueprintSwitches.withLabel(
+        value: value,
+        label: label,
+        onChanged: onChanged,
       ),
     );
   }

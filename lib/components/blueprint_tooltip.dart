@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
-import '../components/blueprint_button.dart';
+import 'blueprint_button.dart';
 
 enum BlueprintTooltipPosition {
   top,
@@ -65,7 +65,7 @@ class _BlueprintTooltipState extends State<BlueprintTooltip>
       end: 1.0,
     ).animate(CurvedAnimation(
       parent: _animationController,
-      curve: Curves.easeInOut,
+      curve: Curves.easeOut,
     ));
   }
 
@@ -99,27 +99,23 @@ class _BlueprintTooltipState extends State<BlueprintTooltip>
 
   OverlayEntry _createOverlayEntry() {
     final renderBox = context.findRenderObject() as RenderBox;
-    final size = renderBox.size;
-    final offset = renderBox.localToGlobal(Offset.zero);
+    final targetSize = renderBox.size;
+    final targetOffset = renderBox.localToGlobal(Offset.zero);
+    final screenSize = MediaQuery.of(context).size;
 
     return OverlayEntry(
-      builder: (context) => Positioned(
-        child: AnimatedBuilder(
-          animation: _fadeAnimation,
-          builder: (context, child) => Opacity(
-            opacity: _fadeAnimation.value,
-            child: _TooltipPopup(
-              content: widget.content,
-              intent: widget.intent,
-              position: widget.position,
-              compact: widget.compact,
-              minimal: widget.minimal,
-              targetOffset: offset,
-              targetSize: size,
-              maxWidth: widget.maxWidth,
-            ),
-          ),
-        ),
+      builder: (context) => _TooltipOverlay(
+        content: widget.content,
+        intent: widget.intent,
+        position: widget.position,
+        compact: widget.compact,
+        minimal: widget.minimal,
+        targetOffset: targetOffset,
+        targetSize: targetSize,
+        screenSize: screenSize,
+        maxWidth: widget.maxWidth,
+        animationController: _animationController,
+        fadeAnimation: _fadeAnimation,
       ),
     );
   }
@@ -160,7 +156,7 @@ class _BlueprintTooltipState extends State<BlueprintTooltip>
   }
 }
 
-class _TooltipPopup extends StatelessWidget {
+class _TooltipOverlay extends StatelessWidget {
   final String content;
   final BlueprintIntent intent;
   final BlueprintTooltipPosition position;
@@ -168,9 +164,12 @@ class _TooltipPopup extends StatelessWidget {
   final bool minimal;
   final Offset targetOffset;
   final Size targetSize;
+  final Size screenSize;
   final double? maxWidth;
+  final AnimationController animationController;
+  final Animation<double> fadeAnimation;
 
-  const _TooltipPopup({
+  const _TooltipOverlay({
     required this.content,
     required this.intent,
     required this.position,
@@ -178,78 +177,219 @@ class _TooltipPopup extends StatelessWidget {
     required this.minimal,
     required this.targetOffset,
     required this.targetSize,
+    required this.screenSize,
     this.maxWidth,
+    required this.animationController,
+    required this.fadeAnimation,
   });
 
   @override
   Widget build(BuildContext context) {
-    final tooltipOffset = _calculateTooltipOffset();
-    final arrowOffset = _calculateArrowOffset();
-
+    final tooltipMaxWidth = maxWidth ?? 200.0;
+    
+    // Blueprint.js uses 4px spacing from target (arrow-target-offset: -4px)
+    const spacing = 4.0;
+    const arrowSize = 22.0; // Blueprint's 22px arrow-square-size for tooltips
+    const arrowHalfSize = 11.0;
+    
+    final calculatedPosition = _calculatePosition(spacing, tooltipMaxWidth);
+    
     return Positioned(
-      left: tooltipOffset.dx,
-      top: tooltipOffset.dy,
-      child: Material(
-        color: Colors.transparent,
-        child: Container(
-          constraints: BoxConstraints(
-            maxWidth: maxWidth ?? 300,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (!minimal && _shouldShowArrowAbove()) _buildArrow(true),
-              _buildTooltipContent(),
-              if (!minimal && !_shouldShowArrowAbove()) _buildArrow(false),
-            ],
+      left: calculatedPosition.dx,
+      top: calculatedPosition.dy,
+      child: AnimatedBuilder(
+        animation: fadeAnimation,
+        builder: (context, child) => FadeTransition(
+          opacity: fadeAnimation,
+          child: Material(
+            color: Colors.transparent,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                // Arrow/caret (behind content)
+                if (!minimal) _buildArrow(arrowHalfSize),
+                // Tooltip content (in front)
+                Container(
+                  constraints: BoxConstraints(maxWidth: tooltipMaxWidth),
+                  decoration: BoxDecoration(
+                    color: _getBackgroundColor(),
+                    borderRadius: BorderRadius.circular(3),
+                    boxShadow: minimal ? null : [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: compact ? 7 : 12,
+                    vertical: compact ? 5 : 10,
+                  ),
+                  child: Text(
+                    content,
+                    style: TextStyle(
+                      color: _getTextColor(),
+                      fontSize: compact ? 11 : 14,
+                      decoration: TextDecoration.none,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildTooltipContent() {
-    return Container(
-      padding: EdgeInsets.all(compact ? BlueprintTheme.gridSize * 0.5 : BlueprintTheme.gridSize),
-      decoration: BoxDecoration(
-        color: _getTooltipColor(),
-        borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Text(
-        content,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: compact ? BlueprintTheme.fontSizeSmall : BlueprintTheme.fontSize,
-          height: 1.3,
+  Offset _calculatePosition(double spacing, double tooltipMaxWidth) {
+    double dx = 0;
+    double dy = 0;
+    const tooltipHeight = 32.0; // Approximate height
+    
+    // Calculate base position
+    switch (position) {
+      case BlueprintTooltipPosition.top:
+        dx = targetOffset.dx + (targetSize.width / 2) - (tooltipMaxWidth / 2);
+        dy = targetOffset.dy - tooltipHeight - spacing;
+        break;
+      case BlueprintTooltipPosition.bottom:
+        dx = targetOffset.dx + (targetSize.width / 2) - (tooltipMaxWidth / 2);
+        dy = targetOffset.dy + targetSize.height + spacing;
+        break;
+      case BlueprintTooltipPosition.left:
+        dx = targetOffset.dx - tooltipMaxWidth - spacing;
+        dy = targetOffset.dy + (targetSize.height / 2) - (tooltipHeight / 2);
+        break;
+      case BlueprintTooltipPosition.right:
+        dx = targetOffset.dx + targetSize.width + spacing;
+        dy = targetOffset.dy + (targetSize.height / 2) - (tooltipHeight / 2);
+        break;
+      case BlueprintTooltipPosition.topLeft:
+        dx = targetOffset.dx;
+        dy = targetOffset.dy - tooltipHeight - spacing;
+        break;
+      case BlueprintTooltipPosition.topRight:
+        dx = targetOffset.dx + targetSize.width - tooltipMaxWidth;
+        dy = targetOffset.dy - tooltipHeight - spacing;
+        break;
+      case BlueprintTooltipPosition.bottomLeft:
+        dx = targetOffset.dx;
+        dy = targetOffset.dy + targetSize.height + spacing;
+        break;
+      case BlueprintTooltipPosition.bottomRight:
+        dx = targetOffset.dx + targetSize.width - tooltipMaxWidth;
+        dy = targetOffset.dy + targetSize.height + spacing;
+        break;
+    }
+    
+    // Constrain to screen bounds
+    dx = dx.clamp(8.0, screenSize.width - tooltipMaxWidth - 8.0);
+    dy = dy.clamp(8.0, screenSize.height - tooltipHeight - 8.0);
+    
+    return Offset(dx, dy);
+  }
+
+  Widget _buildArrow(double arrowHalfSize) {
+    double? left, top, right, bottom;
+    
+    // Position arrow relative to the tooltip container
+    switch (position) {
+      case BlueprintTooltipPosition.top:
+      case BlueprintTooltipPosition.topLeft:
+      case BlueprintTooltipPosition.topRight:
+        // Arrow below tooltip, pointing down
+        bottom = -arrowHalfSize + 3; // Blueprint: translateY(-3px)
+        if (position == BlueprintTooltipPosition.topLeft) {
+          left = 16;
+        } else if (position == BlueprintTooltipPosition.topRight) {
+          right = 16;
+        } else {
+          left = null; // Will be centered by not setting left/right
+        }
+        break;
+      case BlueprintTooltipPosition.bottom:
+      case BlueprintTooltipPosition.bottomLeft:
+      case BlueprintTooltipPosition.bottomRight:
+        // Arrow above tooltip, pointing up
+        top = -arrowHalfSize - 3; // Blueprint: translateY(3px)
+        if (position == BlueprintTooltipPosition.bottomLeft) {
+          left = 16;
+        } else if (position == BlueprintTooltipPosition.bottomRight) {
+          right = 16;
+        } else {
+          left = null; // Will be centered
+        }
+        break;
+      case BlueprintTooltipPosition.left:
+        // Arrow to the right of tooltip, pointing right
+        right = -arrowHalfSize + 3; // Blueprint: translateX(-3px)
+        top = null; // Will be centered vertically
+        break;
+      case BlueprintTooltipPosition.right:
+        // Arrow to the left of tooltip, pointing left
+        left = -arrowHalfSize - 3; // Blueprint: translateX(3px)
+        top = null; // Will be centered vertically
+        break;
+    }
+    
+    Widget arrow = Transform.rotate(
+      angle: 0.785398, // 45 degrees in radians
+      child: Container(
+        width: arrowHalfSize * 1.41421356, // sqrt(2) * halfsize for diagonal
+        height: arrowHalfSize * 1.41421356,
+        decoration: BoxDecoration(
+          color: _getBackgroundColor(),
+          borderRadius: BorderRadius.circular(2),
         ),
       ),
     );
+    
+    // Center the arrow if left/top are not specified
+    if (left == null && right == null) {
+      // Horizontally centered
+      return Positioned(
+        left: 0,
+        right: 0,
+        top: top,
+        bottom: bottom,
+        child: Align(
+          alignment: Alignment.center,
+          child: arrow,
+        ),
+      );
+    } else if (top == null && bottom == null) {
+      // Vertically centered
+      return Positioned(
+        left: left,
+        right: right,
+        top: 0,
+        bottom: 0,
+        child: Align(
+          alignment: Alignment.center,
+          child: arrow,
+        ),
+      );
+    } else {
+      // Fixed position
+      return Positioned(
+        left: left,
+        right: right,
+        top: top,
+        bottom: bottom,
+        child: arrow,
+      );
+    }
   }
 
-  Widget _buildArrow(bool pointsUp) {
-    return CustomPaint(
-      size: const Size(12, 6),
-      painter: _ArrowPainter(
-        color: _getTooltipColor(),
-        pointsUp: pointsUp,
-      ),
-    );
-  }
 
-  bool _shouldShowArrowAbove() {
-    return position == BlueprintTooltipPosition.bottom ||
-           position == BlueprintTooltipPosition.bottomLeft ||
-           position == BlueprintTooltipPosition.bottomRight;
-  }
-
-  Color _getTooltipColor() {
+  Color _getBackgroundColor() {
+    if (minimal) {
+      return BlueprintColors.lightGray1;
+    }
+    
     switch (intent) {
       case BlueprintIntent.primary:
         return BlueprintColors.intentPrimary;
@@ -264,94 +404,11 @@ class _TooltipPopup extends StatelessWidget {
     }
   }
 
-  Offset _calculateTooltipOffset() {
-    const arrowSize = 6.0;
-    const spacing = 8.0;
-
-    switch (position) {
-      case BlueprintTooltipPosition.top:
-        return Offset(
-          targetOffset.dx + (targetSize.width / 2) - 150, // Assuming max width 300, center it
-          targetOffset.dy - spacing - arrowSize,
-        );
-      case BlueprintTooltipPosition.bottom:
-        return Offset(
-          targetOffset.dx + (targetSize.width / 2) - 150,
-          targetOffset.dy + targetSize.height + spacing + arrowSize,
-        );
-      case BlueprintTooltipPosition.left:
-        return Offset(
-          targetOffset.dx - spacing - 300, // Max width
-          targetOffset.dy + (targetSize.height / 2) - 20, // Estimate tooltip height
-        );
-      case BlueprintTooltipPosition.right:
-        return Offset(
-          targetOffset.dx + targetSize.width + spacing,
-          targetOffset.dy + (targetSize.height / 2) - 20,
-        );
-      case BlueprintTooltipPosition.topLeft:
-        return Offset(
-          targetOffset.dx,
-          targetOffset.dy - spacing - arrowSize,
-        );
-      case BlueprintTooltipPosition.topRight:
-        return Offset(
-          targetOffset.dx + targetSize.width - 300,
-          targetOffset.dy - spacing - arrowSize,
-        );
-      case BlueprintTooltipPosition.bottomLeft:
-        return Offset(
-          targetOffset.dx,
-          targetOffset.dy + targetSize.height + spacing + arrowSize,
-        );
-      case BlueprintTooltipPosition.bottomRight:
-        return Offset(
-          targetOffset.dx + targetSize.width - 300,
-          targetOffset.dy + targetSize.height + spacing + arrowSize,
-        );
+  Color _getTextColor() {
+    if (minimal) {
+      return BlueprintColors.textColor;
     }
-  }
-
-  Offset _calculateArrowOffset() {
-    // This would be used for more precise arrow positioning
-    // For now, arrows are centered in their containers
-    return Offset.zero;
-  }
-}
-
-class _ArrowPainter extends CustomPainter {
-  final Color color;
-  final bool pointsUp;
-
-  _ArrowPainter({required this.color, required this.pointsUp});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
-
-    final path = Path();
-
-    if (pointsUp) {
-      // Arrow pointing up
-      path.moveTo(size.width / 2, 0);
-      path.lineTo(0, size.height);
-      path.lineTo(size.width, size.height);
-    } else {
-      // Arrow pointing down
-      path.moveTo(0, 0);
-      path.lineTo(size.width, 0);
-      path.lineTo(size.width / 2, size.height);
-    }
-
-    path.close();
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(_ArrowPainter oldDelegate) {
-    return oldDelegate.color != color || oldDelegate.pointsUp != pointsUp;
+    return Colors.white;
   }
 }
 
@@ -416,4 +473,32 @@ class BlueprintTooltips {
       child: child,
     );
   }
+
+  static Widget forButton({
+    required Widget button,
+    required String content,
+    BlueprintTooltipPosition position = BlueprintTooltipPosition.top,
+  }) {
+    return BlueprintTooltip(
+      content: content,
+      position: position,
+      compact: true,
+      child: button,
+    );
+  }
+
+  static Widget forIcon({
+    required Widget icon,
+    required String content,
+    BlueprintTooltipPosition position = BlueprintTooltipPosition.top,
+  }) {
+    return BlueprintTooltip(
+      content: content,
+      position: position,
+      compact: true,
+      minimal: true,
+      child: icon,
+    );
+  }
 }
+

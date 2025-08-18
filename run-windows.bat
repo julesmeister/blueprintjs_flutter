@@ -5,6 +5,10 @@ echo.
 echo 🚀 Launching Blueprint Flutter Demo on Windows...
 echo.
 
-C:\flutter\bin\flutter.bat run -d windows
+REM Add Flutter to PATH for this session
+set PATH=%PATH%;C:\flutter\bin
+
+REM Try flutter command
+flutter run -d windows
 
 pause

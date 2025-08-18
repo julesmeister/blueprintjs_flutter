@@ -30,7 +30,6 @@ class BlueprintButton extends StatefulWidget {
   final BlueprintIntent intent;
   final BlueprintButtonVariant variant;
   final BlueprintButtonSize size;
-  final bool fill;
   final bool loading;
   final bool disabled;
   final VoidCallback? onPressed;
@@ -44,7 +43,6 @@ class BlueprintButton extends StatefulWidget {
     this.intent = BlueprintIntent.none,
     this.variant = BlueprintButtonVariant.solid,
     this.size = BlueprintButtonSize.medium,
-    this.fill = false,
     this.loading = false,
     this.disabled = false,
     this.onPressed,
@@ -79,6 +77,17 @@ class _BlueprintButtonState extends State<BlueprintButton> {
     }
   }
 
+  double get _fontSize {
+    switch (widget.size) {
+      case BlueprintButtonSize.small:
+        return BlueprintTheme.fontSizeSmall;
+      case BlueprintButtonSize.medium:
+        return BlueprintTheme.fontSize;
+      case BlueprintButtonSize.large:
+        return BlueprintTheme.fontSizeLarge;
+    }
+  }
+
   Color get _intentColor {
     switch (widget.intent) {
       case BlueprintIntent.primary:
@@ -98,19 +107,42 @@ class _BlueprintButtonState extends State<BlueprintButton> {
     if (widget.disabled) {
       return widget.variant == BlueprintButtonVariant.minimal
           ? Colors.transparent
-          : BlueprintColors.lightGray2;
+          : BlueprintColors.lightGray1.withOpacity(0.5);
     }
 
     switch (widget.variant) {
       case BlueprintButtonVariant.solid:
         if (widget.intent != BlueprintIntent.none) {
-          return _intentColor;
+          // Handle all intent buttons with proper hover states
+          switch (widget.intent) {
+            case BlueprintIntent.primary:
+              if (_isHovered) return BlueprintColors.blue2;
+              return BlueprintColors.blue3;
+            case BlueprintIntent.success:
+              if (_isHovered) return BlueprintColors.green2;
+              return BlueprintColors.green3;
+            case BlueprintIntent.warning:
+              // Special case - warning uses orange5 (light) with dark text
+              if (_isHovered) return BlueprintColors.orange4;
+              return BlueprintColors.orange5;
+            case BlueprintIntent.danger:
+              if (_isHovered) return BlueprintColors.red2;
+              return BlueprintColors.red3;
+            case BlueprintIntent.none:
+              break;
+          }
         }
-        return _isHovered ? BlueprintColors.lightGray2 : BlueprintColors.lightGray3;
+        return _isHovered ? BlueprintColors.lightGray4 : BlueprintColors.lightGray5;
       case BlueprintButtonVariant.minimal:
-        return _isHovered ? BlueprintColors.lightGray2 : Colors.transparent;
+        if (_isHovered) {
+          return BlueprintColors.gray3.withOpacity(0.15);
+        }
+        return Colors.transparent;
       case BlueprintButtonVariant.outlined:
-        return _isHovered ? BlueprintColors.lightGray2 : Colors.transparent;
+        if (_isHovered) {
+          return BlueprintColors.gray3.withOpacity(0.15);
+        }
+        return Colors.transparent;
     }
   }
 
@@ -122,6 +154,10 @@ class _BlueprintButtonState extends State<BlueprintButton> {
     switch (widget.variant) {
       case BlueprintButtonVariant.solid:
         if (widget.intent != BlueprintIntent.none) {
+          // Special case for warning - uses dark text instead of white
+          if (widget.intent == BlueprintIntent.warning) {
+            return BlueprintColors.textColor;
+          }
           return Colors.white;
         }
         return BlueprintColors.textColor;
@@ -134,16 +170,72 @@ class _BlueprintButtonState extends State<BlueprintButton> {
     }
   }
 
-  BorderSide? get _borderSide {
-    if (widget.variant == BlueprintButtonVariant.outlined) {
-      return BorderSide(
-        color: widget.disabled
-            ? BlueprintColors.dividerBlackMuted
-            : (widget.intent != BlueprintIntent.none ? _intentColor : BlueprintColors.gray3),
-        width: 1,
-      );
+  EdgeInsetsGeometry _getPadding() {
+    switch (widget.size) {
+      case BlueprintButtonSize.small:
+        return EdgeInsets.symmetric(
+          horizontal: BlueprintTheme.gridSize * 0.7,
+          vertical: 0,
+        );
+      case BlueprintButtonSize.medium:
+        return EdgeInsets.symmetric(
+          horizontal: BlueprintTheme.gridSize,
+          vertical: BlueprintTheme.gridSize * 0.5,
+        );
+      case BlueprintButtonSize.large:
+        return EdgeInsets.symmetric(
+          horizontal: BlueprintTheme.gridSize * 1.5,
+          vertical: BlueprintTheme.gridSize * 0.5,
+        );
     }
-    return null;
+  }
+
+  Border? get _border {
+    if (widget.variant == BlueprintButtonVariant.minimal) {
+      return null;
+    }
+    
+    if (widget.disabled) {
+      return null;
+    }
+    
+    // For outlined buttons, we need a visible border
+    if (widget.variant == BlueprintButtonVariant.outlined) {
+      final borderColor = widget.intent != BlueprintIntent.none 
+          ? _intentColor.withOpacity(0.6) 
+          : BlueprintColors.gray3.withOpacity(0.4);
+      return Border.all(color: borderColor, width: 1);
+    }
+    
+    // For solid buttons, we use a subtle border
+    return Border.all(
+      color: Colors.black.withOpacity(0.2), 
+      width: 1,
+    );
+  }
+
+  List<BoxShadow> get _boxShadow {
+    if (widget.variant == BlueprintButtonVariant.minimal) {
+      return [];
+    }
+    
+    if (widget.disabled) {
+      return [];
+    }
+    
+    // Only solid buttons get a very subtle drop shadow
+    if (widget.variant == BlueprintButtonVariant.solid) {
+      return [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.05),
+          offset: const Offset(0, 1),
+          blurRadius: 1,
+          spreadRadius: 0,
+        ),
+      ];
+    }
+    
+    return [];
   }
 
   Widget _buildContent() {
@@ -169,12 +261,19 @@ class _BlueprintButtonState extends State<BlueprintButton> {
     
     if (widget.text != null || widget.child != null) {
       children.add(
-        DefaultTextStyle(
-          style: TextStyle(
-            color: _foregroundColor,
-            fontWeight: FontWeight.w500,
+        Flexible(
+          child: DefaultTextStyle(
+            style: TextStyle(
+              color: _foregroundColor,
+              fontWeight: FontWeight.w400,
+              fontSize: _fontSize,
+            ),
+            child: widget.child ?? Text(
+              widget.text!,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
-          child: widget.child ?? Text(widget.text!),
         ),
       );
     }
@@ -195,9 +294,7 @@ class _BlueprintButtonState extends State<BlueprintButton> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      type: MaterialType.button,
-      color: _backgroundColor,
-      borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
+      type: MaterialType.transparency,
       child: InkWell(
         onTap: widget.disabled || widget.loading ? null : widget.onPressed,
         onHover: (hovering) => setState(() => _isHovered = hovering),
@@ -205,16 +302,13 @@ class _BlueprintButtonState extends State<BlueprintButton> {
         child: Container(
           constraints: BoxConstraints(
             minHeight: _buttonHeight,
-            minWidth: widget.fill ? double.infinity : 0,
           ),
-          width: widget.fill ? double.infinity : null,
-          padding: EdgeInsets.symmetric(
-            horizontal: BlueprintTheme.gridSize,
-            vertical: BlueprintTheme.gridSize * 0.6,
-          ),
+          padding: _getPadding(),
           decoration: BoxDecoration(
-            border: _borderSide != null ? Border.fromBorderSide(_borderSide!) : null,
+            color: _backgroundColor,
             borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
+            border: _border,
+            boxShadow: _boxShadow,
           ),
           child: Center(
             child: _buildContent(),

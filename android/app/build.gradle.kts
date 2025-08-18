@@ -8,7 +8,6 @@ plugins {
 android {
     namespace = "com.example.blueprint_flutter_demo"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -28,6 +27,10 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {

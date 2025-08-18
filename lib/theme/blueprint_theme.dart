@@ -11,6 +11,11 @@ class BlueprintTheme {
   static const double buttonHeightSmall = gridSize * 2.4;
   static const double buttonHeightLarge = gridSize * 4;
   
+  // Menu constants
+  static const double menuMinWidth = gridSize * 18; // 180px
+  static const double menuItemPadding = (buttonHeight - 16) * 0.5; // 7px
+  static const double menuItemPaddingLarge = (buttonHeightLarge - 16) * 0.5; // 12px
+  
   // Typography
   static const double fontSize = gridSize * 1.4;
   static const double fontSizeLarge = gridSize * 1.6;

@@ -3,6 +3,7 @@ import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import '../components/blueprint_navbar.dart';
 import '../components/blueprint_button.dart';
+import '../components/blueprint_switch.dart';
 
 class NavbarDemoPage extends StatefulWidget {
   const NavbarDemoPage({Key? key}) : super(key: key);
@@ -125,24 +126,10 @@ class _NavbarDemoPageState extends State<NavbarDemoPage> {
       children: [
         const BlueprintNavbarHeading(text: 'Company'),
         const SizedBox(width: 32),
-        ...tabs.map((tab) => Padding(
-          padding: const EdgeInsets.only(right: 8),
-          child: ElevatedButton(
-            onPressed: () => _selectTab(tab),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: selectedTab == tab 
-                  ? BlueprintColors.intentPrimary 
-                  : Colors.transparent,
-              foregroundColor: selectedTab == tab 
-                  ? Colors.white 
-                  : BlueprintColors.gray1,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
-              ),
-            ),
-            child: Text(tab),
-          ),
+        ...tabs.map((tab) => _NavbarTab(
+          text: tab,
+          isSelected: selectedTab == tab,
+          onTap: () => _selectTab(tab),
         )),
       ],
     );
@@ -169,14 +156,32 @@ class _NavbarDemoPageState extends State<NavbarDemoPage> {
               : BlueprintColors.light4,
           borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
         ),
-        child: TextField(
-          decoration: InputDecoration(
-            hintText: 'Search...',
-            prefixIcon: const Icon(Icons.search, size: 20),
-            border: InputBorder.none,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          ),
-          onSubmitted: (value) => _showNotification('Searching for: $value'),
+        child: Row(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 12, right: 8),
+              child: Icon(Icons.search, size: 16, color: BlueprintColors.gray2),
+            ),
+            Expanded(
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                  hintStyle: TextStyle(
+                    fontSize: 14,
+                    color: BlueprintColors.gray3,
+                  ),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 0,
+                    vertical: (36 - 14 * 1.2) / 2,
+                  ),
+                  isDense: true,
+                ),
+                style: const TextStyle(fontSize: 14),
+                onSubmitted: (value) => _showNotification('Searching for: $value'),
+              ),
+            ),
+          ],
         ),
       ),
       end: Row(
@@ -211,7 +216,7 @@ class _NavbarDemoPageState extends State<NavbarDemoPage> {
           child: const Text('Link 2'),
         ),
         const Spacer(),
-        Switch(
+        BlueprintSwitch(
           value: isDarkMode,
           onChanged: (value) {
             setState(() {
@@ -311,6 +316,91 @@ class _NavbarDemoPageState extends State<NavbarDemoPage> {
       SnackBar(
         content: Text(message),
         duration: const Duration(seconds: 1),
+      ),
+    );
+  }
+}
+
+class _NavbarTab extends StatefulWidget {
+  final String text;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _NavbarTab({
+    required this.text,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  State<_NavbarTab> createState() => _NavbarTabState();
+}
+
+class _NavbarTabState extends State<_NavbarTab> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    // Exact Blueprint.js minimal button colors from SCSS
+    Color getBackgroundColor() {
+      if (widget.isSelected) {
+        return BlueprintColors.blue3; // intent-primary active
+      }
+      
+      if (_isHovered) {
+        return BlueprintColors.gray3.withOpacity(0.15); // minimal-button-background-color-hover
+      }
+      
+      return Colors.transparent; // minimal-button-background-color: none
+    }
+
+    Color getTextColor() {
+      if (widget.isSelected) {
+        return Colors.white; // intent text color
+      }
+      
+      return isDark ? Colors.white : BlueprintColors.dark1; // pt-text-color
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(right: 4),
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _isHovered = true),
+        onExit: (_) => setState(() => _isHovered = false),
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
+          child: InkWell(
+            onTap: widget.onTap,
+            borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
+            child: Container(
+              constraints: const BoxConstraints(
+                minHeight: 30, // Blueprint button height: 3 * 10px
+                minWidth: 30,
+              ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10, // Blueprint button padding: 1 * 10px
+                vertical: 5,    // Blueprint button padding: 0.5 * 10px
+              ),
+              decoration: BoxDecoration(
+                color: getBackgroundColor(),
+                borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
+              ),
+              child: Center(
+                child: Text(
+                  widget.text,
+                  style: TextStyle(
+                    fontSize: BlueprintTheme.fontSize,
+                    color: getTextColor(),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

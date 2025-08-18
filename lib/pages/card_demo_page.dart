@@ -224,9 +224,9 @@ class CardDemoPage extends StatelessWidget {
           child: BlueprintCardHeader(
             title: 'Card List Item 1',
             subtitle: 'This is the first item in a card list',
-            leading: const CircleAvatar(
+            leading: const BlueprintCircleAvatar(
+              text: '1',
               backgroundColor: BlueprintColors.intentPrimary,
-              child: Text('1', style: TextStyle(color: Colors.white)),
             ),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () => _showSnackBar(context, 'Card 1 tapped'),
@@ -236,9 +236,9 @@ class CardDemoPage extends StatelessWidget {
           child: BlueprintCardHeader(
             title: 'Card List Item 2',
             subtitle: 'This is the second item in a card list',
-            leading: const CircleAvatar(
+            leading: const BlueprintCircleAvatar(
+              text: '2',
               backgroundColor: BlueprintColors.intentSuccess,
-              child: Text('2', style: TextStyle(color: Colors.white)),
             ),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () => _showSnackBar(context, 'Card 2 tapped'),
@@ -248,9 +248,9 @@ class CardDemoPage extends StatelessWidget {
           child: BlueprintCardHeader(
             title: 'Card List Item 3',
             subtitle: 'This is the third item in a card list',
-            leading: const CircleAvatar(
+            leading: const BlueprintCircleAvatar(
+              text: '3',
               backgroundColor: BlueprintColors.intentWarning,
-              child: Text('3', style: TextStyle(color: Colors.white)),
             ),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () => _showSnackBar(context, 'Card 3 tapped'),
