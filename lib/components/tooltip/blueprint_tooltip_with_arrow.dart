@@ -31,47 +31,53 @@ class _BlueprintTooltipWithArrowState extends State<BlueprintTooltipWithArrow> {
     final backgroundColor = widget.backgroundColor ?? const Color(0xFF394B59);
     final textColor = widget.textColor ?? Colors.white;
 
-    return Tooltip(
-      message: widget.content,
-      decoration: ShapeDecoration(
-        color: backgroundColor,
-        shape: TooltipShapeBorder(
-          arrowWidth: 12,
-          arrowHeight: 6,
-          borderRadius: 3,
+    return TooltipTheme(
+      data: TooltipThemeData(
+        preferBelow: false,
+        verticalOffset: 24,
+      ),
+      child: Tooltip(
+        message: widget.content,
+        decoration: ShapeDecoration(
+          color: backgroundColor,
+          shape: TooltipShapeBorder(
+            arrowWidth: 12,
+            arrowHeight: 6,
+            borderRadius: 3,
+          ),
+          shadows: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              offset: const Offset(0, 0),
+              blurRadius: 0,
+              spreadRadius: 1,
+            ),
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.2),
+              offset: const Offset(0, 2),
+              blurRadius: 4,
+            ),
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.2),
+              offset: const Offset(0, 8),
+              blurRadius: 24,
+            ),
+          ],
         ),
-        shadows: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            offset: const Offset(0, 0),
-            blurRadius: 0,
-            spreadRadius: 1,
-          ),
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            offset: const Offset(0, 2),
-            blurRadius: 4,
-          ),
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            offset: const Offset(0, 8),
-            blurRadius: 24,
-          ),
-        ],
+        textStyle: TextStyle(
+          color: textColor,
+          fontSize: widget.compact ? 11 : 12,
+          fontWeight: FontWeight.normal,
+          height: 1.33, // Blueprint line height
+        ),
+        padding: EdgeInsets.symmetric(
+          horizontal: widget.compact ? 7 : 12,
+          vertical: widget.compact ? 5 : 10,
+        ),
+        waitDuration: const Duration(milliseconds: 100),
+        showDuration: const Duration(seconds: 30),
+        child: widget.child,
       ),
-      textStyle: TextStyle(
-        color: textColor,
-        fontSize: widget.compact ? 11 : 12,
-        fontWeight: FontWeight.normal,
-        height: 1.33, // Blueprint line height
-      ),
-      padding: EdgeInsets.symmetric(
-        horizontal: widget.compact ? 7 : 12,
-        vertical: widget.compact ? 5 : 10,
-      ),
-      waitDuration: const Duration(milliseconds: 100),
-      showDuration: const Duration(seconds: 30),
-      child: widget.child,
     );
   }
 }
