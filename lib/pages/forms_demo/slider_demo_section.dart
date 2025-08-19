@@ -34,12 +34,13 @@ class _SliderDemoSectionState extends State<SliderDemoSection> {
               ),
             ),
             const SizedBox(height: 8),
-            BlueprintSliders.simple(
+            BlueprintSlider(
               value: _basicSlider,
               onChanged: (value) => setState(() => _basicSlider = value),
               min: 0.0,
               max: 100.0,
               divisions: 10,
+              label: '${_basicSlider.round()}',
             ),
             const SizedBox(height: 16),
             
@@ -51,12 +52,16 @@ class _SliderDemoSectionState extends State<SliderDemoSection> {
               ),
             ),
             const SizedBox(height: 8),
-            BlueprintSliders.range(
+            BlueprintRangeSlider(
               values: _rangeSlider,
               onChanged: (values) => setState(() => _rangeSlider = values),
               min: 0.0,
               max: 100.0,
               divisions: 10,
+              labels: RangeLabels(
+                '${_rangeSlider.start.round()}',
+                '${_rangeSlider.end.round()}',
+              ),
             ),
             const SizedBox(height: 16),
             
@@ -68,13 +73,14 @@ class _SliderDemoSectionState extends State<SliderDemoSection> {
               ),
             ),
             const SizedBox(height: 8),
-            BlueprintSliders.withIntent(
+            BlueprintSlider(
               value: _intentSlider,
               intent: BlueprintIntent.success,
               onChanged: (value) => setState(() => _intentSlider = value),
               min: 0.0,
               max: 100.0,
               divisions: 20,
+              label: '${(_intentSlider).toStringAsFixed(1)}%',
             ),
             const SizedBox(height: 16),
             
@@ -88,13 +94,16 @@ class _SliderDemoSectionState extends State<SliderDemoSection> {
                   ),
                 ),
                 const SizedBox(width: 32),
-                BlueprintSliders.vertical(
+                BlueprintSlider(
                   value: _verticalSlider,
                   onChanged: (value) => setState(() => _verticalSlider = value),
                   min: 0.0,
                   max: 100.0,
                   divisions: 10,
                   intent: BlueprintIntent.warning,
+                  label: '£${_verticalSlider.round()},000',
+                  vertical: true,
+                  showLabels: false,
                 ),
               ],
             ),
