@@ -65,7 +65,9 @@
       "Bash(r)",
       "WebSearch",
       "WebFetch(domain:app.unpkg.com)",
-      "Bash(git clone:*)"
+      "Bash(git clone:*)",
+      "Bash(\"C:\\flutter\\bin\\flutter\" analyze lib/components/blueprint_numeric_input.dart)",
+      "Bash(flutter clean:*)"
     ],
     "deny": [],
     "ask": [],

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.blueprint_flutter_demo"
+    namespace = "com.example.blueprintjs_flutter"
     compileSdk = flutter.compileSdkVersion
 
     compileOptions {

@@ -8,14 +8,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:blueprint_flutter_demo/main.dart';
+import 'package:blueprintjs_flutter/main.dart';
 
 void main() {
-  testWidgets('Blueprint demo app smoke test', (WidgetTester tester) async {
+  testWidgets('Blueprint Flutter components app smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const BlueprintDemoApp());
+    await tester.pumpWidget(const BlueprintFlutterApp());
 
     // Verify that the app loads with the demo navigation
-    expect(find.text('Blueprint Flutter Demo'), findsOneWidget);
+    expect(find.text('Blueprint.js Flutter Components'), findsOneWidget);
   });
 }

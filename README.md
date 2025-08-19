@@ -290,8 +290,8 @@ blueprint_flutter_demo/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/blueprint_flutter_components
-   cd blueprint_flutter_components
+   git clone https://github.com/yourusername/blueprintjs_flutter
+   cd blueprintjs_flutter
    ```
 
 2. **Install dependencies**
@@ -316,16 +316,16 @@ Add this to your project's `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  blueprint_flutter_components:
+  blueprintjs_flutter:
     git:
-      url: https://github.com/yourusername/blueprint_flutter_components
+      url: https://github.com/yourusername/blueprintjs_flutter
       ref: main
 ```
 
 Then import and use:
 
 ```dart
-import 'package:blueprint_flutter_components/blueprint_flutter_components.dart';
+import 'package:blueprintjs_flutter/blueprintjs_flutter.dart';
 
 // Use components in your app
 BlueprintButton(

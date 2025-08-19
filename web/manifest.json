@@ -1,11 +1,11 @@
 {
-    "name": "blueprint_flutter_demo",
-    "short_name": "blueprint_flutter_demo",
+    "name": "blueprintjs_flutter",
+    "short_name": "blueprintjs_flutter",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "A comprehensive Flutter implementation of the Blueprint.js design system.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

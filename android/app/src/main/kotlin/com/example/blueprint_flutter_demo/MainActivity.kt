@@ -1,4 +1,4 @@
-package com.example.blueprint_flutter_demo
+package com.example.blueprintjs_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 

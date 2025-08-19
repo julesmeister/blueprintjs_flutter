@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'theme/blueprint_theme.dart';
 import 'pages/home_page.dart';
 
-/// Main Blueprint Flutter Demo Application
-class BlueprintDemoApp extends StatelessWidget {
-  const BlueprintDemoApp({Key? key}) : super(key: key);
+/// Main Blueprint Flutter Component Library Demo Application
+class BlueprintFlutterApp extends StatelessWidget {
+  const BlueprintFlutterApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Blueprint Flutter Demo',
+      title: 'Blueprint.js Flutter Components',
       theme: BlueprintTheme.lightTheme,
       darkTheme: BlueprintTheme.darkTheme,
       home: const HomePage(),

@@ -1,7 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import '../theme/blueprint_theme.dart';
-import '../theme/blueprint_colors.dart';
 import 'blueprint_button.dart';
 import 'blueprint_input.dart';
 import 'blueprint_common.dart';
@@ -51,6 +47,17 @@ class BlueprintNumericInput extends StatefulWidget {
 class _BlueprintNumericInputState extends State<BlueprintNumericInput> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
+
+  BlueprintInputSize _mapToInputSize(BlueprintButtonSize buttonSize) {
+    switch (buttonSize) {
+      case BlueprintButtonSize.small:
+        return BlueprintInputSize.small;
+      case BlueprintButtonSize.large:
+        return BlueprintInputSize.large;
+      default:
+        return BlueprintInputSize.regular;
+    }
+  }
 
   @override
   void initState() {
@@ -132,6 +139,20 @@ class _BlueprintNumericInputState extends State<BlueprintNumericInput> {
     final parsed = double.tryParse(value);
     if (parsed != null) {
       widget.onValueChange?.call(parsed);
+    }
+  }
+
+  void _handleNumericTextChanged(String value) {
+    // Only allow numeric characters, decimal point, and minus sign
+    final numericRegex = RegExp(r'^-?[0-9]*\.?[0-9]*$');
+    if (value.isEmpty || numericRegex.hasMatch(value)) {
+      _handleTextChanged(value);
+    } else {
+      // Revert to previous valid value
+      _controller.text = widget.value?.toString() ?? '';
+      _controller.selection = TextSelection.fromPosition(
+        TextPosition(offset: _controller.text.length),
+      );
     }
   }
 
@@ -229,16 +250,13 @@ class _BlueprintNumericInputState extends State<BlueprintNumericInput> {
       fill: widget.fill,
       intent: widget.intent,
       leftIcon: widget.leftIcon,
-      leftElement: widget.leftElement,
-      size: widget.size,
+      // leftElement: widget.leftElement, // Not supported in current BlueprintInputGroup
+      size: _mapToInputSize(widget.size),
       keyboardType: TextInputType.numberWithOptions(
         decimal: widget.stepSize != widget.stepSize.round(),
         signed: widget.min == null || widget.min! < 0,
       ),
-      inputFormatters: widget.allowNumericCharactersOnly 
-          ? [FilteringTextInputFormatter.allow(RegExp(r'^-?[0-9]*\.?[0-9]*'))]
-          : null,
-      onChanged: _handleTextChanged,
+      onChanged: widget.allowNumericCharactersOnly ? _handleNumericTextChanged : _handleTextChanged,
     );
 
     if (widget.buttonPosition == "none") {
