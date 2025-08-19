@@ -3,6 +3,7 @@ import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import 'blueprint_button.dart';
 import 'blueprint_common.dart';
+import 'blueprint_dropdown_manager.dart';
 
 class BlueprintSelectOption<T> {
   final T value;
@@ -210,6 +211,9 @@ class _BlueprintSelectState<T> extends State<BlueprintSelect<T>> {
   void _openDropdown() {
     if (_isOpen) return;
 
+    // Register this dropdown with the global manager
+    BlueprintDropdownManager().registerDropdown(_closeDropdown);
+
     setState(() {
       _isOpen = true;
       _filteredOptions = widget.options;
@@ -222,6 +226,9 @@ class _BlueprintSelectState<T> extends State<BlueprintSelect<T>> {
 
   void _closeDropdown() {
     if (!_isOpen) return;
+
+    // Unregister this dropdown with the global manager
+    BlueprintDropdownManager().unregisterDropdown(_closeDropdown);
 
     setState(() {
       _isOpen = false;

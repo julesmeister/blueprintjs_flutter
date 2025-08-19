@@ -37,21 +37,30 @@ class BlueprintFileInput extends StatelessWidget {
     final displayText = hasSelection ? text : (text.isEmpty ? 'Choose file...' : text);
     final displayButtonText = buttonText ?? 'Browse';
     
-    // Calculate button width based on Blueprint.js sizing
+    // Calculate button width and sizing based on Blueprint.js sizing
     double buttonWidth;
-    double buttonPadding;
+    double containerHeight;
+    double horizontalPadding;
+    double fontSize;
+    double iconSize;
     
     if (large) {
       buttonWidth = BlueprintTheme.gridSize * 21.25; // $file-input-button-width-large
-      buttonPadding = (BlueprintTheme.buttonHeightLarge - BlueprintTheme.buttonHeight) * 0.5;
+      containerHeight = BlueprintTheme.buttonHeightLarge;
+      horizontalPadding = 12;
+      fontSize = BlueprintTheme.fontSizeLarge;
+      iconSize = 18;
     } else {
       buttonWidth = BlueprintTheme.gridSize * 17.5; // $file-input-button-width
-      buttonPadding = (BlueprintTheme.buttonHeight - BlueprintTheme.buttonHeightSmall) * 0.5;
+      containerHeight = BlueprintTheme.buttonHeight;
+      horizontalPadding = 10; // Slightly smaller for regular size
+      fontSize = BlueprintTheme.fontSize; // Use regular font size
+      iconSize = 16;
     }
     
     return Container(
       width: fill ? double.infinity : null,
-      height: large ? BlueprintTheme.buttonHeightLarge : BlueprintTheme.buttonHeight,
+      height: containerHeight,
       child: Stack(
         children: [
           // Input background (mimics Blueprint's .bp4-file-upload-input)
@@ -68,52 +77,58 @@ class BlueprintFileInput extends StatelessWidget {
                 width: 1,
               ),
             ),
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: 12,
-                right: buttonWidth + 12, // Space for button
-                top: 8,
-                bottom: 8,
-              ),
-              child: Row(
-                children: [
-                  if (icon != null) ...[
-                    Icon(
-                      icon,
-                      size: large ? 18 : 16,
-                      color: disabled
-                          ? (isDark ? BlueprintColors.gray1 : BlueprintColors.gray3)
-                          : (hasSelection 
-                              ? (isDark ? BlueprintColors.light1 : BlueprintColors.dark1)
-                              : (isDark ? BlueprintColors.gray2 : BlueprintColors.gray3)),
-                    ),
-                    const SizedBox(width: 8),
-                  ],
-                  Expanded(
-                    child: Text(
-                      displayText,
-                      style: TextStyle(
-                        fontSize: large ? BlueprintTheme.fontSizeLarge : BlueprintTheme.fontSize,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: horizontalPadding,
+                  right: buttonWidth + horizontalPadding, // Space for button
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    if (icon != null) ...[
+                      Icon(
+                        icon,
+                        size: iconSize,
                         color: disabled
                             ? (isDark ? BlueprintColors.gray1 : BlueprintColors.gray3)
                             : (hasSelection 
                                 ? (isDark ? BlueprintColors.light1 : BlueprintColors.dark1)
                                 : (isDark ? BlueprintColors.gray2 : BlueprintColors.gray3)),
-                        fontStyle: hasSelection ? FontStyle.normal : FontStyle.italic,
                       ),
-                      overflow: TextOverflow.ellipsis,
+                      const SizedBox(width: 8),
+                    ],
+                    Expanded(
+                      child: DefaultTextStyle(
+                        style: TextStyle(
+                          fontSize: fontSize,
+                          color: disabled
+                              ? (isDark ? BlueprintColors.gray1 : BlueprintColors.gray3)
+                              : (hasSelection 
+                                  ? (isDark ? BlueprintColors.light1 : BlueprintColors.dark1)
+                                  : (isDark ? BlueprintColors.gray2 : BlueprintColors.gray3)),
+                          fontStyle: hasSelection ? FontStyle.normal : FontStyle.italic,
+                          height: 1.0, // Critical for proper text centering
+                        ),
+                        child: Text(
+                          displayText,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
           
           // Button positioned absolutely (mimics Blueprint's ::after pseudo-element)
           Positioned(
-            right: buttonPadding,
-            top: buttonPadding,
-            bottom: buttonPadding,
+            right: 2, // Small margin from edge
+            top: 2,
+            bottom: 2,
             child: Container(
               width: buttonWidth,
               decoration: BoxDecoration(
@@ -130,7 +145,7 @@ class BlueprintFileInput extends StatelessWidget {
                 text: displayButtonText,
                 intent: intent,
                 disabled: disabled,
-                size: large ? BlueprintButtonSize.large : BlueprintButtonSize.small,
+                size: large ? BlueprintButtonSize.large : BlueprintButtonSize.medium,
                 onPressed: onPressed,
                 variant: BlueprintButtonVariant.solid,
               ),

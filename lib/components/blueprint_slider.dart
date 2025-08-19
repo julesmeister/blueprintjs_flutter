@@ -67,14 +67,14 @@ class BlueprintSlider extends StatelessWidget {
         activeTrackColor: disabled ? inactiveColor : activeColor,
         inactiveTrackColor: inactiveColor,
         thumbColor: thumbColor,
-        overlayColor: activeColor.withOpacity(0.1),
+        overlayColor: activeColor.withValues(alpha: 0.1),
         valueIndicatorColor: activeColor,
         valueIndicatorTextStyle: TextStyle(
           color: Colors.white,
           fontSize: BlueprintTheme.fontSizeSmall,
         ),
         trackHeight: 6,
-        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+        thumbShape: const _BlueprintSliderThumbShape(),
         overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
         tickMarkShape: const RoundSliderTickMarkShape(tickMarkRadius: 2),
         activeTickMarkColor: activeColor,
@@ -197,19 +197,19 @@ class BlueprintRangeSlider extends StatelessWidget {
         activeTrackColor: disabled ? inactiveColor : activeColor,
         inactiveTrackColor: inactiveColor,
         thumbColor: thumbColor,
-        overlayColor: activeColor.withOpacity(0.1),
+        overlayColor: activeColor.withValues(alpha: 0.1),
         valueIndicatorColor: activeColor,
         valueIndicatorTextStyle: TextStyle(
           color: Colors.white,
           fontSize: BlueprintTheme.fontSizeSmall,
         ),
         trackHeight: 6,
-        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+        thumbShape: const _BlueprintSliderThumbShape(),
         overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
         rangeTickMarkShape: const RoundRangeSliderTickMarkShape(tickMarkRadius: 2),
         activeTickMarkColor: activeColor,
         inactiveTickMarkColor: inactiveColor,
-        rangeThumbShape: const RoundRangeSliderThumbShape(enabledThumbRadius: 8),
+        rangeThumbShape: const _BlueprintRangeSliderThumbShape(),
       ),
       child: RangeSlider(
         values: values,
@@ -332,5 +332,149 @@ class BlueprintSliders {
       vertical: true,
       showLabels: false,
     );
+  }
+}
+
+/// Custom slider thumb shape that matches Blueprint.js exactly
+/// Blueprint uses 16px x 16px square thumbs with 2px border radius
+class _BlueprintSliderThumbShape extends SliderComponentShape {
+  const _BlueprintSliderThumbShape();
+
+  static const double _thumbSize = 16.0; // $pt-icon-size-standard = 16px
+  static const double _thumbRadius = 8.0; // Half of thumb size
+  static const double _borderRadius = 2.0; // $pt-border-radius = 2px
+
+  @override
+  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
+    return const Size.fromRadius(_thumbRadius);
+  }
+
+  @override
+  void paint(
+    PaintingContext context,
+    Offset center, {
+    required Animation<double> activationAnimation,
+    required Animation<double> enableAnimation,
+    required bool isDiscrete,
+    required TextPainter labelPainter,
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    required TextDirection textDirection,
+    required double value,
+    required double textScaleFactor,
+    required Size sizeWithOverflow,
+  }) {
+    final Canvas canvas = context.canvas;
+    
+    // Create the thumb rectangle (square with rounded corners)
+    final Rect thumbRect = Rect.fromCenter(
+      center: center,
+      width: _thumbSize,
+      height: _thumbSize,
+    );
+    
+    final RRect thumbRRect = RRect.fromRectAndRadius(
+      thumbRect,
+      const Radius.circular(_borderRadius),
+    );
+
+    // Draw shadow first (Blueprint.js box-shadow: 0 1px 1px rgba(black, 0.5))
+    final shadowPaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.15)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.0);
+    
+    final shadowRect = thumbRect.translate(0, 1);
+    final shadowRRect = RRect.fromRectAndRadius(
+      shadowRect,
+      const Radius.circular(_borderRadius),
+    );
+    
+    canvas.drawRRect(shadowRRect, shadowPaint);
+
+    // Draw main thumb background
+    final thumbPaint = Paint()
+      ..color = sliderTheme.thumbColor ?? Colors.white
+      ..style = PaintingStyle.fill;
+    
+    canvas.drawRRect(thumbRRect, thumbPaint);
+
+    // Draw border (Blueprint.js border-shadow: 0 0 0 1px rgba(black, 0.5))
+    final borderPaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.2)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.0;
+    
+    canvas.drawRRect(thumbRRect, borderPaint);
+  }
+}
+
+/// Custom range slider thumb shape that matches Blueprint.js
+class _BlueprintRangeSliderThumbShape extends RangeSliderThumbShape {
+  const _BlueprintRangeSliderThumbShape();
+
+  static const double _thumbSize = 16.0; // $pt-icon-size-standard = 16px
+  static const double _thumbRadius = 8.0; // Half of thumb size
+  static const double _borderRadius = 2.0; // $pt-border-radius = 2px
+
+  @override
+  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
+    return const Size.fromRadius(_thumbRadius);
+  }
+
+  @override
+  void paint(
+    PaintingContext context,
+    Offset center, {
+    required Animation<double> activationAnimation,
+    required Animation<double> enableAnimation,
+    bool isDiscrete = false,
+    bool isEnabled = true,
+    bool isOnTop = false,
+    bool isPressed = false,
+    required SliderThemeData sliderTheme,
+    TextDirection? textDirection,
+    Thumb? thumb,
+  }) {
+    final Canvas canvas = context.canvas;
+    
+    // Create the thumb rectangle (square with rounded corners)
+    final Rect thumbRect = Rect.fromCenter(
+      center: center,
+      width: _thumbSize,
+      height: _thumbSize,
+    );
+    
+    final RRect thumbRRect = RRect.fromRectAndRadius(
+      thumbRect,
+      const Radius.circular(_borderRadius),
+    );
+
+    // Draw shadow first (Blueprint.js box-shadow: 0 1px 1px rgba(black, 0.5))
+    final shadowPaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.15)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.0);
+    
+    final shadowRect = thumbRect.translate(0, 1);
+    final shadowRRect = RRect.fromRectAndRadius(
+      shadowRect,
+      const Radius.circular(_borderRadius),
+    );
+    
+    canvas.drawRRect(shadowRRect, shadowPaint);
+
+    // Draw main thumb background
+    final thumbPaint = Paint()
+      ..color = sliderTheme.thumbColor ?? Colors.white
+      ..style = PaintingStyle.fill;
+    
+    canvas.drawRRect(thumbRRect, thumbPaint);
+
+    // Draw border (Blueprint.js border-shadow: 0 0 0 1px rgba(black, 0.5))
+    final borderPaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.2)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.0;
+    
+    canvas.drawRRect(thumbRRect, borderPaint);
   }
 }
