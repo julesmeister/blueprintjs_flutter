@@ -60,81 +60,80 @@ class _LayoutDemoPageState extends State<LayoutDemoPage> {
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Horizontal Dividers',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: BlueprintColors.gray1,
-              ),
+        children: [
+          Text(
+            'Horizontal Dividers',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              color: BlueprintColors.gray1,
             ),
-            const SizedBox(height: 16),
-            
-            const Text('Content above divider'),
-            BlueprintDividers.horizontal(),
-            const Text('Content below divider'),
-            
-            BlueprintDividers.horizontal(compact: true),
-            const Text('Content with compact divider above'),
-            
-            const SizedBox(height: 20),
-            Text(
-              'Vertical Dividers in Row',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: BlueprintColors.gray1,
-              ),
+          ),
+          const SizedBox(height: 16),
+          
+          const Text('Content above divider'),
+          BlueprintDividers.horizontal(),
+          const Text('Content below divider'),
+          
+          BlueprintDividers.horizontal(compact: true),
+          const Text('Content with compact divider above'),
+          
+          const SizedBox(height: 20),
+          Text(
+            'Vertical Dividers in Row',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              color: BlueprintColors.gray1,
             ),
-            const SizedBox(height: 16),
-            
-            SizedBox(
-              height: 60,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      color: BlueprintColors.blue5,
-                      child: const Center(child: Text('Left Section')),
-                    ),
+          ),
+          const SizedBox(height: 16),
+          
+          SizedBox(
+            height: 60,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    color: BlueprintColors.blue5,
+                    child: const Center(child: Text('Left Section')),
                   ),
-                  BlueprintDividers.vertical(),
-                  Expanded(
-                    child: Container(
-                      color: BlueprintColors.green5,
-                      child: const Center(child: Text('Middle Section')),
-                    ),
+                ),
+                BlueprintDividers.vertical(),
+                Expanded(
+                  child: Container(
+                    color: BlueprintColors.green5,
+                    child: const Center(child: Text('Middle Section')),
                   ),
-                  BlueprintDividers.vertical(),
-                  Expanded(
-                    child: Container(
-                      color: BlueprintColors.orange5,
-                      child: const Center(child: Text('Right Section')),
-                    ),
+                ),
+                BlueprintDividers.vertical(),
+                Expanded(
+                  child: Container(
+                    color: BlueprintColors.orange5,
+                    child: const Center(child: Text('Right Section')),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            
-            const SizedBox(height: 20),
-            Text(
-              'Colored Dividers',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: BlueprintColors.gray1,
-              ),
+          ),
+          
+          const SizedBox(height: 20),
+          Text(
+            'Colored Dividers',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              color: BlueprintColors.gray1,
             ),
-            const SizedBox(height: 16),
-            
-            const Text('Primary color divider'),
-            BlueprintDividers.withColor(BlueprintColors.blue3),
-            const Text('Success color divider'),
-            BlueprintDividers.withColor(BlueprintColors.green3),
-            const Text('Warning color divider'),
-            BlueprintDividers.withColor(BlueprintColors.orange3),
-            const Text('Danger color divider'),
-            BlueprintDividers.withColor(BlueprintColors.red3),
-          ],
-        ),
+          ),
+          const SizedBox(height: 16),
+          
+          const Text('Primary color divider'),
+          BlueprintDividers.withColor(BlueprintColors.blue3),
+          const Text('Success color divider'),
+          BlueprintDividers.withColor(BlueprintColors.green3),
+          const Text('Warning color divider'),
+          BlueprintDividers.withColor(BlueprintColors.orange3),
+          const Text('Danger color divider'),
+          BlueprintDividers.withColor(BlueprintColors.red3),
+        ],
       ),
     );
   }
@@ -358,7 +357,7 @@ class _LayoutDemoPageState extends State<LayoutDemoPage> {
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+            children: [
                 Text(
                   'Dashboard Layout Example',
                   style: const TextStyle(
