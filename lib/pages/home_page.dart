@@ -3,6 +3,7 @@ import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import '../models/demo_item.dart';
 import '../data/demo_items.dart';
+import '../components/blueprint_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -123,27 +124,19 @@ class _HomePageState extends State<HomePage> {
   Widget _buildDemoCard(BuildContext context, DemoItem item, {required bool isGrid}) {
     final isEnabled = item.page != null;
     
-    return Container(
+    return BlueprintCard(
       margin: isGrid ? EdgeInsets.zero : const EdgeInsets.only(bottom: BlueprintTheme.gridSize),
-      child: Material(
-        color: _isDarkMode ? BlueprintColors.darkAppSecondaryBackgroundColor : BlueprintColors.appSecondaryBackgroundColor,
-        borderRadius: BorderRadius.circular(isGrid ? 4 : BlueprintTheme.borderRadius * 2), // Square corners for grid
-        elevation: 1,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(isGrid ? 4 : BlueprintTheme.borderRadius * 2),
-          onTap: isEnabled ? () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => item.page!),
-            );
-          } : null,
-          child: Padding(
-            padding: isGrid 
-                ? const EdgeInsets.all(BlueprintTheme.gridSize * 1.5) // Less compact padding
-                : const EdgeInsets.all(BlueprintTheme.gridSize * 2),
-            child: isGrid ? _buildGridLayout(item, isEnabled) : _buildListLayout(item, isEnabled),
-          ),
-        ),
-      ),
+      interactive: isEnabled,
+      borderRadius: BorderRadius.circular(isGrid ? 4 : BlueprintTheme.borderRadius * 2),
+      padding: isGrid 
+          ? const EdgeInsets.all(BlueprintTheme.gridSize * 1.5)
+          : const EdgeInsets.all(BlueprintTheme.gridSize * 2),
+      onTap: isEnabled ? () {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => item.page!),
+        );
+      } : null,
+      child: isGrid ? _buildGridLayout(item, isEnabled) : _buildListLayout(item, isEnabled),
     );
   }
 

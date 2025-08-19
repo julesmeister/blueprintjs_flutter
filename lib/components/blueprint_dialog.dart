@@ -109,16 +109,22 @@ class BlueprintDialog extends StatelessWidget {
           ),
         ],
       ),
-      child: Padding(
-        padding: EdgeInsets.all(BlueprintTheme.gridSize * 0.5),
+      child: Container(
+        constraints: BoxConstraints(
+          minHeight: isCloseButtonShown ? BlueprintTheme.gridSize * 4.5 : BlueprintTheme.gridSize * 4,
+        ),
+        padding: EdgeInsets.symmetric(
+          horizontal: BlueprintTheme.gridSize * 1.5,
+          vertical: BlueprintTheme.gridSize * 1.0,
+        ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (icon != null) ...[
-              Padding(
-                padding: EdgeInsets.only(
-                  left: BlueprintTheme.gridSize * 0.5,
-                  right: BlueprintTheme.gridSize * 0.75,
-                ),
+              Container(
+                height: 20,
+                width: 20,
+                alignment: Alignment.center,
                 child: IconTheme(
                   data: const IconThemeData(
                     color: BlueprintColors.textColor,
@@ -127,28 +133,40 @@ class BlueprintDialog extends StatelessWidget {
                   child: icon!,
                 ),
               ),
-            ] else ...[
-              SizedBox(width: BlueprintTheme.gridSize * 1.5),
+              SizedBox(width: BlueprintTheme.gridSize * 0.75),
             ],
             if (title != null)
               Expanded(
-                child: DefaultTextStyle(
-                  style: const TextStyle(
-                    color: BlueprintColors.headingColor,
-                    fontSize: BlueprintTheme.fontSize,
-                    fontWeight: FontWeight.w600,
-                    height: 1.0,
+                child: Container(
+                  height: 20,
+                  alignment: Alignment.centerLeft,
+                  child: Transform.translate(
+                    offset: const Offset(0, 1), // Move text down by 1px
+                    child: DefaultTextStyle(
+                      style: const TextStyle(
+                        color: BlueprintColors.headingColor,
+                        fontSize: BlueprintTheme.fontSize,
+                        fontWeight: FontWeight.w600,
+                        height: 1.0,
+                      ),
+                      child: title!,
+                    ),
                   ),
-                  child: title!,
                 ),
               ),
-            if (isCloseButtonShown)
-              BlueprintButton(
-                icon: Icons.close,
-                variant: BlueprintButtonVariant.minimal,
-                size: BlueprintButtonSize.small,
-                onPressed: () => _handleClose(context),
+            if (isCloseButtonShown) ...[
+              SizedBox(width: BlueprintTheme.gridSize * 0.5),
+              Container(
+                height: 20,
+                alignment: Alignment.center,
+                child: BlueprintButton(
+                  icon: Icons.close,
+                  variant: BlueprintButtonVariant.minimal,
+                  size: BlueprintButtonSize.small,
+                  onPressed: () => _handleClose(context),
+                ),
               ),
+            ],
           ],
         ),
       ),
