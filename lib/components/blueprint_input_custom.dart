@@ -254,12 +254,6 @@ class _BlueprintInputGroupCustomState extends State<BlueprintInputGroupCustom> {
                       },
                       onSubmitted: (_) => widget.onSubmitted?.call(),
                       textAlign: TextAlign.start,
-                      textAlignVertical: isMultiLine ? TextAlignVertical.top : TextAlignVertical.center,
-                      // Padding for the text
-                      padding: EdgeInsets.symmetric(
-                        horizontal: widget.leftIcon != null ? 0 : 12,
-                        vertical: isMultiLine ? 10 : 0,
-                      ),
                     ),
                   ),
                   if (widget.rightElement != null) ...[

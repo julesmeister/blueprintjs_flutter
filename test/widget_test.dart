@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:blueprintjs_flutter/main.dart';
+import 'package:blueprintjs_flutter/app.dart';
 
 void main() {
   testWidgets('Blueprint Flutter components app smoke test', (WidgetTester tester) async {
