@@ -1,14 +1,5 @@
 import 'package:flutter/material.dart';
-import '../theme/blueprint_theme.dart';
-import '../theme/blueprint_colors.dart';
-
-enum BlueprintIntent {
-  none,
-  primary,
-  success,
-  warning,
-  danger,
-}
+import 'blueprint_common.dart';
 
 class BlueprintMenuItem {
   final String text;

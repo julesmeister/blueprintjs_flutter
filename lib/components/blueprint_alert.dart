@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../theme/blueprint_theme.dart';
-import '../theme/blueprint_colors.dart';
+import 'blueprint_common.dart';
 import 'blueprint_button.dart';
 
 class BlueprintAlert extends StatelessWidget {
@@ -16,7 +15,7 @@ class BlueprintAlert extends StatelessWidget {
   final Function(bool confirmed)? onClose;
 
   const BlueprintAlert({
-    Key? key,
+    super.key,
     this.title,
     this.content,
     this.confirmText = 'OK',
@@ -27,7 +26,7 @@ class BlueprintAlert extends StatelessWidget {
     this.onConfirm,
     this.onCancel,
     this.onClose,
-  }) : super(key: key);
+  });
 
   Color _getIntentColor() {
     switch (intent) {

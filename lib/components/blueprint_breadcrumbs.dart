@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../theme/blueprint_theme.dart';
-import '../theme/blueprint_colors.dart';
+import 'blueprint_common.dart';
 
 class BlueprintBreadcrumbItem {
   final String text;
@@ -25,14 +24,14 @@ class BlueprintBreadcrumbs extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
 
   const BlueprintBreadcrumbs({
-    Key? key,
+    super.key,
     required this.items,
     this.minVisibleItems = 1,
     this.separator,
     this.textStyle,
     this.currentTextStyle,
     this.padding,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

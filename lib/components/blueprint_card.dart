@@ -1,14 +1,5 @@
 import 'package:flutter/material.dart';
-import '../theme/blueprint_theme.dart';
-import '../theme/blueprint_colors.dart';
-
-enum BlueprintElevation {
-  zero,
-  one,
-  two,
-  three,
-  four,
-}
+import 'blueprint_common.dart';
 
 class BlueprintCard extends StatefulWidget {
   final Widget? child;
@@ -24,7 +15,7 @@ class BlueprintCard extends StatefulWidget {
   final BorderRadius? borderRadius;
 
   const BlueprintCard({
-    Key? key,
+    super.key,
     this.child,
     this.elevation = BlueprintElevation.zero,
     this.interactive = false,
@@ -36,7 +27,7 @@ class BlueprintCard extends StatefulWidget {
     this.margin,
     this.backgroundColor,
     this.borderRadius,
-  }) : super(key: key);
+  });
 
   @override
   State<BlueprintCard> createState() => _BlueprintCardState();
@@ -149,14 +140,14 @@ class BlueprintCardList extends StatelessWidget {
   final String? role;
 
   const BlueprintCardList({
-    Key? key,
+    super.key,
     required this.children,
     this.bordered = true,
     this.compact = false,
     this.padding,
     this.margin,
     this.role,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -209,13 +200,13 @@ class BlueprintCardHeader extends StatelessWidget {
   final VoidCallback? onTap;
 
   const BlueprintCardHeader({
-    Key? key,
+    super.key,
     this.title,
     this.subtitle,
     this.leading,
     this.trailing,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -273,12 +264,12 @@ class BlueprintCardSection extends StatelessWidget {
   final Border? border;
 
   const BlueprintCardSection({
-    Key? key,
+    super.key,
     required this.child,
     this.padding,
     this.backgroundColor,
     this.border,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -305,7 +296,7 @@ class BlueprintCircleAvatar extends StatelessWidget {
   final double verticalOffset;
 
   const BlueprintCircleAvatar({
-    Key? key,
+    super.key,
     required this.text,
     required this.backgroundColor,
     this.textColor = Colors.white,
@@ -313,7 +304,7 @@ class BlueprintCircleAvatar extends StatelessWidget {
     this.fontSize = 16,
     this.fontWeight = FontWeight.w600,
     this.verticalOffset = -1,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

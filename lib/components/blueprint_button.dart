@@ -1,20 +1,5 @@
 import 'package:flutter/material.dart';
-import '../theme/blueprint_theme.dart';
-import '../theme/blueprint_colors.dart';
-
-enum BlueprintIntent {
-  none,
-  primary,
-  success,
-  warning,
-  danger,
-}
-
-enum BlueprintButtonVariant {
-  solid,
-  minimal,
-  outlined,
-}
+import 'blueprint_common.dart';
 
 enum BlueprintButtonSize {
   small,
@@ -35,7 +20,7 @@ class BlueprintButton extends StatefulWidget {
   final VoidCallback? onPressed;
 
   const BlueprintButton({
-    Key? key,
+    super.key,
     this.text,
     this.child,
     this.icon,
@@ -46,7 +31,7 @@ class BlueprintButton extends StatefulWidget {
     this.loading = false,
     this.disabled = false,
     this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   State<BlueprintButton> createState() => _BlueprintButtonState();
@@ -107,7 +92,7 @@ class _BlueprintButtonState extends State<BlueprintButton> {
     if (widget.disabled) {
       return widget.variant == BlueprintButtonVariant.minimal
           ? Colors.transparent
-          : BlueprintColors.lightGray1.withOpacity(0.5);
+          : BlueprintColors.lightGray1.withValues(alpha: 0.5);
     }
 
     switch (widget.variant) {
@@ -135,12 +120,12 @@ class _BlueprintButtonState extends State<BlueprintButton> {
         return _isHovered ? BlueprintColors.lightGray4 : BlueprintColors.lightGray5;
       case BlueprintButtonVariant.minimal:
         if (_isHovered) {
-          return BlueprintColors.gray3.withOpacity(0.15);
+          return BlueprintColors.gray3.withValues(alpha: 0.15);
         }
         return Colors.transparent;
       case BlueprintButtonVariant.outlined:
         if (_isHovered) {
-          return BlueprintColors.gray3.withOpacity(0.15);
+          return BlueprintColors.gray3.withValues(alpha: 0.15);
         }
         return Colors.transparent;
     }
@@ -202,14 +187,14 @@ class _BlueprintButtonState extends State<BlueprintButton> {
     // For outlined buttons, we need a visible border
     if (widget.variant == BlueprintButtonVariant.outlined) {
       final borderColor = widget.intent != BlueprintIntent.none 
-          ? _intentColor.withOpacity(0.6) 
-          : BlueprintColors.gray3.withOpacity(0.4);
+          ? _intentColor.withValues(alpha: 0.6) 
+          : BlueprintColors.gray3.withValues(alpha: 0.4);
       return Border.all(color: borderColor, width: 1);
     }
     
     // For solid buttons, we use a subtle border
     return Border.all(
-      color: Colors.black.withOpacity(0.2), 
+      color: Colors.black.withValues(alpha: 0.2), 
       width: 1,
     );
   }
@@ -227,7 +212,7 @@ class _BlueprintButtonState extends State<BlueprintButton> {
     if (widget.variant == BlueprintButtonVariant.solid) {
       return [
         BoxShadow(
-          color: Colors.black.withOpacity(0.05),
+          color: Colors.black.withValues(alpha: 0.05),
           offset: const Offset(0, 1),
           blurRadius: 1,
           spreadRadius: 0,
