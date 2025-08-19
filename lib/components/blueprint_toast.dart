@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'toast/toast_models.dart';
 import 'toast/toast_queue.dart';
+import 'blueprint_common.dart';
 
 // Re-export all toast components for easy importing
 export 'toast/toast_models.dart';
 export 'toast/toast_queue.dart';
 export 'toast/toast_widget.dart';
-export 'blueprint_button.dart' show BlueprintIntent;
 
 /// Main toast API for showing toasts globally
 class BlueprintToasts {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../theme/blueprint_theme.dart';
 import '../../theme/blueprint_colors.dart';
 import '../../components/blueprint_button.dart';
 import '../../components/blueprint_input.dart';
+import '../../components/blueprint_common.dart';
 
 class TextAreaDemoSection extends StatelessWidget {
-  const TextAreaDemoSection({Key? key}) : super(key: key);
+  const TextAreaDemoSection({super.key});
 
   @override
   Widget build(BuildContext context) {

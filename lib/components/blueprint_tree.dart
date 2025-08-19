@@ -76,14 +76,14 @@ class BlueprintTree<T> extends StatelessWidget {
   final bool compact;
 
   const BlueprintTree({
-    Key? key,
+    super.key,
     required this.contents,
     this.onNodeClick,
     this.onNodeDoubleClick,
     this.onNodeExpand,
     this.onNodeCollapse,
     this.compact = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -302,7 +302,7 @@ class _TreeNodeWidget<T> extends StatelessWidget {
           color: node.isDisabled
               ? BlueprintColors.textColorDisabled
               : node.isSelected
-                  ? Colors.white.withOpacity(0.8)
+                  ? Colors.white.withValues(alpha: 0.8)
                   : BlueprintColors.textColorMuted,
         ),
       ),

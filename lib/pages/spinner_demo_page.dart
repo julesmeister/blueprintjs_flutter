@@ -5,6 +5,7 @@ import '../components/blueprint_spinner.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_card.dart';
 import '../components/demo_page_scaffold.dart';
+import '../components/blueprint_common.dart';
 
 class SpinnerDemoPage extends StatefulWidget {
   const SpinnerDemoPage({Key? key}) : super(key: key);

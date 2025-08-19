@@ -11,14 +11,14 @@ class BlueprintDivider extends StatelessWidget {
   final double? endIndent;
 
   const BlueprintDivider({
-    Key? key,
+    super.key,
     this.vertical = false,
     this.compact = false,
     this.color,
     this.thickness,
     this.indent,
     this.endIndent,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

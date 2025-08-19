@@ -8,9 +8,10 @@ import '../components/control_card/blueprint_control_card_base.dart';
 import '../components/control_card/blueprint_switch_card.dart';
 import '../components/control_card/blueprint_checkbox_card.dart';
 import '../components/control_card/blueprint_radio_card.dart';
+import '../components/blueprint_common.dart';
 
 class CardDemoPage extends StatelessWidget {
-  const CardDemoPage({Key? key}) : super(key: key);
+  const CardDemoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +275,7 @@ class CardDemoPage extends StatelessWidget {
                 leading: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: BlueprintColors.intentPrimary.withOpacity(0.1),
+                    color: BlueprintColors.intentPrimary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
                   ),
                   child: const Icon(

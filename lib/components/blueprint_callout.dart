@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import '../theme/blueprint_theme.dart';
-import '../theme/blueprint_colors.dart';
-import '../components/blueprint_button.dart';
+import 'blueprint_common.dart';
 
 class BlueprintCallout extends StatelessWidget {
   final Widget? child;

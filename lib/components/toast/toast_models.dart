@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../blueprint_button.dart';
-
-// Re-export for convenience
-export '../blueprint_button.dart' show BlueprintIntent;
+import '../blueprint_common.dart';
 
 /// Toast Position Options
 enum BlueprintToastPosition {

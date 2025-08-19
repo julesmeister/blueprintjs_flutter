@@ -7,6 +7,7 @@ import '../components/blueprint_switch.dart';
 import '../components/blueprint_section.dart';
 import '../components/blueprint_select.dart';
 import '../components/demo_page_scaffold.dart';
+import '../components/blueprint_common.dart';
 
 class IconDemoPage extends StatefulWidget {
   const IconDemoPage({Key? key}) : super(key: key);

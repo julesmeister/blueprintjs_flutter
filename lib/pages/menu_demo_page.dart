@@ -3,6 +3,7 @@ import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import '../components/blueprint_menu.dart';
 import '../components/demo_page_scaffold.dart';
+import '../components/blueprint_common.dart';
 
 class MenuDemoPage extends StatefulWidget {
   const MenuDemoPage({Key? key}) : super(key: key);

@@ -6,6 +6,7 @@ import '../components/blueprint_switch.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_card.dart';
 import '../components/demo_page_scaffold.dart';
+import '../components/blueprint_common.dart';
 
 class CalloutDemoPage extends StatefulWidget {
   const CalloutDemoPage({Key? key}) : super(key: key);
@@ -373,6 +374,7 @@ class _CalloutDemoPageState extends State<CalloutDemoPage> {
   }
 
   void _showSnackBar(String message) {
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),

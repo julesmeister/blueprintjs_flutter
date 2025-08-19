@@ -5,9 +5,10 @@ import '../components/blueprint_navbar.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_switch.dart';
 import '../components/demo_page_scaffold.dart';
+import '../components/blueprint_common.dart';
 
 class NavbarDemoPage extends StatefulWidget {
-  const NavbarDemoPage({Key? key}) : super(key: key);
+  const NavbarDemoPage({super.key});
 
   @override
   State<NavbarDemoPage> createState() => _NavbarDemoPageState();
@@ -351,7 +352,7 @@ class _NavbarTabState extends State<_NavbarTab> {
       }
       
       if (_isHovered) {
-        return BlueprintColors.gray3.withOpacity(0.15); // minimal-button-background-color-hover
+        return BlueprintColors.gray3.withValues(alpha: 0.15); // minimal-button-background-color-hover
       }
       
       return Colors.transparent; // minimal-button-background-color: none

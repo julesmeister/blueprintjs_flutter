@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'popover_models.dart';
 import 'popover_content.dart';
 import 'blueprint_button.dart';
+import 'blueprint_common.dart';
 
 // Re-export for convenience
 export 'popover_models.dart';

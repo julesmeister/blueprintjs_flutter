@@ -17,14 +17,14 @@ class BlueprintNavbar extends StatelessWidget {
   final bool hasBorder;
 
   const BlueprintNavbar({
-    Key? key,
+    super.key,
     required this.children,
     this.fixedToTop = false,
     this.height,
     this.padding,
     this.backgroundColor,
     this.hasBorder = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class BlueprintNavbar extends StatelessWidget {
         ) : null,
         boxShadow: fixedToTop ? [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             offset: const Offset(0, 1),
             blurRadius: 4,
           ),
@@ -80,11 +80,11 @@ class BlueprintNavbarGroup extends StatelessWidget {
   final double? spacing;
 
   const BlueprintNavbarGroup({
-    Key? key,
+    super.key,
     required this.children,
     this.alignment = BlueprintNavbarAlignment.start,
     this.spacing,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -122,10 +122,10 @@ class BlueprintNavbarHeading extends StatelessWidget {
   final TextStyle? style;
 
   const BlueprintNavbarHeading({
-    Key? key,
+    super.key,
     required this.text,
     this.style,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -149,10 +149,10 @@ class BlueprintNavbarDivider extends StatelessWidget {
   final Color? color;
 
   const BlueprintNavbarDivider({
-    Key? key,
+    super.key,
     this.height,
     this.color,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

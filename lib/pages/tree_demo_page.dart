@@ -5,6 +5,7 @@ import '../components/blueprint_tree.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_switch.dart';
 import '../components/demo_page_scaffold.dart';
+import '../components/blueprint_common.dart';
 
 class TreeDemoPage extends StatefulWidget {
   const TreeDemoPage({Key? key}) : super(key: key);

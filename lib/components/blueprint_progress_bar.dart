@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import '../components/blueprint_button.dart';
+import '../components/blueprint_common.dart';
 
 class BlueprintProgressBar extends StatefulWidget {
   final double? value;
@@ -12,14 +13,14 @@ class BlueprintProgressBar extends StatefulWidget {
   final String? semanticLabel;
 
   const BlueprintProgressBar({
-    Key? key,
+    super.key,
     this.value,
     this.intent = BlueprintIntent.none,
     this.animate = true,
     this.stripes = true,
     this.height,
     this.semanticLabel,
-  }) : super(key: key);
+  });
 
   @override
   State<BlueprintProgressBar> createState() => _BlueprintProgressBarState();
@@ -171,7 +172,7 @@ class _BlueprintProgressBarState extends State<BlueprintProgressBar>
   Widget _buildStaticStripes() {
     return CustomPaint(
       painter: _StripesPainter(
-        color: Colors.white.withOpacity(0.15),
+        color: Colors.white.withValues(alpha: 0.15),
         offset: 0.0,
       ),
       child: Container(),
@@ -181,7 +182,7 @@ class _BlueprintProgressBarState extends State<BlueprintProgressBar>
   Widget _buildAnimatedStripes() {
     return CustomPaint(
       painter: _StripesPainter(
-        color: Colors.white.withOpacity(0.15),
+        color: Colors.white.withValues(alpha: 0.15),
         offset: _stripesController.value * 20.0,
       ),
       child: Container(),

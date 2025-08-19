@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../theme/blueprint_theme.dart';
 import '../../theme/blueprint_colors.dart';
 import '../../components/blueprint_button.dart';
 import '../../components/blueprint_checkbox.dart';
+import '../../components/blueprint_common.dart';
 
 class CheckboxDemoSection extends StatefulWidget {
-  const CheckboxDemoSection({Key? key}) : super(key: key);
+  const CheckboxDemoSection({super.key});
 
   @override
   State<CheckboxDemoSection> createState() => _CheckboxDemoSectionState();
@@ -16,7 +16,6 @@ class _CheckboxDemoSectionState extends State<CheckboxDemoSection> {
   bool _checkbox1 = true;
   bool _checkbox2 = false;
   bool _checkbox3 = false;
-  bool? _indeterminateCheckbox;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +87,7 @@ class _CheckboxDemoSectionState extends State<CheckboxDemoSection> {
                 Expanded(
                   child: BlueprintCheckboxes.indeterminate(
                     label: 'Indeterminate',
-                    onChanged: (value) => setState(() => _indeterminateCheckbox = value),
+                    onChanged: (value) => {},
                   ),
                 ),
                 Expanded(

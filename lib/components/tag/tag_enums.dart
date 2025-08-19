@@ -1,4 +1,4 @@
-export '../blueprint_button.dart' show BlueprintIntent;
+export '../blueprint_common.dart' show BlueprintIntent;
 
 enum BlueprintTagSize {
   small,

@@ -4,6 +4,7 @@ import '../theme/blueprint_colors.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_tag.dart';
 import '../components/demo_page_scaffold.dart';
+import '../components/blueprint_common.dart';
 
 class TagDemoPage extends StatefulWidget {
   const TagDemoPage({super.key});

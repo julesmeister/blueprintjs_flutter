@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import 'blueprint_button.dart';
+import 'blueprint_common.dart';
 
 class BlueprintSlider extends StatelessWidget {
   final double value;
@@ -17,7 +18,7 @@ class BlueprintSlider extends StatelessWidget {
   final bool vertical;
 
   const BlueprintSlider({
-    Key? key,
+    super.key,
     required this.value,
     this.onChanged,
     this.onChangeEnd,
@@ -29,7 +30,7 @@ class BlueprintSlider extends StatelessWidget {
     this.disabled = false,
     this.showLabels = true,
     this.vertical = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +65,7 @@ class BlueprintSlider extends StatelessWidget {
         activeTrackColor: disabled ? inactiveColor : activeColor,
         inactiveTrackColor: inactiveColor,
         thumbColor: thumbColor,
-        overlayColor: activeColor.withOpacity(0.1),
+        overlayColor: activeColor.withValues(alpha: 0.1),
         valueIndicatorColor: activeColor,
         valueIndicatorTextStyle: TextStyle(
           color: Colors.white,
@@ -146,7 +147,7 @@ class BlueprintRangeSlider extends StatelessWidget {
   final bool showLabels;
 
   const BlueprintRangeSlider({
-    Key? key,
+    super.key,
     required this.values,
     this.onChanged,
     this.onChangeEnd,
@@ -157,7 +158,7 @@ class BlueprintRangeSlider extends StatelessWidget {
     this.intent = BlueprintIntent.primary,
     this.disabled = false,
     this.showLabels = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +193,7 @@ class BlueprintRangeSlider extends StatelessWidget {
         activeTrackColor: disabled ? inactiveColor : activeColor,
         inactiveTrackColor: inactiveColor,
         thumbColor: thumbColor,
-        overlayColor: activeColor.withOpacity(0.1),
+        overlayColor: activeColor.withValues(alpha: 0.1),
         valueIndicatorColor: activeColor,
         valueIndicatorTextStyle: TextStyle(
           color: Colors.white,

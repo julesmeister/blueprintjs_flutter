@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../theme/blueprint_theme.dart';
 import '../blueprint_card.dart';
 import 'blueprint_control_card_base.dart';
+import '../blueprint_common.dart';
 
 class BlueprintSwitchCard extends StatelessWidget {
   final String? label;

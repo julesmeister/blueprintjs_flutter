@@ -1,7 +1,12 @@
 /// Shared enums, types, and utilities for Blueprint components
 library blueprint_common;
 
+import 'package:flutter/material.dart';
+import '../theme/blueprint_theme.dart';
+import '../theme/blueprint_colors.dart';
+
 // Re-export theme and colors for convenience
+export 'package:flutter/material.dart';
 export '../theme/blueprint_theme.dart';
 export '../theme/blueprint_colors.dart';
 
@@ -54,12 +59,6 @@ enum BlueprintPosition {
   rightEnd,
 }
 
-/// Sort direction for tables and lists
-enum BlueprintSortDirection {
-  ascending,
-  descending,
-  none,
-}
 
 /// Interaction modes for components
 enum BlueprintInteraction {
@@ -183,13 +182,13 @@ extension BlueprintElevationShadows on BlueprintElevation {
       case BlueprintElevation.one:
         return [
           BoxShadow(
-            color: BlueprintColors.black.withOpacity(0.1),
+            color: BlueprintColors.black.withValues(alpha: 0.1),
             offset: const Offset(0, 0),
             blurRadius: 0,
             spreadRadius: 1,
           ),
           BoxShadow(
-            color: BlueprintColors.black.withOpacity(0.1),
+            color: BlueprintColors.black.withValues(alpha: 0.1),
             offset: const Offset(0, 1),
             blurRadius: 1,
           ),
@@ -197,18 +196,18 @@ extension BlueprintElevationShadows on BlueprintElevation {
       case BlueprintElevation.two:
         return [
           BoxShadow(
-            color: BlueprintColors.black.withOpacity(0.1),
+            color: BlueprintColors.black.withValues(alpha: 0.1),
             offset: const Offset(0, 0),
             blurRadius: 0,
             spreadRadius: 1,
           ),
           BoxShadow(
-            color: BlueprintColors.black.withOpacity(0.15),
+            color: BlueprintColors.black.withValues(alpha: 0.15),
             offset: const Offset(0, 1),
             blurRadius: 1,
           ),
           BoxShadow(
-            color: BlueprintColors.black.withOpacity(0.15),
+            color: BlueprintColors.black.withValues(alpha: 0.15),
             offset: const Offset(0, 2),
             blurRadius: 6,
           ),
@@ -216,18 +215,18 @@ extension BlueprintElevationShadows on BlueprintElevation {
       case BlueprintElevation.three:
         return [
           BoxShadow(
-            color: BlueprintColors.black.withOpacity(0.1),
+            color: BlueprintColors.black.withValues(alpha: 0.1),
             offset: const Offset(0, 0),
             blurRadius: 0,
             spreadRadius: 1,
           ),
           BoxShadow(
-            color: BlueprintColors.black.withOpacity(0.2),
+            color: BlueprintColors.black.withValues(alpha: 0.2),
             offset: const Offset(0, 2),
             blurRadius: 4,
           ),
           BoxShadow(
-            color: BlueprintColors.black.withOpacity(0.2),
+            color: BlueprintColors.black.withValues(alpha: 0.2),
             offset: const Offset(0, 8),
             blurRadius: 24,
           ),
@@ -235,18 +234,18 @@ extension BlueprintElevationShadows on BlueprintElevation {
       case BlueprintElevation.four:
         return [
           BoxShadow(
-            color: BlueprintColors.black.withOpacity(0.1),
+            color: BlueprintColors.black.withValues(alpha: 0.1),
             offset: const Offset(0, 0),
             blurRadius: 0,
             spreadRadius: 1,
           ),
           BoxShadow(
-            color: BlueprintColors.black.withOpacity(0.2),
+            color: BlueprintColors.black.withValues(alpha: 0.2),
             offset: const Offset(0, 4),
             blurRadius: 8,
           ),
           BoxShadow(
-            color: BlueprintColors.black.withOpacity(0.2),
+            color: BlueprintColors.black.withValues(alpha: 0.2),
             offset: const Offset(0, 18),
             blurRadius: 46,
           ),

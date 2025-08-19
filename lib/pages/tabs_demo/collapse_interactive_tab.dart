@@ -3,6 +3,7 @@ import '../../theme/blueprint_theme.dart';
 import '../../components/blueprint_collapse.dart';
 import '../../components/blueprint_button.dart';
 import '../../components/blueprint_tag.dart';
+import '../../components/blueprint_common.dart';
 
 class CollapseInteractiveTab extends StatelessWidget {
   const CollapseInteractiveTab({Key? key}) : super(key: key);

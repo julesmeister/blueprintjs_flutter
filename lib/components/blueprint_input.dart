@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import 'blueprint_button.dart';
+import 'blueprint_common.dart';
 
 enum BlueprintInputSize {
   small,
@@ -30,7 +31,7 @@ class BlueprintInputGroup extends StatefulWidget {
   final TextEditingController? controller;
 
   const BlueprintInputGroup({
-    Key? key,
+    super.key,
     this.placeholder,
     this.value,
     this.onChanged,
@@ -49,7 +50,7 @@ class BlueprintInputGroup extends StatefulWidget {
     this.errorText,
     this.focusNode,
     this.controller,
-  }) : super(key: key);
+  });
 
   @override
   State<BlueprintInputGroup> createState() => _BlueprintInputGroupState();
@@ -143,7 +144,7 @@ class _BlueprintInputGroupState extends State<BlueprintInputGroup> {
         border: Border.all(color: borderColor, width: 1),
         boxShadow: _isFocused && !hasError ? [
           BoxShadow(
-            color: borderColor.withOpacity(0.3),
+            color: borderColor.withValues(alpha: 0.3),
             offset: const Offset(0, 0),
             blurRadius: 0,
             spreadRadius: 1,

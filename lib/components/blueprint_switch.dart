@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
+import 'blueprint_common.dart';
 
 class BlueprintSwitch extends StatefulWidget {
   final bool value;
@@ -10,13 +11,13 @@ class BlueprintSwitch extends StatefulWidget {
   final bool large;
 
   const BlueprintSwitch({
-    Key? key,
+    super.key,
     required this.value,
     this.onChanged,
     this.label,
     this.disabled = false,
     this.large = false,
-  }) : super(key: key);
+  });
 
   @override
   State<BlueprintSwitch> createState() => _BlueprintSwitchState();
@@ -83,7 +84,7 @@ class _BlueprintSwitchState extends State<BlueprintSwitch>
     // Blueprint.js colors from SCSS
     Color getBackgroundColor() {
       if (widget.disabled) {
-        return BlueprintColors.gray3.withOpacity(0.15);
+        return BlueprintColors.gray3.withValues(alpha: 0.15);
       }
       
       if (widget.value) {
@@ -93,9 +94,9 @@ class _BlueprintSwitchState extends State<BlueprintSwitch>
         return BlueprintColors.blue3; // checked background
       } else {
         if (_isHovered) {
-          return BlueprintColors.gray3.withOpacity(0.4); // hover color
+          return BlueprintColors.gray3.withValues(alpha: 0.4); // hover color
         }
-        return BlueprintColors.gray3.withOpacity(0.3); // unchecked background
+        return BlueprintColors.gray3.withValues(alpha: 0.3); // unchecked background
       }
     }
 
@@ -139,13 +140,13 @@ class _BlueprintSwitchState extends State<BlueprintSwitch>
                       decoration: BoxDecoration(
                         color: widget.disabled
                             ? (widget.value 
-                                ? Colors.white.withOpacity(0.5)
-                                : Colors.white.withOpacity(0.8))
+                                ? Colors.white.withValues(alpha: 0.5)
+                                : Colors.white.withValues(alpha: 0.8))
                             : Colors.white,
                         borderRadius: BorderRadius.circular(indicatorSize / 2),
                         boxShadow: widget.disabled ? [] : [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.5),
+                            color: Colors.black.withValues(alpha: 0.5),
                             offset: const Offset(0, 0),
                             blurRadius: 0,
                             spreadRadius: 1,

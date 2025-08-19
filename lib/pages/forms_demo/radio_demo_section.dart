@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../theme/blueprint_theme.dart';
-import '../../theme/blueprint_colors.dart';
 import '../../components/blueprint_button.dart';
 import '../../components/blueprint_radio.dart';
+import '../../components/blueprint_common.dart';
 
 class RadioDemoSection extends StatefulWidget {
-  const RadioDemoSection({Key? key}) : super(key: key);
+  const RadioDemoSection({super.key});
 
   @override
   State<RadioDemoSection> createState() => _RadioDemoSectionState();

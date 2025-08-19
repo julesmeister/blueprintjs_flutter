@@ -6,6 +6,7 @@ import '../components/blueprint_section.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_input.dart';
 import '../components/demo_page_scaffold.dart';
+import '../components/blueprint_common.dart';
 
 class LayoutDemoPage extends StatefulWidget {
   const LayoutDemoPage({Key? key}) : super(key: key);

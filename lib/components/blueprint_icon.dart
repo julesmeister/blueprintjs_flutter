@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import 'blueprint_button.dart';
+import 'blueprint_common.dart';
 
 enum BlueprintIconSize {
   small,    // 12px

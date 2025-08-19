@@ -4,9 +4,7 @@ import '../../theme/blueprint_theme.dart';
 import '../../theme/blueprint_colors.dart';
 import '../blueprint_button.dart';
 import 'toast_models.dart';
-
-// Ensure BlueprintIntent is available
-export '../blueprint_button.dart' show BlueprintIntent;
+import '../blueprint_common.dart';
 
 /// Individual Toast Widget with animations and styling
 class BlueprintToast extends StatefulWidget {
@@ -14,10 +12,10 @@ class BlueprintToast extends StatefulWidget {
   final VoidCallback? onRemove;
 
   const BlueprintToast({
-    Key? key,
+    super.key,
     required this.options,
     this.onRemove,
-  }) : super(key: key);
+  });
 
   @override
   State<BlueprintToast> createState() => _BlueprintToastState();
@@ -134,7 +132,7 @@ class _BlueprintToastState extends State<BlueprintToast>
               borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Colors.black.withValues(alpha: 0.2),
                   blurRadius: 6,
                   offset: const Offset(0, 2),
                 ),

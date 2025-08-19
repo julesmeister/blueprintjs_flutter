@@ -627,7 +627,7 @@ return CompositedTransformFollower(
 4. ⏳ Add multiple placement options (top, bottom, left, right) - Future enhancement
 
 ### 🎉 **FINAL WORKING SOLUTION - PERFECTED:**
-**Using: `blueprint_tooltip_with_arrow.dart` with TooltipTheme wrapper**
+**Using: `blueprint_tooltip.dart` with TooltipTheme wrapper**
 - ✅ Perfect carets/arrows using custom ShapeBorder
 - ✅ Text fully visible and readable
 - ✅ Proper content-based sizing (no full-screen issues)

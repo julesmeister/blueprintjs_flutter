@@ -3,6 +3,7 @@ import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import 'blueprint_button.dart';
 import 'blueprint_icon.dart';
+import 'blueprint_common.dart';
 
 enum BlueprintDrawerSize {
   small, // 240px
@@ -37,7 +38,7 @@ class BlueprintDrawer extends StatelessWidget {
   final Widget? icon;
 
   const BlueprintDrawer({
-    Key? key,
+    super.key,
     required this.isOpen,
     this.onClose,
     this.title,
@@ -55,7 +56,7 @@ class BlueprintDrawer extends StatelessWidget {
     this.enforceFocus = true,
     this.usePortal = true,
     this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -269,13 +270,13 @@ class _DrawerContainerState extends State<_DrawerContainer>
             color: Colors.white, // Blueprint: $drawer-background-color
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.3), // Blueprint: $pt-elevation-shadow-3
+                color: Colors.black.withValues(alpha: 0.3), // Blueprint: $pt-elevation-shadow-3
                 offset: const Offset(0, 2),
                 blurRadius: 8,
                 spreadRadius: 0,
               ),
               BoxShadow(
-                color: Colors.black.withOpacity(0.15),
+                color: Colors.black.withValues(alpha: 0.15),
                 offset: const Offset(0, 4),
                 blurRadius: 24,
                 spreadRadius: 0,
@@ -474,7 +475,7 @@ class _NavigationDrawerContent extends StatelessWidget {
         vertical: 2,
       ),
       decoration: BoxDecoration(
-        color: item.isActive ? BlueprintColors.intentPrimary.withOpacity(0.1) : null,
+        color: item.isActive ? BlueprintColors.intentPrimary.withValues(alpha: 0.1) : null,
         borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
       ),
       child: ListTile(

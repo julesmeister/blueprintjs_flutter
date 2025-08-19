@@ -6,9 +6,10 @@ import '../components/blueprint_tag.dart';
 import '../components/blueprint_icon.dart';
 import '../components/blueprint_collapse.dart';
 import '../components/blueprint_card.dart';
-import '../components/tooltip/blueprint_tooltip_with_arrow.dart';
+import '../components/tooltip/blueprint_tooltip.dart';
 import '../components/blueprint_switch.dart';
 import '../components/demo_page_scaffold.dart';
+import '../components/blueprint_common.dart';
 
 class ComponentsDemoPage extends StatefulWidget {
   const ComponentsDemoPage({Key? key}) : super(key: key);
@@ -368,14 +369,14 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
           spacing: BlueprintTheme.gridSize * 2,
           runSpacing: BlueprintTheme.gridSize,
           children: [
-            BlueprintTooltipsWithArrow.simple(
+            BlueprintTooltips.simple(
               content: 'This is a basic tooltip',
               child: BlueprintButton(
                 text: 'Tap me',
                 variant: BlueprintButtonVariant.minimal,
               ),
             ),
-            BlueprintTooltipsWithArrow.compact(
+            BlueprintTooltips.compact(
               content: 'Save your work',
               child: BlueprintButton(
                 text: 'Save',
@@ -385,14 +386,14 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
               ),
             ),
             // TEST: Using el_tooltip wrapper instead
-            BlueprintTooltipsWithArrow.simple(
+            BlueprintTooltips.simple(
               content: 'Enable or disable the feature',
               child: BlueprintSwitches.simple(
                 value: _isAdvancedOpen,
                 onChanged: (value) => setState(() => _isAdvancedOpen = value),
               ),
             ),
-            BlueprintTooltipsWithArrow.compact(
+            BlueprintTooltips.compact(
               content: 'Settings',
               child: BlueprintIcons.settings(),
             ),
@@ -405,22 +406,22 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
           spacing: BlueprintTheme.gridSize * 2,
           runSpacing: BlueprintTheme.gridSize,
           children: [
-            BlueprintTooltipsWithArrow.intent(
+            BlueprintTooltips.intent(
               content: 'Primary action',
               intent: BlueprintIntent.primary,
               child: BlueprintIcons.primary(icon: Icons.star),
             ),
-            BlueprintTooltipsWithArrow.intent(
+            BlueprintTooltips.intent(
               content: 'Success state',
               intent: BlueprintIntent.success,
               child: BlueprintIcons.success_check(),
             ),
-            BlueprintTooltipsWithArrow.intent(
+            BlueprintTooltips.intent(
               content: 'Warning message',
               intent: BlueprintIntent.warning,
               child: BlueprintIcons.warning_triangle(),
             ),
-            BlueprintTooltipsWithArrow.intent(
+            BlueprintTooltips.intent(
               content: 'Danger zone',
               intent: BlueprintIntent.danger,
               child: BlueprintIcons.error(),
@@ -435,7 +436,7 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
             padding: const EdgeInsets.all(BlueprintTheme.gridSize * 4),
             child: Column(
               children: [
-                BlueprintTooltipsWithArrow.simple(
+                BlueprintTooltips.simple(
                   content: 'Top tooltip',
                   child: BlueprintTags.simple(text: 'Top', intent: BlueprintIntent.primary),
                 ),
@@ -443,22 +444,22 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    BlueprintTooltipsWithArrow.simple(
+                    BlueprintTooltips.simple(
                       content: 'Left tooltip',
                       child: BlueprintTags.simple(text: 'Left', intent: BlueprintIntent.success),
                     ),
-                    BlueprintTooltipsWithArrow.compact(
+                    BlueprintTooltips.compact(
                       content: 'Compact tooltip',
                       child: BlueprintTags.simple(text: 'Compact', intent: BlueprintIntent.warning),
                     ),
-                    BlueprintTooltipsWithArrow.simple(
+                    BlueprintTooltips.simple(
                       content: 'Right tooltip',
                       child: BlueprintTags.simple(text: 'Right', intent: BlueprintIntent.danger),
                     ),
                   ],
                 ),
                 const SizedBox(height: BlueprintTheme.gridSize * 2),
-                BlueprintTooltipsWithArrow.compact(
+                BlueprintTooltips.compact(
                   content: 'Compact bottom tooltip',
                   child: BlueprintTags.minimal(text: 'Bottom & Compact'),
                 ),

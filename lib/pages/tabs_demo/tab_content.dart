@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../theme/blueprint_theme.dart';
 import '../../theme/blueprint_colors.dart';
 import '../../components/blueprint_button.dart';
+import '../../components/blueprint_common.dart';
 
 // Reusable tab content widget
 class TabContent extends StatelessWidget {
@@ -11,12 +12,12 @@ class TabContent extends StatelessWidget {
   final Color color;
 
   const TabContent({
-    Key? key,
+    super.key,
     required this.title,
     required this.description,
     required this.icon,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class TabContent extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(BlueprintTheme.gridSize),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
                 ),
                 child: Icon(

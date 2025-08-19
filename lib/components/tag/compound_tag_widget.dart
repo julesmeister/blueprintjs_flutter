@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../theme/blueprint_theme.dart';
 import '../../theme/blueprint_colors.dart';
+import '../blueprint_common.dart';
 import 'tag_enums.dart';
 
 class BlueprintCompoundTag extends StatelessWidget {

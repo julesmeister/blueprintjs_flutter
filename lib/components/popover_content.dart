@@ -18,7 +18,7 @@ class PopoverContent extends StatelessWidget {
   final Function(bool) onPopoverHover;
 
   const PopoverContent({
-    Key? key,
+    super.key,
     required this.content,
     required this.position,
     required this.minimal,
@@ -30,7 +30,7 @@ class PopoverContent extends StatelessWidget {
     required this.scaleAnimation,
     required this.fadeAnimation,
     required this.onPopoverHover,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -96,13 +96,13 @@ class PopoverContent extends StatelessWidget {
               : null,
           boxShadow: minimal ? null : [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 10,
               offset: const Offset(0, 4),
               spreadRadius: 0,
             ),
             BoxShadow(
-              color: Colors.black.withOpacity(0.15),
+              color: Colors.black.withValues(alpha: 0.15),
               blurRadius: 4,
               offset: const Offset(0, 2),
               spreadRadius: 0,

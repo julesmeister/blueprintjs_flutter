@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import '../theme/blueprint_theme.dart';
-import '../theme/blueprint_colors.dart';
-import 'blueprint_button.dart';
+import 'blueprint_common.dart';
 
 enum BlueprintCheckboxSize {
   regular,
@@ -20,7 +17,7 @@ class BlueprintCheckbox extends StatelessWidget {
   final bool inline;
 
   const BlueprintCheckbox({
-    Key? key,
+    super.key,
     this.checked,
     this.onChanged,
     this.label,
@@ -30,7 +27,7 @@ class BlueprintCheckbox extends StatelessWidget {
     this.intent = BlueprintIntent.none,
     this.size = BlueprintCheckboxSize.regular,
     this.inline = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

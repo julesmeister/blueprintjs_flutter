@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
-import '../components/blueprint_button.dart'; // Import for BlueprintIntent
+import '../components/blueprint_button.dart';
+import '../components/blueprint_common.dart'; // Import for BlueprintIntent
 import '../components/blueprint_input.dart';
 import '../components/blueprint_checkbox.dart';
 import '../components/blueprint_radio.dart';

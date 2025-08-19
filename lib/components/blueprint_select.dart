@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import 'blueprint_button.dart';
+import 'blueprint_common.dart';
 
 class BlueprintSelectOption<T> {
   final T value;
@@ -31,7 +32,7 @@ class BlueprintSelect<T> extends StatefulWidget {
   final double? maxHeight;
 
   const BlueprintSelect({
-    Key? key,
+    super.key,
     required this.options,
     this.value,
     this.onChanged,
@@ -43,7 +44,7 @@ class BlueprintSelect<T> extends StatefulWidget {
     this.filterable = false,
     this.width,
     this.maxHeight,
-  }) : super(key: key);
+  });
 
   @override
   State<BlueprintSelect<T>> createState() => _BlueprintSelectState<T>();
@@ -133,7 +134,7 @@ class _BlueprintSelectState<T> extends State<BlueprintSelect<T>> {
             border: Border.all(color: borderColor, width: 1),
             boxShadow: _isOpen ? [
               BoxShadow(
-                color: borderColor.withOpacity(0.3),
+                color: borderColor.withValues(alpha: 0.3),
                 offset: const Offset(0, 0),
                 blurRadius: 0,
                 spreadRadius: 1,

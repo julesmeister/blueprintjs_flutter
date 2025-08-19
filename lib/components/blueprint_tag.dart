@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'tag/tag_enums.dart';
 import 'tag/tag_widget.dart';
 import 'tag/compound_tag_widget.dart';
+import 'blueprint_common.dart';
 
 // Re-export all tag components
 export 'tag/tag_enums.dart';

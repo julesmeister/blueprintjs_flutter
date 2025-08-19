@@ -5,6 +5,7 @@ import '../components/blueprint_progress_bar.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_card.dart';
 import '../components/demo_page_scaffold.dart';
+import '../components/blueprint_common.dart';
 
 class ProgressBarDemoPage extends StatefulWidget {
   const ProgressBarDemoPage({Key? key}) : super(key: key);

@@ -3,9 +3,10 @@ import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import '../components/blueprint_button.dart';
 import '../components/demo_page_scaffold.dart';
+import '../components/blueprint_common.dart';
 
 class ButtonDemoPage extends StatelessWidget {
-  const ButtonDemoPage({Key? key}) : super(key: key);
+  const ButtonDemoPage({super.key});
 
   @override
   Widget build(BuildContext context) {

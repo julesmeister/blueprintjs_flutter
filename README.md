@@ -21,11 +21,11 @@ A comprehensive Flutter implementation of the [Blueprint.js](https://blueprintjs
 - **📝 Forms** - Input fields, checkboxes, radio buttons, and select dropdowns
 - **📐 Layout** - Dividers and sections for organizing and structuring content
 - **💬 Dialogs** - Modal dialogs, alerts, confirmations, and custom overlays
-- **🏷️ Tags** - Labels, removable tags, intent colors, and interactive variants
+- **🏷️ Tags** - Labels, removable tags, intent colors, interactive variants, and **perfect text centering** (matching Blueprint.js compound tag rendering)
 - **🎨 Icons** - Consistent iconography with sizes, intents, and semantic meanings
 - **📂 Collapse** - Expandable content areas with Blueprint.js-style button triggers and smooth animations
 - **💬 Popovers** - Rich contextual overlays with positioning and interactive content
-- **📊 Tables** - Complex data display with sorting, selection, and Blueprint styling
+- **📊 Tables** - Complex data display with sorting, selection, Blueprint styling, **perfectly aligned headers and data cells**, and **perfect text centering**
 - **🌳 Trees** - Hierarchical data display with expand/collapse and selection
 - **🔔 Toasts** - Global notification system with positioning and animations
 - **🗂️ Drawers** - Slide-out navigation and content panels with multiple positions
@@ -40,6 +40,58 @@ A comprehensive Flutter implementation of the [Blueprint.js](https://blueprintjs
 - **Accessibility** - Semantic labels and proper focus management
 - **Factory Methods** - Convenient component creation patterns
 
+## 🎯 Recent Major Improvements
+
+### ✨ Perfect Tag Text Centering (Fixed!)
+After extensive investigation, **simple tags now have perfect vertical text centering** that matches Blueprint.js compound tags exactly:
+
+- **Root Cause Identified**: Simple tags used different widget structure than compound tags
+- **Critical Fixes Applied**:
+  1. **Nested Container Structure**: Added outer container wrapper to match compound tags
+  2. **DefaultTextStyle Usage**: Switched from direct Text styling to DefaultTextStyle (key difference!)
+  3. **Exact Line Height**: Using `height: 1.0` exactly like compound tags (not 1.2)
+  4. **Natural Row Alignment**: Removed explicit `crossAxisAlignment.center` to let Row handle it naturally
+  5. **Consistent Rendering**: Both simple and compound tags now use identical Flutter widget patterns
+
+- **Result**: ✅ Upper and lower halves of tags demo page now look identical with perfect text centering!
+
+### 📊 Perfect Table Alignment (Fixed!)
+Fixed table header-to-data alignment issues for pixel-perfect column alignment:
+
+- **Root Cause**: Headers and data cells used different alignment strategies
+- **Critical Fixes Applied**:
+  1. **Consistent Header Alignment**: Headers now respect column alignment instead of forcing center
+  2. **Data Cell Alignment**: Removed Center() wrappers that overrode column alignment
+  3. **Custom Cell Handling**: Status tags use Align() to stay compact while respecting alignment
+  4. **Helper Methods**: Added MainAxisAlignment mapping for proper header alignment
+
+- **Result**: ✅ All table columns now have perfect header-to-data alignment (left, center, right)
+
+### 🎯 Perfect Table Text Centering (Fixed!)
+Extended the tag centering breakthrough to **table text rendering** for perfect vertical centering:
+
+- **Root Cause**: Table text used direct Text styling instead of the DefaultTextStyle pattern that made tags perfect
+- **Critical Fixes Applied**:
+  1. **DefaultTextStyle Pattern**: Applied same widget structure that solved tag centering
+  2. **height: 1.0 Line Height**: Consistent with tags (changed from 1.2)
+  3. **Unified Text Rendering**: Both headers and data cells now use identical centering approach
+  4. **Complete Coverage**: Applied to sortable headers, non-sortable headers, and data cells
+
+- **Result**: ✅ All table text now has the same perfect vertical centering as tags!
+
+### 🗂️ Clean File Structure (Refactored!)
+Split the massive 487-line `main.dart` into focused, maintainable files:
+
+- **Before**: 1 monolithic file (487 lines)
+- **After**: 5 focused files with clear responsibilities
+  - `main.dart` (6 lines) - Entry point only
+  - `app.dart` (19 lines) - App configuration  
+  - `models/demo_item.dart` (17 lines) - Data model
+  - `data/demo_items.dart` (145 lines) - Demo data
+  - `pages/home_page.dart` (243 lines) - Home UI
+
+- **Benefits**: ✅ Single responsibility principle, easier maintenance, better scalability
+
 ## 📁 Project Structure
 
 ```
@@ -51,7 +103,14 @@ blueprint_flutter_demo/
 ├── 🔧 run-android.bat                      # Android launcher script (legacy)
 │
 ├── 📂 lib/                                 # Main application source code
-│   ├── 📄 main.dart                        # App entry point and navigation
+│   ├── 📄 main.dart                        # Clean app entry point (6 lines)
+│   ├── 📄 app.dart                         # App configuration and theming (19 lines)
+│   │
+│   ├── 📂 data/                            # Application data
+│   │   └── 📄 demo_items.dart              # Demo item definitions (145 lines)  
+│   │
+│   ├── 📂 models/                          # Data models
+│   │   └── 📄 demo_item.dart               # Demo item model class (17 lines)
 │   │
 │   ├── 📂 components/                      # Blueprint component library
 │   │   ├── 📄 blueprint_alert.dart         # Alert dialogs and confirmations
@@ -73,6 +132,7 @@ blueprint_flutter_demo/
 │   │   └── 📄 blueprint_tooltip.dart       # Hover tooltip overlays
 │   │
 │   ├── 📂 pages/                           # Demo and example pages
+│   │   ├── 📄 home_page.dart               # Main home page UI (243 lines)
 │   │   ├── 📄 alert_demo_page.dart         # Alert component examples
 │   │   ├── 📄 breadcrumbs_demo_page.dart   # Breadcrumb navigation examples
 │   │   ├── 📄 button_demo_page.dart        # Button component examples
@@ -641,4 +701,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 **Note**: This is a community implementation and is not officially affiliated with Blueprint.js or Palantir Technologies.
 
-**Project Statistics**: ~12,000+ lines of code | 26 components | 24 demo pages | 50+ Dart files
+**Project Statistics**: ~12,000+ lines of code | 26 components | 24 demo pages | 55+ Dart files | **Perfect tag centering, table alignment & text centering**

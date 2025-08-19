@@ -6,6 +6,7 @@ import '../components/blueprint_button.dart';
 import '../components/demo_page_scaffold.dart';
 import '../components/blueprint_switch.dart';
 import '../components/blueprint_section.dart';
+import '../components/blueprint_common.dart';
 
 class ToastDemoPage extends StatefulWidget {
   const ToastDemoPage({Key? key}) : super(key: key);

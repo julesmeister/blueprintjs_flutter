@@ -4,6 +4,7 @@ import '../theme/blueprint_colors.dart';
 import '../components/blueprint_dialog.dart';
 import '../components/blueprint_button.dart';
 import '../components/demo_page_scaffold.dart';
+import '../components/blueprint_common.dart';
 
 class DialogDemoPage extends StatelessWidget {
   const DialogDemoPage({Key? key}) : super(key: key);

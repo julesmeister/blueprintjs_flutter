@@ -3,6 +3,7 @@ import '../../theme/blueprint_theme.dart';
 import '../../theme/blueprint_colors.dart';
 import '../blueprint_checkbox.dart';
 import '../blueprint_button.dart';
+import '../blueprint_common.dart';
 import 'blueprint_table_enums.dart';
 import 'blueprint_table_models.dart';
 
@@ -128,16 +129,19 @@ class BlueprintTableBuilders {
               onTap: () => onSort(column.key),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: _getMainAxisAlignment(column.align),
                 children: [
-                  Text(
-                    column.title,
+                  DefaultTextStyle(
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: _getHeaderFontSize(),
                       color: BlueprintColors.textColor,
-                      height: 1.33333, // Blueprint: $pt-line-height (19/14)
+                      height: 1.0, // CRITICAL FIX: Perfect vertical centering (matching tag breakthrough)
                     ),
-                    textAlign: _getTextAlign(column.align),
+                    child: Text(
+                      column.title,
+                      textAlign: _getTextAlign(column.align),
+                    ),
                   ),
                   const SizedBox(width: 4),
                   if (sortDirection != null)
@@ -157,15 +161,17 @@ class BlueprintTableBuilders {
                 ],
               ),
             )
-          : Text(
-              column.title,
+          : DefaultTextStyle(
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: _getHeaderFontSize(),
                 color: BlueprintColors.textColor,
-                height: 1.33333, // Blueprint: $pt-line-height (19/14)
+                height: 1.0, // CRITICAL FIX: Perfect vertical centering (matching tag breakthrough)
               ),
-              textAlign: _getTextAlign(column.align),
+              child: Text(
+                column.title,
+                textAlign: _getTextAlign(column.align),
+              ),
             ),
     );
   }
@@ -261,16 +267,22 @@ class BlueprintTableBuilders {
     
     Widget cellContent;
     if (column.cellBuilder != null) {
+      // Custom cell builders (like tags) handle their own content and alignment
       cellContent = column.cellBuilder!(value, rowIndex);
     } else {
-      cellContent = Text(
-        value?.toString() ?? '',
+      // CRITICAL FIX: Use DefaultTextStyle pattern (matching tag breakthrough)
+      // This is the same pattern that made tags center perfectly!
+      cellContent = DefaultTextStyle(
         style: TextStyle(
           fontSize: _getFontSize(size),
           color: BlueprintColors.textColor,
-          height: 1.33333, // Blueprint: $pt-line-height (19/14) for proper vertical centering
+          fontWeight: FontWeight.w400,
+          height: 1.0, // CRITICAL FIX: Perfect vertical centering (matching tag breakthrough)
         ),
-        textAlign: _getTextAlign(column.align),
+        child: Text(
+          value?.toString() ?? '',
+          textAlign: _getTextAlign(column.align),
+        ),
       );
     }
     
@@ -281,10 +293,12 @@ class BlueprintTableBuilders {
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: _getCellPadding(),
-          vertical: 0, // Remove vertical padding - use height and alignment for centering
+          vertical: 0, // Zero vertical padding - rely on height and alignment for proper centering
         ),
-        height: _getCellHeight(size),
-        alignment: _getAlignment(column.align),
+        height: _getCellHeight(size), // Fixed height ensures consistent row heights
+        alignment: _getAlignment(column.align), // CRITICAL: Respects column alignment (left/center/right)
+        // IMPORTANT: No Center() wrapper here - let column alignment work properly
+        // Custom cell builders (like status tags) use Align() internally to stay compact
         child: cellContent,
       ),
     );
@@ -301,7 +315,7 @@ class BlueprintTableBuilders {
       case BlueprintTableSize.compact:
         return BlueprintTheme.gridSize * 2.4; // Blueprint: compact cells are slightly smaller (~24px)
       case BlueprintTableSize.standard:
-        return BlueprintTheme.gridSize * 3.0; // Blueprint: standard $cell-height: $pt-grid-size * 3 (30px)
+        return BlueprintTheme.gridSize * 3.2; // Increased slightly for better tag accommodation (32px)
       case BlueprintTableSize.large:
         return BlueprintTheme.gridSize * 4.0; // Blueprint: $large-cell-height: $pt-grid-size * 4 (40px)
     }
@@ -346,6 +360,17 @@ class BlueprintTableBuilders {
         return TextAlign.center;
       case BlueprintColumnAlign.right:
         return TextAlign.right;
+    }
+  }
+
+  static MainAxisAlignment _getMainAxisAlignment(BlueprintColumnAlign align) {
+    switch (align) {
+      case BlueprintColumnAlign.left:
+        return MainAxisAlignment.start;
+      case BlueprintColumnAlign.center:
+        return MainAxisAlignment.center;
+      case BlueprintColumnAlign.right:
+        return MainAxisAlignment.end;
     }
   }
 }

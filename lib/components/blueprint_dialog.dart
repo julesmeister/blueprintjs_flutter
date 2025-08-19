@@ -3,6 +3,7 @@ import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import 'blueprint_button.dart';
 import 'blueprint_input.dart';
+import 'blueprint_common.dart';
 
 class BlueprintDialog extends StatelessWidget {
   final Widget? title;
@@ -17,7 +18,7 @@ class BlueprintDialog extends StatelessWidget {
   final double? height;
 
   const BlueprintDialog({
-    Key? key,
+    super.key,
     this.title,
     this.icon,
     required this.body,
@@ -28,7 +29,7 @@ class BlueprintDialog extends StatelessWidget {
     this.onClose,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +59,13 @@ class BlueprintDialog extends StatelessWidget {
                   borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius * 2),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
+                      color: Colors.black.withValues(alpha: 0.2),
                       offset: const Offset(0, 2),
                       blurRadius: 4,
                       spreadRadius: 0,
                     ),
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
+                      color: Colors.black.withValues(alpha: 0.2),
                       offset: const Offset(0, 8),
                       blurRadius: 24,
                       spreadRadius: 0,

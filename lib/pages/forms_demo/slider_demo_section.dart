@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../theme/blueprint_theme.dart';
 import '../../theme/blueprint_colors.dart';
 import '../../components/blueprint_button.dart';
 import '../../components/blueprint_slider.dart';
+import '../../components/blueprint_common.dart';
 
 class SliderDemoSection extends StatefulWidget {
-  const SliderDemoSection({Key? key}) : super(key: key);
+  const SliderDemoSection({super.key});
 
   @override
   State<SliderDemoSection> createState() => _SliderDemoSectionState();

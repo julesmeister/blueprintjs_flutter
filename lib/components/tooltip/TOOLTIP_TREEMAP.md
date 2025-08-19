@@ -4,7 +4,7 @@
 Blueprint.js Flutter Tooltip Implementation
 ├── 📁 Project Structure
 │   ├── lib/components/tooltip/
-│   │   ├── 🏆 blueprint_tooltip_with_arrow.dart (FINAL WORKING SOLUTION)
+│   │   ├── 🏆 blueprint_tooltip.dart (FINAL WORKING SOLUTION)
 │   │   ├── ❌ blueprint_tooltip_final.dart (Failed custom overlay)
 │   │   ├── ❌ blueprint_tooltip_custom.dart (Failed el_tooltip wrapper)
 │   │   ├── ✅ tooltip_test.dart (Working native test)
@@ -13,9 +13,9 @@ Blueprint.js Flutter Tooltip Implementation
 │   └── lib/pages/
 │       └── tooltip_demo_page.dart (Demo implementation)
 │
-├── 🏆 FINAL WORKING SOLUTION: blueprint_tooltip_with_arrow.dart (PERFECTED)
+├── 🏆 FINAL WORKING SOLUTION: blueprint_tooltip.dart (PERFECTED)
 │   ├── 🧬 Core Architecture
-│   │   ├── BlueprintTooltipWithArrow (Main Widget)
+│   │   ├── BlueprintTooltip (Main Widget)
 │   │   │   ├── TooltipTheme Wrapper (Positioning Optimization)
 │   │   │   │   ├── preferBelow: false (tooltip appears above)
 │   │   │   │   ├── verticalOffset: 24 (proper spacing)
@@ -35,7 +35,7 @@ Blueprint.js Flutter Tooltip Implementation
 │   │   │       ├── Three-layer shadow system
 │   │   │       ├── Custom padding system
 │   │   │       └── Border radius (3px)
-│   │   └── BlueprintTooltipsWithArrow (Factory Methods)
+│   │   └── BlueprintTooltips (Factory Methods)
 │   │       ├── simple() - Basic tooltip
 │   │       ├── intent() - Colored variants
 │   │       └── compact() - Smaller padding
@@ -136,14 +136,14 @@ Blueprint.js Flutter Tooltip Implementation
 ├── 🛠️ IMPLEMENTATION GUIDE
 │   ├── Step 1: Setup
 │   │   ├── Create lib/components/tooltip/ directory
-│   │   ├── Copy blueprint_tooltip_with_arrow.dart
+│   │   ├── Copy blueprint_tooltip.dart
 │   │   └── Update imports in demo pages
 │   ├── Step 2: Basic Usage
-│   │   ├── BlueprintTooltipsWithArrow.simple(content, child)
-│   │   ├── BlueprintTooltipsWithArrow.intent(content, intent, child)
-│   │   └── BlueprintTooltipsWithArrow.compact(content, child)
+│   │   ├── BlueprintTooltips.simple(content, child)
+│   │   ├── BlueprintTooltips.intent(content, intent, child)
+│   │   └── BlueprintTooltips.compact(content, child)
 │   ├── Step 3: Custom Implementation
-│   │   ├── BlueprintTooltipWithArrow(content, backgroundColor, textColor, compact, disabled, child)
+│   │   ├── BlueprintTooltip(content, backgroundColor, textColor, compact, disabled, child)
 │   │   ├── TooltipShapeBorder customization
 │   │   └── Intent color mapping
 │   └── Step 4: Integration

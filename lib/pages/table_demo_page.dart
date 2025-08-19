@@ -6,6 +6,7 @@ import '../components/blueprint_button.dart';
 import '../components/blueprint_icon.dart';
 import '../components/blueprint_tag.dart';
 import '../components/demo_page_scaffold.dart';
+import '../components/blueprint_common.dart';
 
 class TableDemoPage extends StatefulWidget {
   const TableDemoPage({Key? key}) : super(key: key);
@@ -238,10 +239,16 @@ class _TableDemoPageState extends State<TableDemoPage> {
           width: 100,
           cellBuilder: (value, rowIndex) {
             final isActive = value == 'Active';
-            return BlueprintTags.simple(
-              text: value.toString(),
-              intent: isActive ? BlueprintIntent.success : BlueprintIntent.warning,
-              size: BlueprintTagSize.small,
+            // CRITICAL TABLE TAG FIX: Use Align to prevent tags from stretching to full cell height
+            // When we removed Center() wrappers for proper table alignment, tags started filling
+            // the entire cell height. Align keeps them at natural size while positioning correctly.
+            return Align(
+              alignment: Alignment.centerLeft, // Respects column alignment while keeping tag compact
+              child: BlueprintTags.simple(
+                text: value.toString(),
+                intent: isActive ? BlueprintIntent.success : BlueprintIntent.warning,
+                size: BlueprintTagSize.small,
+              ),
             );
           },
         ),
@@ -268,15 +275,19 @@ class _TableDemoPageState extends State<TableDemoPage> {
             return Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                  icon: BlueprintIcons.edit(),
+                BlueprintButton(
+                  icon: Icons.edit,
+                  variant: BlueprintButtonVariant.minimal,
+                  size: BlueprintButtonSize.small,
                   onPressed: () => _showSnackBar('Edit row $rowIndex'),
-                  iconSize: 16,
                 ),
-                IconButton(
-                  icon: BlueprintIcons.delete(),
+                const SizedBox(width: 4),
+                BlueprintButton(
+                  icon: Icons.delete,
+                  variant: BlueprintButtonVariant.minimal,
+                  size: BlueprintButtonSize.small,
+                  intent: BlueprintIntent.danger,
                   onPressed: () => _showSnackBar('Delete row $rowIndex'),
-                  iconSize: 16,
                 ),
               ],
             );

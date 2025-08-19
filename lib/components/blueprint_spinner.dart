@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import '../components/blueprint_button.dart';
+import '../components/blueprint_common.dart';
 
 enum BlueprintSpinnerSize {
   small(20),
@@ -22,14 +23,14 @@ class BlueprintSpinner extends StatefulWidget {
   final double? strokeWidth;
 
   const BlueprintSpinner({
-    Key? key,
+    super.key,
     this.size,
     this.spinnerSize,
     this.intent = BlueprintIntent.none,
     this.value,
     this.color,
     this.strokeWidth,
-  }) : super(key: key);
+  });
 
   @override
   State<BlueprintSpinner> createState() => _BlueprintSpinnerState();
@@ -179,7 +180,7 @@ class _SpinnerPainter extends CustomPainter {
     // Draw track (background circle) for determinate spinner
     if (showTrack) {
       final trackPaint = Paint()
-        ..color = color.withOpacity(0.2)
+        ..color = color.withValues(alpha: 0.2)
         ..strokeWidth = strokeWidth
         ..style = PaintingStyle.stroke
         ..strokeCap = StrokeCap.round;

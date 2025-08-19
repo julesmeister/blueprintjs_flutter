@@ -3,6 +3,7 @@ import '../../theme/blueprint_theme.dart';
 import '../../theme/blueprint_colors.dart';
 import '../../components/blueprint_collapse.dart';
 import '../../components/blueprint_button.dart';
+import '../../components/blueprint_common.dart';
 
 class CollapseManualTab extends StatefulWidget {
   const CollapseManualTab({Key? key}) : super(key: key);

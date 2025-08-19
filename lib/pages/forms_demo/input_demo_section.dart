@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../theme/blueprint_theme.dart';
 import '../../theme/blueprint_colors.dart';
 import '../../components/blueprint_button.dart';
 import '../../components/blueprint_input.dart';
+import '../../components/blueprint_common.dart';
 
 class InputDemoSection extends StatefulWidget {
-  const InputDemoSection({Key? key}) : super(key: key);
+  const InputDemoSection({super.key});
 
   @override
   State<InputDemoSection> createState() => _InputDemoSectionState();

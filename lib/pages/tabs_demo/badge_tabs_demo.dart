@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../theme/blueprint_colors.dart';
 import '../../components/blueprint_card.dart';
 import '../../components/blueprint_tabs.dart';
+import '../../components/blueprint_common.dart';
 import 'tab_content.dart';
 
 class BadgeTabsDemo extends StatelessWidget {

@@ -4,9 +4,10 @@ import '../theme/blueprint_colors.dart';
 import '../components/blueprint_button.dart';
 import '../components/blueprint_alert.dart';
 import '../components/demo_page_scaffold.dart';
+import '../components/blueprint_common.dart';
 
 class AlertDemoPage extends StatelessWidget {
-  const AlertDemoPage({Key? key}) : super(key: key);
+  const AlertDemoPage({super.key});
 
   @override
   Widget build(BuildContext context) {

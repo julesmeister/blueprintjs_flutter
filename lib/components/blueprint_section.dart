@@ -23,7 +23,7 @@ class BlueprintSection extends StatefulWidget {
   final bool compact;
 
   const BlueprintSection({
-    Key? key,
+    super.key,
     this.title,
     this.titleElement,
     required this.children,
@@ -34,7 +34,7 @@ class BlueprintSection extends StatefulWidget {
     this.icon,
     this.rightElement,
     this.compact = false,
-  }) : super(key: key);
+  });
 
   @override
   State<BlueprintSection> createState() => _BlueprintSectionState();
@@ -214,11 +214,11 @@ class BlueprintSectionCard extends StatelessWidget {
   final bool compact;
 
   const BlueprintSectionCard({
-    Key? key,
+    super.key,
     required this.child,
     this.padding,
     this.compact = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

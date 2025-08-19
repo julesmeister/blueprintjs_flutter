@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import 'blueprint_button.dart';
+import 'blueprint_common.dart';
 
 enum BlueprintRadioSize {
   regular,
@@ -20,7 +21,7 @@ class BlueprintRadio<T> extends StatelessWidget {
   final bool inline;
 
   const BlueprintRadio({
-    Key? key,
+    super.key,
     required this.value,
     this.groupValue,
     this.onChanged,
@@ -30,7 +31,7 @@ class BlueprintRadio<T> extends StatelessWidget {
     this.intent = BlueprintIntent.none,
     this.size = BlueprintRadioSize.regular,
     this.inline = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +168,7 @@ class BlueprintRadioGroup<T> extends StatelessWidget {
   final MainAxisAlignment alignment;
 
   const BlueprintRadioGroup({
-    Key? key,
+    super.key,
     this.label,
     required this.options,
     this.selectedValue,
@@ -175,7 +176,7 @@ class BlueprintRadioGroup<T> extends StatelessWidget {
     this.disabled = false,
     this.inline = false,
     this.alignment = MainAxisAlignment.start,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
