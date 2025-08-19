@@ -3,6 +3,7 @@ import '../theme/blueprint_theme.dart';
 import '../theme/blueprint_colors.dart';
 import '../components/blueprint_dialog.dart';
 import '../components/blueprint_button.dart';
+import '../components/blueprint_input.dart';
 import '../components/demo_page_scaffold.dart';
 import '../components/blueprint_common.dart';
 
@@ -221,7 +222,7 @@ class DialogDemoPage extends StatelessWidget {
       icon: const Icon(Icons.person, color: BlueprintColors.intentPrimary),
     );
 
-    if (result != null && result.isNotEmpty) {
+    if (context.mounted && result != null && result.isNotEmpty) {
       _showSnackBar(context, 'Hello, $result!');
     }
   }
@@ -286,20 +287,19 @@ class DialogDemoPage extends StatelessWidget {
         children: [
           const Text('Please fill in your information:'),
           const SizedBox(height: BlueprintTheme.gridSize),
-          TextField(
+          BlueprintInputGroup(
+            placeholder: 'Full Name',
+            leftIcon: Icons.person,
             controller: nameController,
-            decoration: const InputDecoration(
-              labelText: 'Full Name',
-              border: OutlineInputBorder(),
-            ),
+            fill: true,
           ),
           const SizedBox(height: BlueprintTheme.gridSize),
-          TextField(
+          BlueprintInputGroup(
+            placeholder: 'Email Address',
+            leftIcon: Icons.email,
             controller: emailController,
-            decoration: const InputDecoration(
-              labelText: 'Email Address',
-              border: OutlineInputBorder(),
-            ),
+            keyboardType: TextInputType.emailAddress,
+            fill: true,
           ),
         ],
       ),

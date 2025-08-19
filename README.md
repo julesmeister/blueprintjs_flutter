@@ -24,11 +24,11 @@ A comprehensive Flutter implementation of the [Blueprint.js](https://blueprintjs
 - **🎯 Navbar** - Navigation bars and headers with groups and alignments
 - **📝 Forms** - Input fields, checkboxes, radio buttons, and select dropdowns
 - **📐 Layout** - Dividers and sections for organizing and structuring content
-- **💬 Dialogs** - Modal dialogs, alerts, confirmations, and custom overlays
+- **💬 Dialogs** - Modal dialogs, alerts, confirmations, and custom overlays with **perfect header alignment** (icon-text centering and responsive heights)
 - **🏷️ Tags** - Labels, removable tags, intent colors, interactive variants, and **perfect text centering** (matching Blueprint.js compound tag rendering)
 - **🎨 Icons** - Consistent iconography with sizes, intents, and semantic meanings
 - **📂 Collapse** - Expandable content areas with Blueprint.js-style button triggers and smooth animations
-- **💬 Popovers** - Rich contextual overlays with positioning and interactive content
+- **💬 Popovers** - Rich contextual overlays with **visible carets/arrows**, **white backgrounds**, and **proper Blueprint.js styling** - completely redesigned from BoxDecoration to ShapeDecoration for integrated shadows
 - **📊 Tables** - Complex data display with sorting, selection, Blueprint styling, **perfectly aligned headers and data cells**, and **perfect text centering**
 - **🌳 Trees** - Hierarchical data display with expand/collapse and selection
 - **🔔 Toasts** - Global notification system with positioning and animations
@@ -125,65 +125,58 @@ BlueprintRadio/
 │           └── Text (label)
 ```
 
-### 🔧 Technical Implementation Details
+### 🔧 Technical Implementation TreeMaps
 
-#### Input Field Vertical Centering Solution
-```dart
-// BlueprintInputGroup critical implementation
-Row(
-  crossAxisAlignment: isMultiLine 
-      ? CrossAxisAlignment.start   // Top align for textareas
-      : CrossAxisAlignment.center,  // Center for single-line
-  children: [
-    if (widget.leftIcon != null) 
-      Padding(
-        padding: EdgeInsets.only(
-          left: 10, right: 8,
-          top: isMultiLine ? 9 : 0,  // 9px aligns icon with first line
-        ),
-        child: Icon(...),
-      ),
-    Expanded(
-      child: TextField(
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: widget.leftIcon != null ? 0 : 12,
-            vertical: isMultiLine ? 10 : 8,  // 8px for single, 10px for multi
-          ),
-          isDense: true,
-        ),
-      ),
-    ),
-  ],
-)
+#### Dialog Header Perfect Alignment Structure
+```
+BlueprintDialog Header/
+├── Container (dynamic height constraints)
+│   ├── minHeight: 36px (with close button) | 32px (without - sweet spot)
+│   └── Row (crossAxisAlignment: center)
+│       ├── [Icon Container] (optional)
+│       │   ├── height: 20px, width: 20px
+│       │   └── alignment: Alignment.center
+│       ├── SizedBox (width: 7.5px spacing)
+│       ├── Expanded (title container)
+│       │   ├── height: 20px
+│       │   ├── alignment: Alignment.centerLeft
+│       │   └── Transform.translate (offset: 0,1 for perfect centering)
+│       │       └── DefaultTextStyle (height: 1.0)
+│       │           └── Text (title)
+│       └── [Close Button Container] (optional)
+│           ├── height: 20px
+│           └── alignment: Alignment.center
 ```
 
-#### Perfect Text Centering Pattern (Tags/Tables/Buttons)
-```dart
-// Universal centering pattern discovered
-DefaultTextStyle(
-  style: TextStyle(
-    fontSize: fontSize,
-    height: 1.0,  // Critical: exactly 1.0, not 1.2
-  ),
-  child: Text(content),  // No additional styling
-)
+#### Input Field Vertical Centering Structure
+```
+BlueprintInputGroup/
+├── Container (height: 30px single | dynamic multi)
+│   ├── Row (crossAxisAlignment: start|center based on multiline)
+│   │   ├── [Icon Container] (optional)
+│   │   │   ├── Padding (left: 10, right: 8, top: 9|0)
+│   │   │   └── Icon (size: 16px)
+│   │   └── Expanded
+│   │       └── TextField (contentPadding: vertical 8|10px, isDense: true)
 ```
 
-#### Checkbox, Radio & Select Label Centering
-```dart
-// Consistent 2px lift pattern for checkboxes, radios, and select dropdowns
-Row(
-  crossAxisAlignment: CrossAxisAlignment.center,
-  children: [
-    buildCheckbox(),  // or buildRadio() or buildSelectContainer() - 16x16px or 20x20px or 30px height
-    const SizedBox(width: 8),
-    Padding(
-      padding: const EdgeInsets.only(bottom: 2),  // Universal 2px lift
-      child: Text(label),  // Natural text height, no height multiplier
-    ),
-  ],
-)
+#### Perfect Text Centering Pattern Structure
+```
+Universal Text Centering/
+└── DefaultTextStyle
+    ├── height: 1.0 (critical - not 1.2)
+    ├── fontSize: component-specific
+    └── Text (no additional styling)
+```
+
+#### Form Control Label Centering Structure
+```
+Checkbox/Radio/Select Label/
+└── Row (crossAxisAlignment: center)
+    ├── Control Container (16x16|20x20|30px height)
+    ├── SizedBox (width: 8px)
+    └── Padding (bottom: 2px - universal lift)
+        └── Text (natural height, no multiplier)
 ```
 
 #### Slider Modular Structure
@@ -214,7 +207,7 @@ Split the massive 487-line `main.dart` into focused, maintainable files:
 blueprint_flutter_demo/
 ├── 📄 README.md                            # Project documentation (this file)
 ├── 📄 pubspec.yaml                         # Flutter dependencies and configuration
-├── 📄 analysis_options.yaml                # Dart analysis configuration
+├── 📄 analysis_options.yaml                # Dart analysis configuration (optimized to suppress style-only warnings)
 ├── 🔧 run-windows.bat                      # Windows launcher script
 ├── 🔧 run-android.bat                      # Android launcher script (legacy)
 │
@@ -324,11 +317,11 @@ blueprint_flutter_demo/
 15. **blueprint_spinner.dart** - Circular loading indicators
 16. **blueprint_tabs.dart** - Tab navigation system
 17. **blueprint_tooltip.dart** - Contextual hover information
-18. **blueprint_dialog.dart** - Modal dialogs and overlays
+18. **blueprint_dialog.dart** - Modal dialogs and overlays with perfect header alignment
 19. **blueprint_tag.dart** - Labels and removable tags
 20. **blueprint_icon.dart** - Consistent iconography system
 21. **blueprint_collapse.dart** - Expandable content areas with Blueprint.js-faithful button triggers
-22. **blueprint_popover.dart** - Rich contextual overlays with positioning
+22. **blueprint_popover.dart** - Rich contextual overlays with **comprehensive positioning** and **visible carets** - redesigned with ShapeDecoration for proper shadow integration
 23. **blueprint_table.dart** - Complex data display with sorting and selection
 24. **blueprint_tree.dart** - Hierarchical data display with interactions
 25. **blueprint_toast.dart** - Global notification system with animations
@@ -352,7 +345,7 @@ blueprint_flutter_demo/
 15. **dialog_demo_page.dart** - Modal dialog examples and interactions
 16. **tag_demo_page.dart** - Tag component examples and variants
 17. **components_demo_page.dart** - Showcase of newest components combined
-18. **popover_demo_page.dart** - Popover positioning and interactive content
+18. **popover_demo_page.dart** - Popover positioning and interactive content with **proper menu styling**
 19. **table_demo_page.dart** - Complex data tables with sorting and selection
 20. **tree_demo_page.dart** - Hierarchical tree data display
 21. **toast_demo_page.dart** - Global toast notification examples
@@ -853,4 +846,4 @@ This library is **open source** and available for the Flutter community to use, 
 
 **Disclaimer**: This is an independent Flutter implementation inspired by the Blueprint.js design system. It is not affiliated with, endorsed by, or officially connected to Blueprint.js or Palantir Technologies. All Blueprint.js trademarks and design patterns belong to their respective owners.
 
-**Project Statistics**: ~12,000+ lines of code | 26 components | 24 demo pages | 55+ Dart files | **Perfect tag centering, table alignment & text centering**
+**Project Statistics**: ~12,000+ lines of code | 26 components | 24 demo pages | 55+ Dart files | **Perfect text centering everywhere** (tags, tables, dialogs, buttons) | **Optimized analysis configuration**

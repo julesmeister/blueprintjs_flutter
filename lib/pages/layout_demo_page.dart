@@ -201,7 +201,7 @@ class _LayoutDemoPageState extends State<LayoutDemoPage> {
         BlueprintSections.elevated(
           title: 'Elevated Section',
           icon: Icons.layers,
-          elevation: BlueprintSectionElevation.two,
+          elevation: BlueprintElevation.two,
           children: [
             const Text(
               'This section has elevation shadow to make it stand out from the background.',
@@ -358,78 +358,75 @@ class _LayoutDemoPageState extends State<LayoutDemoPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-                Text(
-                  'Dashboard Layout Example',
-                  style: const TextStyle(
-                    fontSize: BlueprintTheme.fontSizeLarge,
-                    fontWeight: FontWeight.w600,
+              Text(
+                'Dashboard Layout Example',
+                style: const TextStyle(
+                  fontSize: BlueprintTheme.fontSizeLarge,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 16),
+              
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: BlueprintSections.simple(
+                      title: 'Statistics',
+                      icon: Icons.analytics,
+                      children: [
+                        _buildStatItem('Users', '1,234', Icons.people, BlueprintColors.blue3),
+                        BlueprintDividers.compact(),
+                        _buildStatItem('Revenue', '\$12,345', Icons.attach_money, BlueprintColors.green3),
+                        BlueprintDividers.compact(),
+                        _buildStatItem('Orders', '567', Icons.shopping_cart, BlueprintColors.orange3),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: BlueprintSections.simple(
-                        title: 'Statistics',
-                        icon: Icons.analytics,
-                        children: [
-                          _buildStatItem('Users', '1,234', Icons.people, BlueprintColors.blue3),
-                          BlueprintDividers.compact(),
-                          _buildStatItem('Revenue', '\$12,345', Icons.attach_money, BlueprintColors.green3),
-                          BlueprintDividers.compact(),
-                          _buildStatItem('Orders', '567', Icons.shopping_cart, BlueprintColors.orange3),
-                        ],
-                      ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    flex: 3,
+                    child: BlueprintSections.simple(
+                      title: 'Recent Activity',
+                      icon: Icons.history,
+                      children: [
+                        _buildActivityItem('User John Doe logged in', '2 minutes ago'),
+                        _buildActivityItem('Order #1234 was shipped', '5 minutes ago'),
+                        _buildActivityItem('New user registered', '10 minutes ago'),
+                        _buildActivityItem('Payment processed', '15 minutes ago'),
+                      ],
                     ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      flex: 3,
-                      child: BlueprintSections.simple(
-                        title: 'Recent Activity',
-                        icon: Icons.history,
-                        children: [
-                          _buildActivityItem('User John Doe logged in', '2 minutes ago'),
-                          _buildActivityItem('Order #1234 was shipped', '5 minutes ago'),
-                          _buildActivityItem('New user registered', '10 minutes ago'),
-                          _buildActivityItem('Payment processed', '15 minutes ago'),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                
-                const SizedBox(height: 16),
-                BlueprintDividers.horizontal(),
-                const SizedBox(height: 16),
-                
-                BlueprintSections.collapsible(
-                  title: 'Advanced Settings',
-                  icon: Icons.settings,
-                  initiallyCollapsed: true,
-                  children: [
-                    const Text('These settings are for advanced users only.'),
-                    const SizedBox(height: 12),
-                    BlueprintInputGroup(
-                      placeholder: 'API Endpoint',
-                      leftIcon: Icons.api,
-                      
-                      onChanged: (value) {},
-                    ),
-                    const SizedBox(height: 8),
-                    BlueprintInputGroup(
-                      placeholder: 'Timeout (seconds)',
-                      leftIcon: Icons.timer,
-                      keyboardType: TextInputType.number,
-                      
-                      onChanged: (value) {},
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              
+              const SizedBox(height: 16),
+              BlueprintDividers.horizontal(),
+              const SizedBox(height: 16),
+              
+              BlueprintSections.collapsible(
+                title: 'Advanced Settings',
+                icon: Icons.settings,
+                initiallyCollapsed: true,
+                children: [
+                  const Text('These settings are for advanced users only.'),
+                  const SizedBox(height: 12),
+                  BlueprintInputGroup(
+                    placeholder: 'API Endpoint',
+                    leftIcon: Icons.api,
+                    onChanged: (value) {},
+                  ),
+                  const SizedBox(height: 8),
+                  BlueprintInputGroup(
+                    placeholder: 'Timeout (seconds)',
+                    leftIcon: Icons.timer,
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {},
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ],

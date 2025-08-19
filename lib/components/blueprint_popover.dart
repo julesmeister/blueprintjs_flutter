@@ -4,6 +4,7 @@ import 'popover_models.dart';
 import 'popover_content.dart';
 import 'blueprint_button.dart';
 import 'blueprint_common.dart';
+import 'blueprint_menu.dart';
 
 // Re-export for convenience
 export 'popover_models.dart';
@@ -333,17 +334,14 @@ class BlueprintPopovers {
 
   static Widget menu({
     required Widget child,
-    required List<Widget> items,
+    required List<dynamic> items, // Can contain BlueprintMenuItem or BlueprintMenuDivider
     BlueprintPopoverPosition position = BlueprintPopoverPosition.bottomLeft,
   }) {
     return BlueprintPopover(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: items,
-      ),
+      content: BlueprintMenu(items: items),
       position: position,
       interaction: BlueprintPopoverInteraction.click,
-      minimal: true,
+      minimal: false, // Use proper white background with carets
       child: child,
     );
   }

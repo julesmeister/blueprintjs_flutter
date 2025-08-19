@@ -1,14 +1,4 @@
-import 'package:flutter/material.dart';
-import '../theme/blueprint_theme.dart';
-import '../theme/blueprint_colors.dart';
-
-enum BlueprintSectionElevation {
-  zero,
-  one,
-  two,
-  three,
-  four,
-}
+import 'blueprint_common.dart';
 
 class BlueprintSection extends StatefulWidget {
   final String? title;
@@ -16,7 +6,7 @@ class BlueprintSection extends StatefulWidget {
   final List<Widget> children;
   final bool collapsible;
   final bool initiallyCollapsed;
-  final BlueprintSectionElevation elevation;
+  final BlueprintElevation elevation;
   final EdgeInsetsGeometry? padding;
   final IconData? icon;
   final List<Widget>? rightElement;
@@ -29,7 +19,7 @@ class BlueprintSection extends StatefulWidget {
     required this.children,
     this.collapsible = false,
     this.initiallyCollapsed = false,
-    this.elevation = BlueprintSectionElevation.zero,
+    this.elevation = BlueprintElevation.zero,
     this.padding,
     this.icon,
     this.rightElement,
@@ -90,6 +80,10 @@ class _BlueprintSectionState extends State<BlueprintSection>
       decoration: BoxDecoration(
         color: isDark ? BlueprintColors.dark3 : BlueprintColors.light5,
         borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
+        border: Border.all(
+          color: isDark ? BlueprintColors.dark1 : BlueprintColors.gray5,
+          width: 1,
+        ),
         boxShadow: _getElevationShadow(),
       ),
       child: Column(
@@ -193,18 +187,7 @@ class _BlueprintSectionState extends State<BlueprintSection>
   }
 
   List<BoxShadow> _getElevationShadow() {
-    switch (widget.elevation) {
-      case BlueprintSectionElevation.zero:
-        return [];
-      case BlueprintSectionElevation.one:
-        return BlueprintTheme.elevation1;
-      case BlueprintSectionElevation.two:
-        return BlueprintTheme.elevation2;
-      case BlueprintSectionElevation.three:
-        return BlueprintTheme.elevation3;
-      case BlueprintSectionElevation.four:
-        return BlueprintTheme.elevation4;
-    }
+    return widget.elevation.shadows;
   }
 }
 
@@ -274,7 +257,7 @@ class BlueprintSections {
   static BlueprintSection elevated({
     required String title,
     required List<Widget> children,
-    BlueprintSectionElevation elevation = BlueprintSectionElevation.two,
+    BlueprintElevation elevation = BlueprintElevation.two,
     IconData? icon,
   }) {
     return BlueprintSection(

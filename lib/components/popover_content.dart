@@ -50,12 +50,7 @@ class PopoverContent extends StatelessWidget {
           child: MouseRegion(
             onEnter: (_) => onPopoverHover(true),
             onExit: (_) => onPopoverHover(false),
-            child: Stack(
-              children: [
-                if (!minimal) _buildArrow(),
-                _buildPopoverContent(),
-              ],
-            ),
+            child: _buildPopoverContent(),
           ),
         ),
       ),
@@ -88,24 +83,38 @@ class PopoverContent extends StatelessWidget {
           maxHeight: maxHeight ?? 400,
         ),
         padding: const EdgeInsets.all(BlueprintTheme.gridSize),
-        decoration: BoxDecoration(
+        decoration: ShapeDecoration(
           color: minimal ? BlueprintColors.lightGray5 : Colors.white,
-          borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
-          border: minimal 
-              ? Border.all(color: BlueprintColors.gray5, width: 1)
-              : null,
-          boxShadow: minimal ? null : [
+          shape: PopoverShapeBorder(
+            position: position,
+            arrowWidth: minimal ? 0 : 12,
+            arrowHeight: minimal ? 0 : 6,
+            borderRadius: BlueprintTheme.borderRadius,
+          ),
+          shadows: minimal ? [
+            // Minimal shadow for minimal popovers
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 2,
+              offset: const Offset(0, 1),
+            ),
+          ] : [
+            // Blueprint.js style shadows (multiple layers for depth)
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-              spreadRadius: 0,
+              offset: const Offset(0, 0),
+              blurRadius: 0,
+              spreadRadius: 1,
             ),
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.15),
-              blurRadius: 4,
+              color: Colors.black.withValues(alpha: 0.2),
               offset: const Offset(0, 2),
-              spreadRadius: 0,
+              blurRadius: 4,
+            ),
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.2),
+              offset: const Offset(0, 8),
+              blurRadius: 24,
             ),
           ],
         ),
@@ -122,103 +131,157 @@ class PopoverContent extends StatelessWidget {
     );
   }
 
-  Widget _buildArrow() {
-    const arrowSize = 8.0;
-    return Positioned(
-      top: _getArrowTop(arrowSize),
-      left: _getArrowLeft(arrowSize),
-      child: CustomPaint(
-        size: Size(arrowSize * 2, arrowSize),
-        painter: ArrowPainter(
-          color: Colors.white,
-          direction: PopoverPositionCalculator.getArrowDirection(position),
-        ),
-      ),
+}
+
+// Custom shape border for popover with arrow (handles all positions)
+class PopoverShapeBorder extends ShapeBorder {
+  final BlueprintPopoverPosition position;
+  final double arrowWidth;
+  final double arrowHeight;
+  final double borderRadius;
+
+  const PopoverShapeBorder({
+    required this.position,
+    this.arrowWidth = 12,
+    this.arrowHeight = 6,
+    this.borderRadius = 3,
+  });
+
+  @override
+  EdgeInsetsGeometry get dimensions {
+    switch (position) {
+      case BlueprintPopoverPosition.top:
+      case BlueprintPopoverPosition.topLeft:
+      case BlueprintPopoverPosition.topRight:
+        return EdgeInsets.only(bottom: arrowHeight); // Arrow points down from popover
+      case BlueprintPopoverPosition.bottom:
+      case BlueprintPopoverPosition.bottomLeft:
+      case BlueprintPopoverPosition.bottomRight:
+        return EdgeInsets.only(top: arrowHeight); // Arrow points up from popover
+      case BlueprintPopoverPosition.left:
+        return EdgeInsets.only(right: arrowHeight); // Arrow points right from popover
+      case BlueprintPopoverPosition.right:
+        return EdgeInsets.only(left: arrowHeight); // Arrow points left from popover
+    }
+  }
+
+  @override
+  Path getInnerPath(Rect rect, {TextDirection? textDirection}) {
+    return getOuterPath(rect, textDirection: textDirection);
+  }
+
+  @override
+  Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
+    final path = Path();
+    
+    // Calculate popover body rect (excluding arrow space)
+    Rect popoverRect;
+    switch (position) {
+      case BlueprintPopoverPosition.top:
+      case BlueprintPopoverPosition.topLeft:
+      case BlueprintPopoverPosition.topRight:
+        // Popover above target, arrow points down
+        popoverRect = Rect.fromLTWH(
+          rect.left, rect.top, rect.width, rect.height - arrowHeight);
+        break;
+      case BlueprintPopoverPosition.bottom:
+      case BlueprintPopoverPosition.bottomLeft:
+      case BlueprintPopoverPosition.bottomRight:
+        // Popover below target, arrow points up
+        popoverRect = Rect.fromLTWH(
+          rect.left, rect.top + arrowHeight, rect.width, rect.height - arrowHeight);
+        break;
+      case BlueprintPopoverPosition.left:
+        // Popover left of target, arrow points right
+        popoverRect = Rect.fromLTWH(
+          rect.left, rect.top, rect.width - arrowHeight, rect.height);
+        break;
+      case BlueprintPopoverPosition.right:
+        // Popover right of target, arrow points left
+        popoverRect = Rect.fromLTWH(
+          rect.left + arrowHeight, rect.top, rect.width - arrowHeight, rect.height);
+        break;
+    }
+
+    // Create rounded rectangle for popover body
+    final rrect = RRect.fromRectAndRadius(
+      popoverRect,
+      Radius.circular(borderRadius),
+    );
+    path.addRRect(rrect);
+
+    // Add arrow pointing in correct direction
+    _addArrowToPath(path, rect, popoverRect);
+
+    return path;
+  }
+
+  void _addArrowToPath(Path path, Rect rect, Rect popoverRect) {
+    switch (position) {
+      case BlueprintPopoverPosition.top:
+      case BlueprintPopoverPosition.topLeft:
+      case BlueprintPopoverPosition.topRight:
+        // Arrow pointing down from popover
+        final arrowX = _getArrowCenterX(popoverRect);
+        path.moveTo(arrowX - arrowWidth / 2, popoverRect.bottom);
+        path.lineTo(arrowX, rect.bottom);
+        path.lineTo(arrowX + arrowWidth / 2, popoverRect.bottom);
+        break;
+      case BlueprintPopoverPosition.bottom:
+      case BlueprintPopoverPosition.bottomLeft:
+      case BlueprintPopoverPosition.bottomRight:
+        // Arrow pointing up from popover
+        final arrowX = _getArrowCenterX(popoverRect);
+        path.moveTo(arrowX - arrowWidth / 2, popoverRect.top);
+        path.lineTo(arrowX, rect.top);
+        path.lineTo(arrowX + arrowWidth / 2, popoverRect.top);
+        break;
+      case BlueprintPopoverPosition.left:
+        // Arrow pointing right from popover
+        final arrowY = popoverRect.center.dy;
+        path.moveTo(popoverRect.right, arrowY - arrowWidth / 2);
+        path.lineTo(rect.right, arrowY);
+        path.lineTo(popoverRect.right, arrowY + arrowWidth / 2);
+        break;
+      case BlueprintPopoverPosition.right:
+        // Arrow pointing left from popover
+        final arrowY = popoverRect.center.dy;
+        path.moveTo(popoverRect.left, arrowY - arrowWidth / 2);
+        path.lineTo(rect.left, arrowY);
+        path.lineTo(popoverRect.left, arrowY + arrowWidth / 2);
+        break;
+    }
+    path.close();
+  }
+
+  double _getArrowCenterX(Rect popoverRect) {
+    switch (position) {
+      case BlueprintPopoverPosition.topLeft:
+      case BlueprintPopoverPosition.bottomLeft:
+        return popoverRect.left + 20; // 20px from left edge
+      case BlueprintPopoverPosition.topRight:
+      case BlueprintPopoverPosition.bottomRight:
+        return popoverRect.right - 20; // 20px from right edge
+      case BlueprintPopoverPosition.top:
+      case BlueprintPopoverPosition.bottom:
+      default:
+        return popoverRect.center.dx; // Centered
+    }
+  }
+
+  @override
+  void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {
+    // No additional painting needed - the decoration handles the fill (EXACT copy)
+  }
+
+  @override
+  ShapeBorder scale(double t) {
+    return PopoverShapeBorder(
+      position: position,
+      arrowWidth: arrowWidth * t,
+      arrowHeight: arrowHeight * t,
+      borderRadius: borderRadius * t,
     );
   }
-
-  double? _getArrowTop(double arrowSize) {
-    switch (position) {
-      case BlueprintPopoverPosition.top:
-      case BlueprintPopoverPosition.topLeft:
-      case BlueprintPopoverPosition.topRight:
-        return null;
-      case BlueprintPopoverPosition.bottom:
-      case BlueprintPopoverPosition.bottomLeft:
-      case BlueprintPopoverPosition.bottomRight:
-        return -arrowSize;
-      case BlueprintPopoverPosition.left:
-      case BlueprintPopoverPosition.right:
-        return null;
-    }
-  }
-
-  double? _getArrowLeft(double arrowSize) {
-    switch (position) {
-      case BlueprintPopoverPosition.left:
-        return null;
-      case BlueprintPopoverPosition.right:
-        return -arrowSize * 2;
-      case BlueprintPopoverPosition.top:
-      case BlueprintPopoverPosition.bottom:
-        return null;
-      case BlueprintPopoverPosition.topLeft:
-      case BlueprintPopoverPosition.bottomLeft:
-        return BlueprintTheme.gridSize.toDouble();
-      case BlueprintPopoverPosition.topRight:
-      case BlueprintPopoverPosition.bottomRight:
-        return null;
-    }
-  }
 }
 
-class ArrowPainter extends CustomPainter {
-  final Color color;
-  final ArrowDirection direction;
-
-  ArrowPainter({required this.color, required this.direction});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
-
-    final path = Path();
-    final width = size.width;
-    final height = size.height;
-
-    switch (direction) {
-      case ArrowDirection.up:
-        path.moveTo(width / 2, 0);
-        path.lineTo(0, height);
-        path.lineTo(width, height);
-        break;
-      case ArrowDirection.down:
-        path.moveTo(0, 0);
-        path.lineTo(width, 0);
-        path.lineTo(width / 2, height);
-        break;
-      case ArrowDirection.left:
-        path.moveTo(0, height / 2);
-        path.lineTo(width, 0);
-        path.lineTo(width, height);
-        break;
-      case ArrowDirection.right:
-        path.moveTo(0, 0);
-        path.lineTo(width, height / 2);
-        path.lineTo(0, height);
-        break;
-      case ArrowDirection.none:
-        return; // No arrow to draw
-    }
-
-    path.close();
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(ArrowPainter oldDelegate) {
-    return oldDelegate.color != color || oldDelegate.direction != direction;
-  }
-}
