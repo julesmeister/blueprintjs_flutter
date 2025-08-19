@@ -2,6 +2,8 @@
 
 A comprehensive Flutter implementation of the [Blueprint.js](https://blueprintjs.com/) design system. This open source library recreates Blueprint's core components and design language for Flutter applications.
 
+![Blueprint Flutter Components Demo](assets/home.png)
+
 > **Inspired by Blueprint.js** - This is an independent Flutter implementation created by the community, not officially affiliated with Blueprint.js or Palantir Technologies.
 
 ## 🚀 Features
