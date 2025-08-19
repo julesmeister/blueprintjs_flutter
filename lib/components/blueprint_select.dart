@@ -173,6 +173,7 @@ class _BlueprintSelectState<T> extends State<BlueprintSelect<T>> {
                 child: Padding(
                   padding: EdgeInsets.only(
                     left: (widget.leftIcon != null || (hasSelection && selectedOption?.icon != null)) ? 0 : 12,
+                    bottom: 2, // Subtle lift for vertical centering, matching checkbox/radio pattern
                   ),
                   child: Text(
                     displayText,

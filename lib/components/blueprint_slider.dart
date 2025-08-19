@@ -212,7 +212,7 @@ class BlueprintRangeSlider extends StatelessWidget {
         rangeTickMarkShape: const RoundRangeSliderTickMarkShape(tickMarkRadius: 2),
         activeTickMarkColor: activeColor,
         inactiveTickMarkColor: inactiveColor,
-        rangeThumbShape: const _BlueprintRangeSliderThumbShape(),
+        rangeThumbShape: const BlueprintRangeSliderThumbShape(),
       ),
       child: RangeSlider(
         values: values,

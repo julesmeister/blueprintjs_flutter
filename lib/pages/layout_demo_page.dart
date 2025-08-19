@@ -7,6 +7,7 @@ import '../components/blueprint_button.dart';
 import '../components/blueprint_input.dart';
 import '../components/demo_page_scaffold.dart';
 import '../components/blueprint_common.dart';
+import '../components/blueprint_card.dart';
 
 class LayoutDemoPage extends StatefulWidget {
   const LayoutDemoPage({Key? key}) : super(key: key);
@@ -55,12 +56,10 @@ class _LayoutDemoPageState extends State<LayoutDemoPage> {
   }
 
   Widget _buildDividerSection() {
-    return Card(
-      elevation: 1,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return BlueprintCard(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Horizontal Dividers',
@@ -355,12 +354,10 @@ class _LayoutDemoPageState extends State<LayoutDemoPage> {
   Widget _buildLayoutExamples() {
     return Column(
       children: [
-        Card(
-          elevation: 1,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        BlueprintCard(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Dashboard Layout Example',

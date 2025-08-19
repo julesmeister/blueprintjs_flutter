@@ -103,6 +103,7 @@ class _BlueprintInputGroupState extends State<BlueprintInputGroup> {
   Widget _buildInputField(bool isDark) {
     final inputHeight = _getInputHeight();
     final hasError = widget.errorText != null;
+    final isMultiLine = widget.maxLines != null && widget.maxLines! > 1;
     
     Color borderColor;
     if (hasError) {
@@ -135,7 +136,10 @@ class _BlueprintInputGroupState extends State<BlueprintInputGroup> {
 
     return Container(
       width: widget.fill ? double.infinity : null,
-      height: inputHeight,
+      height: isMultiLine ? null : inputHeight, // No fixed height for textareas
+      constraints: isMultiLine 
+          ? BoxConstraints(minHeight: inputHeight * 2) // Minimum height for textareas
+          : null,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(
@@ -152,10 +156,17 @@ class _BlueprintInputGroupState extends State<BlueprintInputGroup> {
         ] : null,
       ),
       child: Row(
+        crossAxisAlignment: isMultiLine 
+            ? CrossAxisAlignment.start  // Align to top for textareas
+            : CrossAxisAlignment.center, // Center for single-line inputs
         children: [
           if (widget.leftIcon != null) ...[
             Padding(
-              padding: const EdgeInsets.only(left: 12, right: 8),
+              padding: EdgeInsets.only(
+                left: 10, 
+                right: 8,
+                top: isMultiLine ? 9 : 0, // Slightly less to center with first line
+              ),
               child: Icon(
                 widget.leftIcon,
                 size: _getIconSize(),
@@ -166,8 +177,7 @@ class _BlueprintInputGroupState extends State<BlueprintInputGroup> {
             ),
           ],
           Expanded(
-            child: Center(
-              child: TextField(
+            child: TextField(
               controller: _controller,
               focusNode: _focusNode,
               enabled: !widget.disabled,
@@ -193,11 +203,10 @@ class _BlueprintInputGroupState extends State<BlueprintInputGroup> {
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: widget.leftIcon != null ? 0 : 12,
-                  vertical: (_getInputHeight() - _getFontSize() * 1.2) / 2,
+                  vertical: isMultiLine ? 10 : 8, // LESS padding to move text down
                 ),
                 isDense: true,
               ),
-            ),
             ),
           ),
           if (widget.rightElement != null) ...[

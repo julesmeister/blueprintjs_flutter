@@ -3,6 +3,7 @@ import '../../theme/blueprint_colors.dart';
 import '../../components/blueprint_button.dart';
 import '../../components/blueprint_file_input.dart';
 import '../../components/blueprint_common.dart';
+import '../../components/blueprint_card.dart';
 
 class FileInputDemoSection extends StatefulWidget {
   const FileInputDemoSection({super.key});
@@ -43,10 +44,8 @@ class _FileInputDemoSectionState extends State<FileInputDemoSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 1,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
+    return BlueprintCard(
+      padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -142,7 +141,6 @@ class _FileInputDemoSectionState extends State<FileInputDemoSection> {
             ),
           ],
         ),
-      ),
     );
   }
 }

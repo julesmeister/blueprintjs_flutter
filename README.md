@@ -44,44 +44,156 @@ A comprehensive Flutter implementation of the [Blueprint.js](https://blueprintjs
 - **Accessibility** - Semantic labels and proper focus management
 - **Factory Methods** - Convenient component creation patterns
 
-## 🎯 Recent Major Improvements
+## 🎯 Component Architecture & Implementation
 
-### ✨ Perfect Tag Text Centering (Fixed!)
-After extensive investigation, **simple tags now have perfect vertical text centering** that matches Blueprint.js compound tags exactly:
+### 📊 Widget Hierarchy TreeMap
 
-- **Root Cause Identified**: Simple tags used different widget structure than compound tags
-- **Critical Fixes Applied**:
-  1. **Nested Container Structure**: Added outer container wrapper to match compound tags
-  2. **DefaultTextStyle Usage**: Switched from direct Text styling to DefaultTextStyle (key difference!)
-  3. **Exact Line Height**: Using `height: 1.0` exactly like compound tags (not 1.2)
-  4. **Natural Row Alignment**: Removed explicit `crossAxisAlignment.center` to let Row handle it naturally
-  5. **Consistent Rendering**: Both simple and compound tags now use identical Flutter widget patterns
+```
+BlueprintInputGroup/
+├── Container (height: 30px for single | dynamic for multi)
+│   ├── BoxDecoration (border, borderRadius, background)
+│   └── Row (crossAxisAlignment: isMultiLine ? start : center)
+│       ├── [Icon Container] (optional)
+│       │   └── Padding 
+│       │       ├── left: 10, right: 8
+│       │       ├── top: isMultiLine ? 9 : 0  // Aligns with first line
+│       │       └── Icon (size: 16px)
+│       └── Expanded
+│           └── TextField
+│               ├── TextStyle (fontSize: 14px, no height multiplier)
+│               ├── InputDecoration
+│               │   ├── hintStyle (matching TextStyle)
+│               │   └── contentPadding 
+│               │       ├── vertical: 8px (single-line)
+│               │       └── vertical: 10px (multi-line)
+│               └── isDense: true
 
-- **Result**: ✅ Upper and lower halves of tags demo page now look identical with perfect text centering!
+BlueprintTag/
+├── Container (outer wrapper)
+│   └── Container (inner with padding)
+│       └── Row (no explicit crossAxisAlignment)
+│           ├── [Icon] (optional)
+│           ├── DefaultTextStyle (height: 1.0)
+│           │   └── Text (no extra styling)
+│           └── [CloseIcon] (optional)
 
-### 📊 Perfect Table Alignment (Fixed!)
-Fixed table header-to-data alignment issues for pixel-perfect column alignment:
+BlueprintTable/
+├── Column
+│   ├── TableHeader
+│   │   └── Row (mainAxisAlignment: mapped from column.alignment)
+│   │       └── DefaultTextStyle (height: 1.0)
+│   │           └── Text
+│   └── TableRows
+│       └── Row
+│           └── Align (alignment: column.alignment)
+│               └── DefaultTextStyle (height: 1.0)
+│                   └── Text
 
-- **Root Cause**: Headers and data cells used different alignment strategies
-- **Critical Fixes Applied**:
-  1. **Consistent Header Alignment**: Headers now respect column alignment instead of forcing center
-  2. **Data Cell Alignment**: Removed Center() wrappers that overrode column alignment
-  3. **Custom Cell Handling**: Status tags use Align() to stay compact while respecting alignment
-  4. **Helper Methods**: Added MainAxisAlignment mapping for proper header alignment
+BlueprintSlider/
+├── SliderTheme
+│   ├── thumbShape: BlueprintSliderThumbShape (16x16px, 2px radius)
+│   ├── valueIndicatorShape: BlueprintSliderValueIndicatorShape (rectangular)
+│   └── trackHeight: 6px
+└── [Slider | RangeSlider]
 
-- **Result**: ✅ All table columns now have perfect header-to-data alignment (left, center, right)
+BlueprintButton/
+├── Material (type: transparency)
+│   └── InkWell
+│       └── Container (minHeight: 30px)
+│           └── Row (no explicit crossAxisAlignment)
+│               ├── [Icon] (optional)
+│               ├── DefaultTextStyle (height: 1.0)
+│               │   └── Text
+│               └── [EndIcon] (optional)
 
-### 🎯 Perfect Table Text Centering (Fixed!)
-Extended the tag centering breakthrough to **table text rendering** for perfect vertical centering:
+BlueprintCheckbox/
+├── Row (crossAxisAlignment: CrossAxisAlignment.center)
+│   ├── Container (checkbox, 16x16px or 20x20px)
+│   │   └── Icon (check or indeterminate)
+│   ├── SizedBox (width: 8)
+│   └── [Expanded] (for non-inline)
+│       └── Padding (bottom: 2)  // Subtle lift for perfect centering
+│           └── Text (label)
 
-- **Root Cause**: Table text used direct Text styling instead of the DefaultTextStyle pattern that made tags perfect
-- **Critical Fixes Applied**:
-  1. **DefaultTextStyle Pattern**: Applied same widget structure that solved tag centering
-  2. **height: 1.0 Line Height**: Consistent with tags (changed from 1.2)
-  3. **Unified Text Rendering**: Both headers and data cells now use identical centering approach
-  4. **Complete Coverage**: Applied to sortable headers, non-sortable headers, and data cells
+BlueprintRadio/
+├── Row (crossAxisAlignment: CrossAxisAlignment.center)
+│   ├── Container (radio, 16x16px or 20x20px, circular)
+│   │   └── [Container] (inner dot when selected, 50% size)
+│   ├── SizedBox (width: 8)
+│   └── [Expanded] (for non-inline)
+│       └── Padding (bottom: 2)  // Same as checkbox for consistency
+│           └── Text (label)
+```
 
-- **Result**: ✅ All table text now has the same perfect vertical centering as tags!
+### 🔧 Technical Implementation Details
+
+#### Input Field Vertical Centering Solution
+```dart
+// BlueprintInputGroup critical implementation
+Row(
+  crossAxisAlignment: isMultiLine 
+      ? CrossAxisAlignment.start   // Top align for textareas
+      : CrossAxisAlignment.center,  // Center for single-line
+  children: [
+    if (widget.leftIcon != null) 
+      Padding(
+        padding: EdgeInsets.only(
+          left: 10, right: 8,
+          top: isMultiLine ? 9 : 0,  // 9px aligns icon with first line
+        ),
+        child: Icon(...),
+      ),
+    Expanded(
+      child: TextField(
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: widget.leftIcon != null ? 0 : 12,
+            vertical: isMultiLine ? 10 : 8,  // 8px for single, 10px for multi
+          ),
+          isDense: true,
+        ),
+      ),
+    ),
+  ],
+)
+```
+
+#### Perfect Text Centering Pattern (Tags/Tables/Buttons)
+```dart
+// Universal centering pattern discovered
+DefaultTextStyle(
+  style: TextStyle(
+    fontSize: fontSize,
+    height: 1.0,  // Critical: exactly 1.0, not 1.2
+  ),
+  child: Text(content),  // No additional styling
+)
+```
+
+#### Checkbox, Radio & Select Label Centering
+```dart
+// Consistent 2px lift pattern for checkboxes, radios, and select dropdowns
+Row(
+  crossAxisAlignment: CrossAxisAlignment.center,
+  children: [
+    buildCheckbox(),  // or buildRadio() or buildSelectContainer() - 16x16px or 20x20px or 30px height
+    const SizedBox(width: 8),
+    Padding(
+      padding: const EdgeInsets.only(bottom: 2),  // Universal 2px lift
+      child: Text(label),  // Natural text height, no height multiplier
+    ),
+  ],
+)
+```
+
+#### Slider Modular Structure
+```
+lib/components/
+├── blueprint_slider.dart (main component)
+└── slider/
+    ├── blueprint_slider_shapes.dart (thumb & tooltip shapes)
+    └── blueprint_range_slider.dart (range variant)
+```
 
 ### 🗂️ Clean File Structure (Refactored!)
 Split the massive 487-line `main.dart` into focused, maintainable files:

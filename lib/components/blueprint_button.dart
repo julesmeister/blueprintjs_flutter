@@ -252,6 +252,7 @@ class _BlueprintButtonState extends State<BlueprintButton> {
               color: _foregroundColor,
               fontWeight: FontWeight.w400,
               fontSize: _fontSize,
+              height: 1.0, // CRITICAL: Same fix as tags for perfect text centering
             ),
             child: widget.child ?? Text(
               widget.text!,
@@ -273,7 +274,6 @@ class _BlueprintButtonState extends State<BlueprintButton> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: children,
     );
   }
@@ -297,10 +297,7 @@ class _BlueprintButtonState extends State<BlueprintButton> {
             border: _border,
             boxShadow: _boxShadow,
           ),
-          child: Align(
-            alignment: Alignment.center,
-            child: _buildContent(),
-          ),
+          child: _buildContent(),
         ),
       ),
     );

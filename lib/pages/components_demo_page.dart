@@ -69,8 +69,8 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
         _buildIconExample('Home', BlueprintIcons.home()),
         _buildIconExample('Settings', BlueprintIcons.settings()),
         _buildIconExample('Info', BlueprintIcons.info()),
-        _buildIconExample('Warning', BlueprintIcons.warning_triangle()),
-        _buildIconExample('Success', BlueprintIcons.success_check()),
+        _buildIconExample('Warning', BlueprintIcons.warningTriangle()),
+        _buildIconExample('Success', BlueprintIcons.successCheck()),
         _buildIconExample('Error', BlueprintIcons.error()),
         _buildIconExample('Save', BlueprintIcons.save()),
         _buildIconExample('Delete', BlueprintIcons.delete()),
@@ -265,7 +265,7 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
                   const SizedBox(height: BlueprintTheme.gridSize),
                   Row(
                     children: [
-                      BlueprintIcons.success_check(size: BlueprintIconSize.small),
+                      BlueprintIcons.successCheck(size: BlueprintSize.small),
                       const SizedBox(width: BlueprintTheme.gridSize * 0.5),
                       const Text('All tests passing'),
                     ],
@@ -414,12 +414,12 @@ class _ComponentsDemoPageState extends State<ComponentsDemoPage> {
             BlueprintTooltips.intent(
               content: 'Success state',
               intent: BlueprintIntent.success,
-              child: BlueprintIcons.success_check(),
+              child: BlueprintIcons.successCheck(),
             ),
             BlueprintTooltips.intent(
               content: 'Warning message',
               intent: BlueprintIntent.warning,
-              child: BlueprintIcons.warning_triangle(),
+              child: BlueprintIcons.warningTriangle(),
             ),
             BlueprintTooltips.intent(
               content: 'Danger zone',

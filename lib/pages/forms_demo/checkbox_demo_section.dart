@@ -3,6 +3,7 @@ import '../../theme/blueprint_colors.dart';
 import '../../components/blueprint_button.dart';
 import '../../components/blueprint_checkbox.dart';
 import '../../components/blueprint_common.dart';
+import '../../components/blueprint_card.dart';
 
 class CheckboxDemoSection extends StatefulWidget {
   const CheckboxDemoSection({super.key});
@@ -19,11 +20,9 @@ class _CheckboxDemoSectionState extends State<CheckboxDemoSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 1,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+    return BlueprintCard(
+      padding: const EdgeInsets.all(16),
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BlueprintCheckboxes.simple(
@@ -102,7 +101,6 @@ class _CheckboxDemoSectionState extends State<CheckboxDemoSection> {
             ),
           ],
         ),
-      ),
     );
   }
 }

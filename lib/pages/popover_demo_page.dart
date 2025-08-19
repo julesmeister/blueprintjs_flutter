@@ -146,7 +146,7 @@ class _PopoverDemoPageState extends State<PopoverDemoPage> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              BlueprintIcons.warning_triangle(),
+              BlueprintIcons.warningTriangle(),
               const SizedBox(height: BlueprintTheme.gridSize * 0.5),
               const Text('Warning information'),
             ],

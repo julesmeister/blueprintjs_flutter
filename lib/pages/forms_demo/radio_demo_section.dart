@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../components/blueprint_button.dart';
 import '../../components/blueprint_radio.dart';
 import '../../components/blueprint_common.dart';
+import '../../components/blueprint_card.dart';
 
 class RadioDemoSection extends StatefulWidget {
   const RadioDemoSection({super.key});
@@ -16,11 +17,9 @@ class _RadioDemoSectionState extends State<RadioDemoSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 1,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+    return BlueprintCard(
+      padding: const EdgeInsets.all(16),
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BlueprintRadios.group<String>(
@@ -88,7 +87,6 @@ class _RadioDemoSectionState extends State<RadioDemoSection> {
             ),
           ],
         ),
-      ),
     );
   }
 }

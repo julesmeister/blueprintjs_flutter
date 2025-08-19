@@ -1,39 +1,29 @@
-import 'package:flutter/material.dart';
-import '../theme/blueprint_theme.dart';
-import '../theme/blueprint_colors.dart';
-import 'blueprint_button.dart';
 import 'blueprint_common.dart';
-
-enum BlueprintIconSize {
-  small,    // 12px
-  standard, // 16px  
-  large,    // 20px
-}
 
 class BlueprintIcon extends StatelessWidget {
   final IconData icon;
-  final BlueprintIconSize size;
+  final BlueprintSize size;
   final Color? color;
   final BlueprintIntent? intent;
   final String? title;
   final String? semanticLabel;
 
   const BlueprintIcon({
-    Key? key,
+    super.key,
     required this.icon,
-    this.size = BlueprintIconSize.standard,
+    this.size = BlueprintSize.normal,
     this.color,
     this.intent,
     this.title,
     this.semanticLabel,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     Widget iconWidget = Icon(
       icon,
-      size: _getIconSize(),
-      color: _getIconColor(),
+      size: size.iconSize, // Use extension method
+      color: color ?? intent?.color ?? BlueprintColors.gray1, // Use extension method
       semanticLabel: semanticLabel,
     );
 
@@ -46,58 +36,26 @@ class BlueprintIcon extends StatelessWidget {
 
     return iconWidget;
   }
-
-  double _getIconSize() {
-    switch (size) {
-      case BlueprintIconSize.small:
-        return 12.0;
-      case BlueprintIconSize.standard:
-        return 16.0;
-      case BlueprintIconSize.large:
-        return 20.0;
-    }
-  }
-
-  Color _getIconColor() {
-    if (color != null) return color!;
-    
-    if (intent != null) {
-      switch (intent!) {
-        case BlueprintIntent.primary:
-          return BlueprintColors.intentPrimary;
-        case BlueprintIntent.success:
-          return BlueprintColors.intentSuccess;
-        case BlueprintIntent.warning:
-          return BlueprintColors.intentWarning;
-        case BlueprintIntent.danger:
-          return BlueprintColors.intentDanger;
-        case BlueprintIntent.none:
-          break;
-      }
-    }
-    
-    return BlueprintColors.gray1; // Default Blueprint icon color
-  }
 }
 
 // Factory methods for common icon patterns
 class BlueprintIcons {
+  // Size-based factory methods
   static Widget small({
     required IconData icon,
     Color? color,
     BlueprintIntent? intent,
     String? title,
     String? semanticLabel,
-  }) {
-    return BlueprintIcon(
-      icon: icon,
-      size: BlueprintIconSize.small,
-      color: color,
-      intent: intent,
-      title: title,
-      semanticLabel: semanticLabel,
-    );
-  }
+  }) =>
+      BlueprintIcon(
+        icon: icon,
+        size: BlueprintSize.small,
+        color: color,
+        intent: intent,
+        title: title,
+        semanticLabel: semanticLabel,
+      );
 
   static Widget standard({
     required IconData icon,
@@ -105,16 +63,15 @@ class BlueprintIcons {
     BlueprintIntent? intent,
     String? title,
     String? semanticLabel,
-  }) {
-    return BlueprintIcon(
-      icon: icon,
-      size: BlueprintIconSize.standard,
-      color: color,
-      intent: intent,
-      title: title,
-      semanticLabel: semanticLabel,
-    );
-  }
+  }) =>
+      BlueprintIcon(
+        icon: icon,
+        size: BlueprintSize.normal,
+        color: color,
+        intent: intent,
+        title: title,
+        semanticLabel: semanticLabel,
+      );
 
   static Widget large({
     required IconData icon,
@@ -122,294 +79,293 @@ class BlueprintIcons {
     BlueprintIntent? intent,
     String? title,
     String? semanticLabel,
-  }) {
-    return BlueprintIcon(
-      icon: icon,
-      size: BlueprintIconSize.large,
-      color: color,
-      intent: intent,
-      title: title,
-      semanticLabel: semanticLabel,
-    );
-  }
+  }) =>
+      BlueprintIcon(
+        icon: icon,
+        size: BlueprintSize.large,
+        color: color,
+        intent: intent,
+        title: title,
+        semanticLabel: semanticLabel,
+      );
 
+  // Intent-based factory methods
   static Widget withIntent({
     required IconData icon,
     required BlueprintIntent intent,
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     String? title,
     String? semanticLabel,
-  }) {
-    return BlueprintIcon(
-      icon: icon,
-      size: size,
-      intent: intent,
-      title: title,
-      semanticLabel: semanticLabel,
-    );
-  }
+  }) =>
+      BlueprintIcon(
+        icon: icon,
+        size: size,
+        intent: intent,
+        title: title,
+        semanticLabel: semanticLabel,
+      );
+
+  // Helper method to reduce duplication
+  static Widget _intentIcon({
+    required IconData icon,
+    required BlueprintIntent intent,
+    BlueprintSize size = BlueprintSize.normal,
+    String? title,
+    String? semanticLabel,
+  }) =>
+      BlueprintIcon(
+        icon: icon,
+        size: size,
+        intent: intent,
+        title: title,
+        semanticLabel: semanticLabel,
+      );
 
   static Widget primary({
     required IconData icon,
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     String? title,
     String? semanticLabel,
-  }) {
-    return BlueprintIcon(
-      icon: icon,
-      size: size,
-      intent: BlueprintIntent.primary,
-      title: title,
-      semanticLabel: semanticLabel,
-    );
-  }
+  }) =>
+      _intentIcon(
+        icon: icon,
+        intent: BlueprintIntent.primary,
+        size: size,
+        title: title,
+        semanticLabel: semanticLabel,
+      );
 
   static Widget success({
     required IconData icon,
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     String? title,
     String? semanticLabel,
-  }) {
-    return BlueprintIcon(
-      icon: icon,
-      size: size,
-      intent: BlueprintIntent.success,
-      title: title,
-      semanticLabel: semanticLabel,
-    );
-  }
+  }) =>
+      _intentIcon(
+        icon: icon,
+        intent: BlueprintIntent.success,
+        size: size,
+        title: title,
+        semanticLabel: semanticLabel,
+      );
 
   static Widget warning({
     required IconData icon,
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     String? title,
     String? semanticLabel,
-  }) {
-    return BlueprintIcon(
-      icon: icon,
-      size: size,
-      intent: BlueprintIntent.warning,
-      title: title,
-      semanticLabel: semanticLabel,
-    );
-  }
+  }) =>
+      _intentIcon(
+        icon: icon,
+        intent: BlueprintIntent.warning,
+        size: size,
+        title: title,
+        semanticLabel: semanticLabel,
+      );
 
   static Widget danger({
     required IconData icon,
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     String? title,
     String? semanticLabel,
-  }) {
-    return BlueprintIcon(
-      icon: icon,
-      size: size,
-      intent: BlueprintIntent.danger,
-      title: title,
-      semanticLabel: semanticLabel,
-    );
-  }
+  }) =>
+      _intentIcon(
+        icon: icon,
+        intent: BlueprintIntent.danger,
+        size: size,
+        title: title,
+        semanticLabel: semanticLabel,
+      );
+
+  // Helper method for semantic icons with custom color/intent
+  static Widget _semanticIcon({
+    required IconData iconData,
+    BlueprintSize size = BlueprintSize.normal,
+    Color? color,
+    BlueprintIntent? intent,
+    required String title,
+  }) =>
+      BlueprintIcon(
+        icon: iconData,
+        size: size,
+        color: color,
+        intent: intent,
+        title: title,
+        semanticLabel: title,
+      );
 
   // Common Blueprint icons with semantic meanings
   static Widget home({
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     Color? color,
     String? title = 'Home',
-  }) {
-    return BlueprintIcon(
-      icon: Icons.home,
-      size: size,
-      color: color,
-      title: title,
-      semanticLabel: title,
-    );
-  }
+  }) =>
+      _semanticIcon(
+        iconData: Icons.home,
+        size: size,
+        color: color,
+        title: title!,
+      );
 
   static Widget settings({
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     Color? color,
     String? title = 'Settings',
-  }) {
-    return BlueprintIcon(
-      icon: Icons.settings,
-      size: size,
-      color: color,
-      title: title,
-      semanticLabel: title,
-    );
-  }
+  }) =>
+      _semanticIcon(
+        iconData: Icons.settings,
+        size: size,
+        color: color,
+        title: title!,
+      );
 
   static Widget add({
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     Color? color,
     String? title = 'Add',
-  }) {
-    return BlueprintIcon(
-      icon: Icons.add,
-      size: size,
-      color: color,
-      title: title,
-      semanticLabel: title,
-    );
-  }
+  }) =>
+      _semanticIcon(
+        iconData: Icons.add,
+        size: size,
+        color: color,
+        title: title!,
+      );
 
   static Widget remove({
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     Color? color,
     String? title = 'Remove',
-  }) {
-    return BlueprintIcon(
-      icon: Icons.remove,
-      size: size,
-      color: color,
-      title: title,
-      semanticLabel: title,
-    );
-  }
+  }) =>
+      _semanticIcon(
+        iconData: Icons.remove,
+        size: size,
+        color: color,
+        title: title!,
+      );
 
   static Widget edit({
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     Color? color,
     String? title = 'Edit',
-  }) {
-    return BlueprintIcon(
-      icon: Icons.edit,
-      size: size,
-      color: color,
-      title: title,
-      semanticLabel: title,
-    );
-  }
+  }) =>
+      _semanticIcon(
+        iconData: Icons.edit,
+        size: size,
+        color: color,
+        title: title!,
+      );
 
+  // Intent-based semantic icons
   static Widget delete({
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     String? title = 'Delete',
-  }) {
-    return BlueprintIcon(
-      icon: Icons.delete,
-      size: size,
-      intent: BlueprintIntent.danger,
-      title: title,
-      semanticLabel: title,
-    );
-  }
+  }) =>
+      _semanticIcon(
+        iconData: Icons.delete,
+        size: size,
+        intent: BlueprintIntent.danger,
+        title: title!,
+      );
 
   static Widget save({
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     String? title = 'Save',
-  }) {
-    return BlueprintIcon(
-      icon: Icons.save,
-      size: size,
-      intent: BlueprintIntent.primary,
-      title: title,
-      semanticLabel: title,
-    );
-  }
+  }) =>
+      _semanticIcon(
+        iconData: Icons.save,
+        size: size,
+        intent: BlueprintIntent.primary,
+        title: title!,
+      );
 
   static Widget cancel({
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     String? title = 'Cancel',
-  }) {
-    return BlueprintIcon(
-      icon: Icons.close,
-      size: size,
-      color: BlueprintColors.textColorMuted,
-      title: title,
-      semanticLabel: title,
-    );
-  }
+  }) =>
+      _semanticIcon(
+        iconData: Icons.close,
+        size: size,
+        color: BlueprintColors.textColorMuted,
+        title: title!,
+      );
 
   static Widget info({
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     String? title = 'Information',
-  }) {
-    return BlueprintIcon(
-      icon: Icons.info,
-      size: size,
-      intent: BlueprintIntent.primary,
-      title: title,
-      semanticLabel: title,
-    );
-  }
+  }) =>
+      _semanticIcon(
+        iconData: Icons.info,
+        size: size,
+        intent: BlueprintIntent.primary,
+        title: title!,
+      );
 
-  static Widget warning_triangle({
-    BlueprintIconSize size = BlueprintIconSize.standard,
+  static Widget warningTriangle({
+    BlueprintSize size = BlueprintSize.normal,
     String? title = 'Warning',
-  }) {
-    return BlueprintIcon(
-      icon: Icons.warning,
-      size: size,
-      intent: BlueprintIntent.warning,
-      title: title,
-      semanticLabel: title,
-    );
-  }
+  }) =>
+      _semanticIcon(
+        iconData: Icons.warning,
+        size: size,
+        intent: BlueprintIntent.warning,
+        title: title!,
+      );
 
   static Widget error({
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     String? title = 'Error',
-  }) {
-    return BlueprintIcon(
-      icon: Icons.error,
-      size: size,
-      intent: BlueprintIntent.danger,
-      title: title,
-      semanticLabel: title,
-    );
-  }
+  }) =>
+      _semanticIcon(
+        iconData: Icons.error,
+        size: size,
+        intent: BlueprintIntent.danger,
+        title: title!,
+      );
 
-  static Widget success_check({
-    BlueprintIconSize size = BlueprintIconSize.standard,
+  static Widget successCheck({
+    BlueprintSize size = BlueprintSize.normal,
     String? title = 'Success',
-  }) {
-    return BlueprintIcon(
-      icon: Icons.check_circle,
-      size: size,
-      intent: BlueprintIntent.success,
-      title: title,
-      semanticLabel: title,
-    );
-  }
+  }) =>
+      _semanticIcon(
+        iconData: Icons.check_circle,
+        size: size,
+        intent: BlueprintIntent.success,
+        title: title!,
+      );
 
   static Widget search({
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     Color? color,
     String? title = 'Search',
-  }) {
-    return BlueprintIcon(
-      icon: Icons.search,
-      size: size,
-      color: color,
-      title: title,
-      semanticLabel: title,
-    );
-  }
+  }) =>
+      _semanticIcon(
+        iconData: Icons.search,
+        size: size,
+        color: color,
+        title: title!,
+      );
 
   static Widget menu({
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     Color? color,
     String? title = 'Menu',
-  }) {
-    return BlueprintIcon(
-      icon: Icons.menu,
-      size: size,
-      color: color,
-      title: title,
-      semanticLabel: title,
-    );
-  }
+  }) =>
+      _semanticIcon(
+        iconData: Icons.menu,
+        size: size,
+        color: color,
+        title: title!,
+      );
 
   static Widget more({
-    BlueprintIconSize size = BlueprintIconSize.standard,
+    BlueprintSize size = BlueprintSize.normal,
     Color? color,
     String? title = 'More options',
-  }) {
-    return BlueprintIcon(
-      icon: Icons.more_horiz,
-      size: size,
-      color: color,
-      title: title,
-      semanticLabel: title,
-    );
-  }
+  }) =>
+      _semanticIcon(
+        iconData: Icons.more_horiz,
+        size: size,
+        color: color,
+        title: title!,
+      );
 }

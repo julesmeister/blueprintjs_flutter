@@ -1,10 +1,5 @@
 import 'blueprint_common.dart';
 
-enum BlueprintCheckboxSize {
-  regular,
-  large,
-}
-
 class BlueprintCheckbox extends StatelessWidget {
   final bool? checked;
   final ValueChanged<bool?>? onChanged;
@@ -13,7 +8,7 @@ class BlueprintCheckbox extends StatelessWidget {
   final bool indeterminate;
   final bool disabled;
   final BlueprintIntent intent;
-  final BlueprintCheckboxSize size;
+  final BlueprintSize size;
   final bool inline;
 
   const BlueprintCheckbox({
@@ -25,7 +20,7 @@ class BlueprintCheckbox extends StatelessWidget {
     this.indeterminate = false,
     this.disabled = false,
     this.intent = BlueprintIntent.none,
-    this.size = BlueprintCheckboxSize.regular,
+    this.size = BlueprintSize.normal,
     this.inline = false,
   });
 
@@ -35,10 +30,8 @@ class BlueprintCheckbox extends StatelessWidget {
     final isChecked = checked ?? false;
     final effectiveIntent = intent != BlueprintIntent.none ? intent : BlueprintIntent.primary;
     
-    final checkboxSize = size == BlueprintCheckboxSize.large ? 20.0 : 16.0;
-    final fontSize = size == BlueprintCheckboxSize.large 
-        ? BlueprintTheme.fontSizeLarge 
-        : BlueprintTheme.fontSize;
+    final checkboxSize = size == BlueprintSize.large ? 20.0 : 16.0;
+    final fontSize = size.fontSize;
 
     Color getCheckboxColor() {
       if (disabled) {
@@ -46,18 +39,7 @@ class BlueprintCheckbox extends StatelessWidget {
       }
       
       if (isChecked || indeterminate) {
-        switch (effectiveIntent) {
-          case BlueprintIntent.primary:
-            return BlueprintColors.blue3;
-          case BlueprintIntent.success:
-            return BlueprintColors.green3;
-          case BlueprintIntent.warning:
-            return BlueprintColors.orange3;
-          case BlueprintIntent.danger:
-            return BlueprintColors.red3;
-          case BlueprintIntent.none:
-            return BlueprintColors.blue3;
-        }
+        return effectiveIntent.color;
       }
       
       return Colors.transparent;
@@ -122,6 +104,7 @@ class BlueprintCheckbox extends StatelessWidget {
           color: disabled
               ? (isDark ? BlueprintColors.gray1 : BlueprintColors.gray3)
               : (isDark ? BlueprintColors.light1 : BlueprintColors.dark1),
+          // Remove height: 1.0 to let text center naturally
         ),
       );
 
@@ -145,7 +128,10 @@ class BlueprintCheckbox extends StatelessWidget {
           buildCheckbox(),
           if (label != null || child != null) ...[
             const SizedBox(width: 8),
-            buildLabel(),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 2), // Push text up slightly
+              child: buildLabel(),
+            ),
           ],
         ],
       );
@@ -161,7 +147,12 @@ class BlueprintCheckbox extends StatelessWidget {
             buildCheckbox(),
             if (label != null || child != null) ...[
               const SizedBox(width: 8),
-              Expanded(child: buildLabel()),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 2), // Push text up slightly
+                  child: buildLabel(),
+                ),
+              ),
             ],
           ],
         ),
@@ -225,7 +216,7 @@ class BlueprintCheckboxes {
       label: label,
       checked: checked,
       onChanged: onChanged,
-      size: BlueprintCheckboxSize.large,
+      size: BlueprintSize.large,
       disabled: disabled,
     );
   }

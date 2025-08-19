@@ -68,7 +68,11 @@
       "Bash(git clone:*)",
       "Bash(\"C:\\flutter\\bin\\flutter\" analyze lib/components/blueprint_numeric_input.dart)",
       "Bash(flutter clean:*)",
-      "Bash(\"C:\\flutter\\bin\\flutter\" analyze lib/components/blueprint_slider.dart)"
+      "Bash(\"C:\\flutter\\bin\\flutter\" analyze lib/components/blueprint_slider.dart)",
+      "Bash(\"C:\\flutter\\bin\\flutter\" analyze lib/components/blueprint_button.dart)",
+      "Bash(\"C:\\flutter\\bin\\flutter\" analyze lib/components/blueprint_input.dart)",
+      "Bash(\"C:\\flutter\\bin\\flutter\" analyze lib/components/blueprint_icon.dart)",
+      "Bash(\"C:\\flutter\\bin\\flutter\" analyze lib/components/blueprint_checkbox.dart --no-congratulate)"
     ],
     "deny": [],
     "ask": [],

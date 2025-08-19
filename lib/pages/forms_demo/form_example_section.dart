@@ -4,6 +4,9 @@ import '../../theme/blueprint_colors.dart';
 import '../../components/blueprint_input.dart';
 import '../../components/blueprint_select.dart';
 import '../../components/blueprint_checkbox.dart';
+import '../../components/blueprint_button.dart';
+import '../../components/blueprint_common.dart';
+import '../../components/blueprint_card.dart';
 
 class FormExampleSection extends StatelessWidget {
   const FormExampleSection({super.key});
@@ -30,10 +33,8 @@ class FormExampleSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 1,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
+    return BlueprintCard(
+      padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -102,22 +103,14 @@ class FormExampleSection extends StatelessWidget {
             
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
+              child: BlueprintButton(
+                text: 'Create Account',
+                intent: BlueprintIntent.primary,
                 onPressed: () => _showFormSubmitted(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: BlueprintColors.intentPrimary,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
-                  ),
-                ),
-                child: const Text('Create Account'),
               ),
             ),
           ],
         ),
-      ),
     );
   }
 }

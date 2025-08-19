@@ -4,6 +4,7 @@ import '../../components/blueprint_button.dart';
 import '../../components/blueprint_input.dart';
 import '../../components/blueprint_numeric_input.dart';
 import '../../components/blueprint_common.dart';
+import '../../components/blueprint_card.dart';
 
 class NumericInputDemoSection extends StatefulWidget {
   const NumericInputDemoSection({super.key});
@@ -19,10 +20,8 @@ class _NumericInputDemoSectionState extends State<NumericInputDemoSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 1,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
+    return BlueprintCard(
+      padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -87,7 +86,6 @@ class _NumericInputDemoSectionState extends State<NumericInputDemoSection> {
             ),
           ],
         ),
-      ),
     );
   }
 }

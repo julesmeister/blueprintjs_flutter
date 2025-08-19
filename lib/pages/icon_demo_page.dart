@@ -17,7 +17,7 @@ class IconDemoPage extends StatefulWidget {
 }
 
 class _IconDemoPageState extends State<IconDemoPage> {
-  BlueprintIconSize _selectedSize = BlueprintIconSize.standard;
+  BlueprintSize _selectedSize = BlueprintSize.normal;
   BlueprintIntent _selectedIntent = BlueprintIntent.none;
   bool _showLabels = true;
 
@@ -72,8 +72,8 @@ class _IconDemoPageState extends State<IconDemoPage> {
               const SizedBox(width: BlueprintTheme.gridSize),
               SizedBox(
                 width: 120,
-                child: BlueprintSelect<BlueprintIconSize>(
-                  options: BlueprintIconSize.values.map((size) {
+                child: BlueprintSelect<BlueprintSize>(
+                  options: BlueprintSize.values.map((size) {
                     return BlueprintSelectOption(
                       value: size,
                       label: _sizeToString(size),
@@ -265,8 +265,8 @@ class _IconDemoPageState extends State<IconDemoPage> {
 
   Widget _buildSemanticIcons() {
     final semanticIcons = [
-      {'icon': Icons.check_circle, 'name': 'Success', 'method': 'success_check'},
-      {'icon': Icons.warning_amber, 'name': 'Warning', 'method': 'warning_triangle'},
+      {'icon': Icons.check_circle, 'name': 'Success', 'method': 'successCheck'},
+      {'icon': Icons.warning_amber, 'name': 'Warning', 'method': 'warningTriangle'},
       {'icon': Icons.error, 'name': 'Error', 'method': 'error'},
       {'icon': Icons.info, 'name': 'Info', 'method': 'info'},
       {'icon': Icons.help, 'name': 'Help', 'method': 'help'},
@@ -366,7 +366,7 @@ class _IconDemoPageState extends State<IconDemoPage> {
         const SizedBox(height: BlueprintTheme.gridSize * 0.5),
         Row(
           children: [
-            BlueprintIcons.success_check(),
+            BlueprintIcons.successCheck(),
             const SizedBox(width: BlueprintTheme.gridSize),
             const Text('Success check icon'),
           ],
@@ -445,13 +445,13 @@ class _IconDemoPageState extends State<IconDemoPage> {
     );
   }
 
-  String _sizeToString(BlueprintIconSize size) {
+  String _sizeToString(BlueprintSize size) {
     switch (size) {
-      case BlueprintIconSize.small:
+      case BlueprintSize.small:
         return 'Small';
-      case BlueprintIconSize.standard:
+      case BlueprintSize.normal:
         return 'Standard';
-      case BlueprintIconSize.large:
+      case BlueprintSize.large:
         return 'Large';
     }
   }

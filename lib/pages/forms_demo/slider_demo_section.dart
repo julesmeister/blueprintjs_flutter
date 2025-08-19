@@ -3,6 +3,7 @@ import '../../theme/blueprint_colors.dart';
 import '../../components/blueprint_button.dart';
 import '../../components/blueprint_slider.dart';
 import '../../components/blueprint_common.dart';
+import '../../components/blueprint_card.dart';
 
 class SliderDemoSection extends StatefulWidget {
   const SliderDemoSection({super.key});
@@ -19,11 +20,9 @@ class _SliderDemoSectionState extends State<SliderDemoSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 1,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+    return BlueprintCard(
+      padding: const EdgeInsets.all(16),
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -109,7 +108,6 @@ class _SliderDemoSectionState extends State<SliderDemoSection> {
             ),
           ],
         ),
-      ),
     );
   }
 }

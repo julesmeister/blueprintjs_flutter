@@ -133,7 +133,10 @@ class BlueprintRadio<T> extends StatelessWidget {
           buildRadio(),
           if (label != null || child != null) ...[
             const SizedBox(width: 8),
-            buildLabel(),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 2), // Same as checkbox for consistency
+              child: buildLabel(),
+            ),
           ],
         ],
       );
@@ -149,7 +152,12 @@ class BlueprintRadio<T> extends StatelessWidget {
             buildRadio(),
             if (label != null || child != null) ...[
               const SizedBox(width: 8),
-              Expanded(child: buildLabel()),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 2), // Same as checkbox for consistency
+                  child: buildLabel(),
+                ),
+              ),
             ],
           ],
         ),
