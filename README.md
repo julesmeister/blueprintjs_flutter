@@ -1,6 +1,8 @@
-# Blueprint Flutter Demo
+# Blueprint Flutter Components
 
-A comprehensive Flutter implementation of the [Blueprint.js](https://blueprintjs.com/) design system. This project recreates Blueprint's core components and design language for Flutter applications.
+A comprehensive Flutter implementation of the [Blueprint.js](https://blueprintjs.com/) design system. This open source library recreates Blueprint's core components and design language for Flutter applications.
+
+> **Inspired by Blueprint.js** - This is an independent Flutter implementation created by the community, not officially affiliated with Blueprint.js or Palantir Technologies.
 
 ## 🚀 Features
 
@@ -282,14 +284,14 @@ blueprint_flutter_demo/
 ### Prerequisites
 - Flutter SDK (latest stable version)
 - Dart SDK
-- Windows development environment (for Windows builds)
+- Platform development environment (Windows/macOS/Linux/Android/iOS)
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd blueprint_flutter_demo
+   git clone https://github.com/yourusername/blueprint_flutter_components
+   cd blueprint_flutter_components
    ```
 
 2. **Install dependencies**
@@ -297,15 +299,41 @@ blueprint_flutter_demo/
    flutter pub get
    ```
 
-3. **Run the application**
+3. **Run the demo application**
    ```bash
-   flutter run -d windows
+   flutter run
    ```
    
-   Or use the Windows launcher:
+   For Windows specifically:
    ```bash
-   run-windows.bat
+   flutter run -d windows
+   # or use: run-windows.bat
    ```
+
+### Using in Your Project
+
+Add this to your project's `pubspec.yaml`:
+
+```yaml
+dependencies:
+  blueprint_flutter_components:
+    git:
+      url: https://github.com/yourusername/blueprint_flutter_components
+      ref: main
+```
+
+Then import and use:
+
+```dart
+import 'package:blueprint_flutter_components/blueprint_flutter_components.dart';
+
+// Use components in your app
+BlueprintButton(
+  text: 'Hello Blueprint!',
+  intent: BlueprintIntent.primary,
+  onPressed: () => print('Clicked!'),
+)
+```
 
 ## 🎯 Usage Examples
 
@@ -691,14 +719,24 @@ Contributions are welcome! Please feel free to:
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
+## 🤝 Open Source
+
+This library is **open source** and available for the Flutter community to use, modify, and distribute freely under the MIT license. Contributions, bug reports, and feature suggestions are welcome!
+
+### Why Open Source?
+- **Community Value**: High-quality Blueprint.js design system for Flutter developers
+- **Independent Implementation**: Original Flutter code, not a port of existing Blueprint.js code  
+- **Permissive License**: MIT license allows commercial and personal use
+- **Educational Resource**: Well-structured component library following Flutter best practices
+
 ## 🙏 Acknowledgments
 
-- [Blueprint.js](https://blueprintjs.com/) - Original design system by Palantir Technologies
+- [Blueprint.js](https://blueprintjs.com/) - Original design system and inspiration by Palantir Technologies
 - [Flutter](https://flutter.dev/) - Google's UI toolkit
 - [Material Design](https://material.io/) - Design system foundation
 
 ---
 
-**Note**: This is a community implementation and is not officially affiliated with Blueprint.js or Palantir Technologies.
+**Disclaimer**: This is an independent Flutter implementation inspired by the Blueprint.js design system. It is not affiliated with, endorsed by, or officially connected to Blueprint.js or Palantir Technologies. All Blueprint.js trademarks and design patterns belong to their respective owners.
 
 **Project Statistics**: ~12,000+ lines of code | 26 components | 24 demo pages | 55+ Dart files | **Perfect tag centering, table alignment & text centering**

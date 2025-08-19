@@ -14,6 +14,7 @@ class BlueprintFileInput extends StatelessWidget {
   final BlueprintIntent intent;
   final IconData? icon;
   final bool large;
+  final BlueprintButtonSize size;
 
   const BlueprintFileInput({
     Key? key,
@@ -26,6 +27,7 @@ class BlueprintFileInput extends StatelessWidget {
     this.intent = BlueprintIntent.none,
     this.icon,
     this.large = false,
+    this.size = BlueprintButtonSize.medium,
   }) : super(key: key);
 
   @override
@@ -35,25 +37,44 @@ class BlueprintFileInput extends StatelessWidget {
     final displayText = hasSelection ? text : (text.isEmpty ? 'Choose file...' : text);
     final displayButtonText = buttonText ?? 'Browse';
     
+    // Calculate button width based on Blueprint.js sizing
+    double buttonWidth;
+    double buttonPadding;
+    
+    if (large) {
+      buttonWidth = BlueprintTheme.gridSize * 21.25; // $file-input-button-width-large
+      buttonPadding = (BlueprintTheme.buttonHeightLarge - BlueprintTheme.buttonHeight) * 0.5;
+    } else {
+      buttonWidth = BlueprintTheme.gridSize * 17.5; // $file-input-button-width
+      buttonPadding = (BlueprintTheme.buttonHeight - BlueprintTheme.buttonHeightSmall) * 0.5;
+    }
+    
     return Container(
       width: fill ? double.infinity : null,
       height: large ? BlueprintTheme.buttonHeightLarge : BlueprintTheme.buttonHeight,
-      decoration: BoxDecoration(
-        color: disabled
-            ? (isDark ? BlueprintColors.dark2 : BlueprintColors.light4)
-            : (isDark ? BlueprintColors.dark3 : BlueprintColors.light5),
-        borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
-        border: Border.all(
-          color: isDark ? BlueprintColors.dark1 : BlueprintColors.gray5,
-          width: 1,
-        ),
-      ),
-      child: Row(
+      child: Stack(
         children: [
-          // File name/text area
-          Expanded(
+          // Input background (mimics Blueprint's .bp4-file-upload-input)
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              color: disabled
+                  ? (isDark ? BlueprintColors.dark2 : BlueprintColors.light4)
+                  : (isDark ? BlueprintColors.dark3 : BlueprintColors.light5),
+              borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
+              border: Border.all(
+                color: isDark ? BlueprintColors.dark1 : BlueprintColors.gray5,
+                width: 1,
+              ),
+            ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: EdgeInsets.only(
+                left: 12,
+                right: buttonWidth + 12, // Space for button
+                top: 8,
+                bottom: 8,
+              ),
               child: Row(
                 children: [
                   if (icon != null) ...[
@@ -64,7 +85,7 @@ class BlueprintFileInput extends StatelessWidget {
                           ? (isDark ? BlueprintColors.gray1 : BlueprintColors.gray3)
                           : (hasSelection 
                               ? (isDark ? BlueprintColors.light1 : BlueprintColors.dark1)
-                              : (isDark ? BlueprintColors.gray1 : BlueprintColors.gray3)),
+                              : (isDark ? BlueprintColors.gray2 : BlueprintColors.gray3)),
                     ),
                     const SizedBox(width: 8),
                   ],
@@ -77,7 +98,7 @@ class BlueprintFileInput extends StatelessWidget {
                             ? (isDark ? BlueprintColors.gray1 : BlueprintColors.gray3)
                             : (hasSelection 
                                 ? (isDark ? BlueprintColors.light1 : BlueprintColors.dark1)
-                                : (isDark ? BlueprintColors.gray1 : BlueprintColors.gray3)),
+                                : (isDark ? BlueprintColors.gray2 : BlueprintColors.gray3)),
                         fontStyle: hasSelection ? FontStyle.normal : FontStyle.italic,
                       ),
                       overflow: TextOverflow.ellipsis,
@@ -88,24 +109,32 @@ class BlueprintFileInput extends StatelessWidget {
             ),
           ),
           
-          // Browse button
-          Container(
-            height: double.infinity,
-            decoration: BoxDecoration(
-              border: Border(
-                left: BorderSide(
-                  color: isDark ? BlueprintColors.dark1 : BlueprintColors.gray5,
-                  width: 1,
-                ),
+          // Button positioned absolutely (mimics Blueprint's ::after pseudo-element)
+          Positioned(
+            right: buttonPadding,
+            top: buttonPadding,
+            bottom: buttonPadding,
+            child: Container(
+              width: buttonWidth,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(BlueprintTheme.borderRadius),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 1,
+                    offset: const Offset(0, 1),
+                  ),
+                ],
               ),
-            ),
-            child: BlueprintButton(
-              text: displayButtonText,
-              intent: intent,
-              disabled: disabled,
-              size: large ? BlueprintButtonSize.large : BlueprintButtonSize.medium,
-              onPressed: onPressed,
-              variant: BlueprintButtonVariant.minimal,
+              child: BlueprintButton(
+                text: displayButtonText,
+                intent: intent,
+                disabled: disabled,
+                size: large ? BlueprintButtonSize.large : BlueprintButtonSize.small,
+                onPressed: onPressed,
+                variant: BlueprintButtonVariant.standard,
+                fill: true,
+              ),
             ),
           ),
         ],

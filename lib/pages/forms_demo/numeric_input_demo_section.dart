@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../theme/blueprint_colors.dart';
 import '../../components/blueprint_button.dart';
 import '../../components/blueprint_input.dart';
+import '../../components/blueprint_numeric_input.dart';
 import '../../components/blueprint_common.dart';
 
 class NumericInputDemoSection extends StatefulWidget {
@@ -33,39 +34,14 @@ class _NumericInputDemoSectionState extends State<NumericInputDemoSection> {
               ),
             ),
             const SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
-                  child: BlueprintInputGroup(
-                    placeholder: 'Enter number...',
-                    value: _basicNumeric.toString(),
-                    keyboardType: TextInputType.number,
-                    leftIcon: Icons.numbers,
-                    onChanged: (value) {
-                      final parsed = double.tryParse(value);
-                      if (parsed != null) {
-                        setState(() => _basicNumeric = parsed);
-                      }
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                IconButton(
-                  onPressed: () => setState(() => _basicNumeric = _basicNumeric - 1),
-                  icon: const Icon(Icons.remove),
-                  style: IconButton.styleFrom(
-                    backgroundColor: BlueprintColors.lightGray4,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                IconButton(
-                  onPressed: () => setState(() => _basicNumeric = _basicNumeric + 1),
-                  icon: const Icon(Icons.add),
-                  style: IconButton.styleFrom(
-                    backgroundColor: BlueprintColors.lightGray4,
-                  ),
-                ),
-              ],
+            BlueprintNumericInput(
+              value: _basicNumeric,
+              onValueChange: (value) {
+                setState(() => _basicNumeric = value ?? 0.0);
+              },
+              placeholder: 'Enter number...',
+              leftIcon: Icons.numbers,
+              fill: true,
             ),
             const SizedBox(height: 16),
             
@@ -77,41 +53,16 @@ class _NumericInputDemoSectionState extends State<NumericInputDemoSection> {
               ),
             ),
             const SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
-                  child: BlueprintInputs.withIntent(
-                    intent: BlueprintIntent.primary,
-                    placeholder: 'Step by 2.5...',
-                    value: _stepNumeric.toString(),
-                    leftIcon: Icons.calculate,
-                    onChanged: (value) {
-                      final parsed = double.tryParse(value);
-                      if (parsed != null) {
-                        setState(() => _stepNumeric = parsed);
-                      }
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                IconButton(
-                  onPressed: () => setState(() => _stepNumeric = _stepNumeric - 2.5),
-                  icon: const Icon(Icons.remove),
-                  style: IconButton.styleFrom(
-                    backgroundColor: BlueprintColors.blue5,
-                    foregroundColor: Colors.white,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                IconButton(
-                  onPressed: () => setState(() => _stepNumeric = _stepNumeric + 2.5),
-                  icon: const Icon(Icons.add),
-                  style: IconButton.styleFrom(
-                    backgroundColor: BlueprintColors.blue5,
-                    foregroundColor: Colors.white,
-                  ),
-                ),
-              ],
+            BlueprintNumericInput(
+              value: _stepNumeric,
+              onValueChange: (value) {
+                setState(() => _stepNumeric = value ?? 0.0);
+              },
+              stepSize: 2.5,
+              intent: BlueprintIntent.primary,
+              placeholder: 'Step by 2.5...',
+              leftIcon: Icons.calculate,
+              fill: true,
             ),
             const SizedBox(height: 16),
             
@@ -123,41 +74,16 @@ class _NumericInputDemoSectionState extends State<NumericInputDemoSection> {
               ),
             ),
             const SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
-                  child: BlueprintInputs.withIntent(
-                    intent: BlueprintIntent.success,
-                    placeholder: 'Integer only...',
-                    value: _integerNumeric.toString(),
-                    leftIcon: Icons.filter_1,
-                    onChanged: (value) {
-                      final parsed = int.tryParse(value);
-                      if (parsed != null) {
-                        setState(() => _integerNumeric = parsed);
-                      }
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                IconButton(
-                  onPressed: () => setState(() => _integerNumeric = _integerNumeric - 1),
-                  icon: const Icon(Icons.remove),
-                  style: IconButton.styleFrom(
-                    backgroundColor: BlueprintColors.green5,
-                    foregroundColor: Colors.white,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                IconButton(
-                  onPressed: () => setState(() => _integerNumeric = _integerNumeric + 1),
-                  icon: const Icon(Icons.add),
-                  style: IconButton.styleFrom(
-                    backgroundColor: BlueprintColors.green5,
-                    foregroundColor: Colors.white,
-                  ),
-                ),
-              ],
+            BlueprintNumericInput(
+              value: _integerNumeric.toDouble(),
+              onValueChange: (value) {
+                setState(() => _integerNumeric = value?.round() ?? 0);
+              },
+              stepSize: 1,
+              intent: BlueprintIntent.success,
+              placeholder: 'Integer only...',
+              leftIcon: Icons.filter_1,
+              fill: true,
             ),
           ],
         ),

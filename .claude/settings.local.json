@@ -62,7 +62,10 @@
       "Bash(run-windows.bat)",
       "Bash(\"C:\\flutter\\bin\\flutter\" analyze lib/components/blueprint_button.dart lib/components/blueprint_menu.dart lib/components/blueprint_card.dart lib/components/blueprint_alert.dart lib/components/blueprint_breadcrumbs.dart)",
       "Bash(\"C:\\flutter\\bin\\flutter\" analyze lib/components/blueprint_button.dart --no-congratulate)",
-      "Bash(r)"
+      "Bash(r)",
+      "WebSearch",
+      "WebFetch(domain:app.unpkg.com)",
+      "Bash(git clone:*)"
     ],
     "deny": [],
     "ask": [],

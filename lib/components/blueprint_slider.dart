@@ -55,7 +55,9 @@ class BlueprintSlider extends StatelessWidget {
         break;
     }
 
-    final inactiveColor = isDark ? BlueprintColors.gray1 : BlueprintColors.gray4;
+    final inactiveColor = isDark 
+        ? const Color(0xFF30404D) 
+        : const Color(0xFFCED9E0);
     final thumbColor = disabled 
         ? (isDark ? BlueprintColors.gray1 : BlueprintColors.gray3)
         : activeColor;
@@ -65,13 +67,13 @@ class BlueprintSlider extends StatelessWidget {
         activeTrackColor: disabled ? inactiveColor : activeColor,
         inactiveTrackColor: inactiveColor,
         thumbColor: thumbColor,
-        overlayColor: activeColor.withValues(alpha: 0.1),
+        overlayColor: activeColor.withOpacity(0.1),
         valueIndicatorColor: activeColor,
         valueIndicatorTextStyle: TextStyle(
           color: Colors.white,
           fontSize: BlueprintTheme.fontSizeSmall,
         ),
-        trackHeight: 4,
+        trackHeight: 6,
         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
         overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
         tickMarkShape: const RoundSliderTickMarkShape(tickMarkRadius: 2),
@@ -183,7 +185,9 @@ class BlueprintRangeSlider extends StatelessWidget {
         break;
     }
 
-    final inactiveColor = isDark ? BlueprintColors.gray1 : BlueprintColors.gray4;
+    final inactiveColor = isDark 
+        ? const Color(0xFF30404D) 
+        : const Color(0xFFCED9E0);
     final thumbColor = disabled 
         ? (isDark ? BlueprintColors.gray1 : BlueprintColors.gray3)
         : activeColor;
@@ -193,13 +197,13 @@ class BlueprintRangeSlider extends StatelessWidget {
         activeTrackColor: disabled ? inactiveColor : activeColor,
         inactiveTrackColor: inactiveColor,
         thumbColor: thumbColor,
-        overlayColor: activeColor.withValues(alpha: 0.1),
+        overlayColor: activeColor.withOpacity(0.1),
         valueIndicatorColor: activeColor,
         valueIndicatorTextStyle: TextStyle(
           color: Colors.white,
           fontSize: BlueprintTheme.fontSizeSmall,
         ),
-        trackHeight: 4,
+        trackHeight: 6,
         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
         overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
         rangeTickMarkShape: const RoundRangeSliderTickMarkShape(tickMarkRadius: 2),
